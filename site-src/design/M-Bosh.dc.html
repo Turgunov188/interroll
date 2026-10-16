@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Mobil bosh sahifa</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+.ph{background:repeating-linear-gradient(135deg,#E3E7EB 0 12px,#DCE0E4 12px 24px)}
+@keyframes irmarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes irIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes irMenu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes irA{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes irB{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes irbarA{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes irbarB{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.marq{display:flex;width:max-content;animation:irmarq 22s linear infinite}
+.in{animation:irIn .8s cubic-bezier(.2,.7,.2,1) both}
+.menu{animation:irMenu .3s cubic-bezier(.2,.7,.2,1) both}
+.hs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.hs::-webkit-scrollbar{display:none}
+input[type=tel]{font:400 16px Archivo,sans-serif;border:1px solid #111418;background:#fff;padding:14px;color:#111418;width:100%;box-sizing:border-box;border-radius:0}
+@media (prefers-reduced-motion: reduce){.marq,.in,.menu{animation:none}}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 3700px; font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; overflow: hidden">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid #111418; height: 60px; padding: 0 8px 0 16px; display: flex; align-items: center; justify-content: space-between">
+<a href="M-Bosh.dc.html" style="display: flex; align-items: center; gap: 8px">
+<svg aria-hidden="true" width="26" height="26" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.6"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+<b style="font-size: 16px; letter-spacing: 0.03em">INTER ROLL</b>
+</a>
+<div style="display: flex">
+<a href="tel:+998000000000" aria-label="Qo'ng'iroq qilish" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+<button onClick="{{toggleMenu}}" aria-label="Menyu" style="width: 44px; height: 44px; border: 1px solid #111418; background: {{menuBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2.2"><path d="{{menuIcon}}"/></svg></button>
+</div>
+</header>
+
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav class="menu" aria-label="Asosiy menyu" style="position: absolute; top: 60px; left: 0; right: 0; z-index: 39; background: #fff; border-bottom: 2px solid #111418; display: flex; flex-direction: column">
+<a href="M-Katalog.dc.html" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px; display: flex; justify-content: space-between">Mahsulotlar <span class="mono" style="font-size: 13px">18 →</span></a>
+<a href="#" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Qayta qoplash</a>
+<a href="#" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Zavod haqida</a>
+<a href="M-Aloqa.dc.html" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Aloqa</a>
+<div class="mono" style="display: flex; gap: 8px; padding: 16px"><a href="#" style="border: 1px solid #111418; padding: 10px 16px; font-weight: 600; background: {{accent}}">UZ</a><a href="#" style="border: 1px solid #111418; padding: 10px 16px">RU</a></div>
+</nav>
+</sc-if>
+
+<section style="padding: 28px 16px 32px; display: flex; flex-direction: column; gap: 18px; background: radial-gradient(ellipse at 80% 0%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)">
+<div class="mono in" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em">[01] — Poliuretan · Rezina · O'zbekiston</div>
+<h1 class="in" style="margin: 0; font-weight: 800; font-size: 42px; line-height: 0.98; letter-spacing: -0.03em; animation-delay: 80ms">Valik. G'ildirak. Detal.<br><span style="background: {{accent}}; padding: 0 6px">Chizmangiz bo'yicha.</span></h1>
+<p class="in" style="margin: 0; font-size: 16px; line-height: 1.55; color: #3E4650; animation-delay: 160ms">Sanoat uchun poliuretan va rezina detallarni quyamiz va eski valiklarni qayta qoplaymiz.</p>
+<div class="in" style="display: flex; flex-direction: column; gap: 10px; animation-delay: 240ms">
+<a href="M-Katalog.dc.html" style="background: #111418; color: #fff; border: 1px solid #111418; padding: 17px; font-weight: 700; text-align: center">Katalog →</a>
+<a href="#sorov" style="background: #fff; border: 1px solid #111418; padding: 16px; font-weight: 700; text-align: center">Narxni hisoblash</a>
+</div>
+</section>
+
+<section aria-label="Texnik imkoniyatlar" style="background: #111418; color: #EEF0F2; overflow: hidden">
+<div class="mono marq" style="padding: 16px 0; font-size: 12px; text-transform: uppercase; gap: 36px">
+<span>[__]–[__] Shore A</span><span style="color: {{accent}}">●</span><span>Ø [__]–[___] mm</span><span style="color: {{accent}}">●</span><span>[__] kundan</span><span style="color: {{accent}}">●</span><span>PU · Rezina · Silikon</span><span style="color: {{accent}}">●</span>
+<span aria-hidden="true">[__]–[__] Shore A</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">Ø [__]–[___] mm</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">[__] kundan</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">PU · Rezina · Silikon</span><span aria-hidden="true" style="color: {{accent}}">●</span>
+</div>
+</section>
+
+<section aria-label="Mahsulotlar" style="position: relative; height: 600px; border-bottom: 1px solid #111418; overflow: hidden; background: radial-gradient(ellipse at 50% 72%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 60%)">
+<canvas data-bg="1" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block"></canvas>
+<div style="position: absolute; left: 16px; right: 16px; top: 24px; display: flex; flex-direction: column; gap: 12px; pointer-events: none">
+<div style="display: flex; justify-content: space-between; align-items: center"><span class="mono" style="font-size: 11px; text-transform: uppercase">[02] — Nima ishlab chiqaramiz</span><span class="mono" style="font-size: 11px; background: #fff; border: 1px solid #111418; padding: 4px 8px">{{stepChip}}</span></div>
+<div style="display: flex; align-items: center; gap: 12px"><span style="font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.04em">{{stepNum}}</span><span aria-hidden="true" style="flex: 1; height: 2px; background: #D2D7DC; position: relative"><span style="{{barStyle}}"></span></span><span class="mono" style="font-size: 12px; color: #5B636D">/ 05</span></div>
+<div style="position: relative; height: 150px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+<div style="{{s.style}}"><h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.05">{{s.t}}</h3><p style="margin: 0; color: #3E4650; font-size: 15px; line-height: 1.5">{{s.d}}</p><span class="mono" style="font-size: 11px; text-transform: uppercase; border-left: 3px solid {{accent}}; padding-left: 10px">{{s.spec}}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; gap: 6px">
+<sc-for list="{{dots}}" as="b" hint-placeholder-count="5"><button onClick="{{b.pick}}" aria-label="{{b.label}}" style="{{b.style}}">{{b.n}}</button></sc-for>
+</div>
+</section>
+
+<section style="padding: 40px 16px; display: flex; flex-direction: column; gap: 18px">
+<div class="mono" style="font-size: 11px; text-transform: uppercase">[03] — Soha bo'yicha</div>
+<h2 style="margin: 0; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em">Sohangizga nima kerak?</h2>
+<div class="hs">
+<sc-for list="{{inds}}" as="i" hint-placeholder-count="5"><button onClick="{{i.pick}}" style="{{i.style}}">{{i.label}}</button></sc-for>
+</div>
+<sc-for list="{{shown}}" as="p" hint-placeholder-count="3">
+<a href="M-Mahsulot.dc.html" style="{{p.anim}}">
+<span class="ph" style="width: 88px; height: 88px; border-right: 1px solid #111418; flex-shrink: 0; display: block"></span>
+<span style="display: flex; flex-direction: column; gap: 4px; padding: 12px; min-width: 0"><span class="mono" style="font-size: 11px; color: #5B636D">{{p.code}}</span><b style="font-size: 17px; line-height: 1.15">{{p.name}}</b><span style="font-size: 13px; color: #3E4650">{{p.desc}}</span></span>
+</a>
+</sc-for>
+</section>
+
+<section style="background: rgba(255,255,255,0.8); border-top: 1px solid #111418; border-bottom: 1px solid #111418; padding: 32px 16px; display: flex; flex-direction: column">
+<div class="mono" style="font-size: 11px; text-transform: uppercase; margin-bottom: 14px">[04] — Barcha yo'nalishlar</div>
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="6">
+<a href="M-Katalog.dc.html" style="display: flex; align-items: center; gap: 14px; min-height: 56px; border-top: 1px solid #111418"><span class="mono" style="font-size: 12px; width: 32px">{{c.n}}</span><b style="flex: 1; font-size: 18px">{{c.name}}</b><span aria-hidden="true">→</span></a>
+</sc-for>
+</section>
+
+<section style="padding: 40px 16px; display: flex; flex-direction: column; gap: 16px">
+<div class="mono" style="font-size: 11px; text-transform: uppercase">[05] — Qayta qoplash</div>
+<h2 style="margin: 0; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em">Eski valikni tashlamang</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid #111418">
+<div class="mono" style="height: 160px; background: repeating-linear-gradient(135deg,#8A939D 0 10px,#7A838D 10px 20px); color: #fff; display: flex; align-items: flex-end; padding: 10px; font-size: 11px; border-right: 1px solid #111418">OLDIN</div>
+<div class="mono" style="height: 160px; background: repeating-linear-gradient(135deg,#D9C9A3 0 10px,#CDBB92 10px 20px); display: flex; align-items: flex-end; padding: 10px; font-size: 11px">KEYIN</div>
+</div>
+<a href="#" style="background: #fff; border: 1px solid #111418; padding: 16px; font-weight: 700; display: flex; justify-content: space-between">Tejashni hisoblash <span>→</span></a>
+</section>
+
+<section id="sorov" style="background: {{accent}}; border-top: 1px solid #111418; padding: 40px 16px 110px; display: flex; flex-direction: column; gap: 14px">
+<div class="mono" style="font-size: 11px; text-transform: uppercase">[06] — Narx so'rovi</div>
+<h2 style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.02; letter-spacing: -0.02em">Raqamingizni qoldiring — muhandis qo'ng'iroq qiladi</h2>
+<label style="display: flex; flex-direction: column; gap: 8px; font-weight: 700; font-size: 14px">Telefon<input type="tel" placeholder="+998"></label>
+<button style="background: #111418; color: #fff; border: 0; padding: 17px; font: 700 16px Archivo, sans-serif">So'rov yuborish →</button>
+<a href="#" class="mono" style="text-align: center; padding: 10px; font-size: 13px; font-weight: 600">yoki chizmani Telegram'ga yuboring ↗</a>
+</section>
+
+<footer class="mono" style="background: #111418; color: #A9B0B8; padding: 28px 16px 100px; font-size: 12px; display: flex; flex-direction: column; gap: 6px"><b style="color: #fff">INTER ROLL</b><span>[Zavod manzili]</span><span>© 2026 OOO «Inter Roll»</span></footer>
+
+<div style="position: sticky; bottom: 0; z-index: 41; margin-top: -76px; padding: 10px 12px; background: rgba(255,255,255,0.96); border-top: 1px solid #111418; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<a href="tel:+998000000000" class="mono" style="min-height: 48px; border: 1px solid #111418; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; text-transform: uppercase">Qo'ng'iroq</a>
+<a href="#" class="mono" style="min-height: 48px; border: 1px solid #111418; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; text-transform: uppercase">Telegram</a>
+<a href="#sorov" class="mono" style="min-height: 48px; border: 1px solid #111418; background: {{accent}}; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; text-transform: uppercase">Ariza</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"$preview":{"width":390,"height":3700}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { menu: false, ind: 'metal', flip: false, step: 0, hold: false, bflip: false }; }
+  goStep(i) {
+    this.elapsed = 0;
+    this.swirl = 1;
+    this.setState({ step: (i + 5) % 5, bflip: !this.state.bflip });
+  }
+  startBg() {
+    const cv = document.querySelector('canvas[data-bg]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const N = 900, R = 140, TAU = Math.PI * 2, DWELL = 4500;
+    let W = 0, H = 0, last = 0;
+    this.elapsed = 0; this.swirl = 0;
+    const m = { x: -9999, y: -9999, on: false };
+    const line = (ax, ay, bx, by) => (u) => [ax + (bx - ax) * u, ay + (by - ay) * u];
+    const ell = (cx, cy, rx, ry) => (u) => [cx + Math.cos(u * TAU) * rx, cy + Math.sin(u * TAU) * ry];
+    const disc = (cx, cy, r0, r1) => () => { const a = Math.random() * TAU, r = Math.sqrt(r0 * r0 + Math.random() * (r1 * r1 - r0 * r0)); return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; };
+    const sample = (prims) => {
+      const tot = prims.reduce((s, p) => s + p[0], 0), out = [];
+      prims.forEach((p, k) => {
+        const c = k === prims.length - 1 ? N - out.length : Math.round(N * p[0] / tot);
+        for (let i = 0; i < c; i++) out.push(p[1]((i + 0.5) / c));
+      });
+      return out.slice(0, N);
+    };
+    const shapes = [
+      sample([
+        [2, line(-1, -0.42, 1, -0.42)], [2, line(-1, 0.42, 1, 0.42)],
+        [1.1, ell(-1, 0, 0.13, 0.42)], [1.1, ell(1, 0, 0.13, 0.42)],
+        [3, () => [-1 + Math.random() * 2, -0.4 + Math.random() * 0.8]],
+        [0.35, line(-1.35, -0.07, -1.13, -0.07)], [0.35, line(-1.35, 0.07, -1.13, 0.07)],
+        [0.35, line(1.13, -0.07, 1.35, -0.07)], [0.35, line(1.13, 0.07, 1.35, 0.07)]
+      ]),
+      sample([
+        [5, disc(0, 0, 0.74, 0.96)], [2, ell(0, 0, 0.74, 0.74)], [1.2, disc(0, 0, 0.1, 0.24)],
+        [0.5, line(0.24, 0, 0.74, 0)], [0.5, line(-0.24, 0, -0.74, 0)],
+        [0.5, line(0.12, 0.21, 0.37, 0.64)], [0.5, line(-0.12, -0.21, -0.37, -0.64)],
+        [0.5, line(-0.12, 0.21, -0.37, 0.64)], [0.5, line(0.12, -0.21, 0.37, -0.64)]
+      ]),
+      sample([
+        [5, () => { const a = Math.random() * TAU, rr = 0.62 + 0.3 * Math.cos(6 * a); const r = Math.sqrt(0.08 + Math.random() * 0.92) * rr; return [Math.cos(a) * r, Math.sin(a) * r]; }],
+        [1.4, ell(0, 0, 0.18, 0.18)]
+      ]),
+      sample([
+        [7, (u) => { const a = u * TAU * 6.5; return [-1 + 2 * u, 0.5 * Math.sin(a) + (Math.random() - 0.5) * 0.06]; }],
+        [0.6, line(-1.05, -0.5, -1.05, 0.5)], [0.6, line(1.05, -0.5, 1.05, 0.5)]
+      ]),
+      sample([
+        [5, disc(0, 0, 0.72, 0.98)], [2.2, disc(0, 0, 0.18, 0.42)], [1, line(0, -0.98, 0, -0.42)]
+      ])
+    ];
+    const ps = [];
+    for (let i = 0; i < N; i++) ps.push({ x: Math.random() * 1200, y: Math.random() * 760, vx: 0, vy: 0, ph: Math.random() * TAU, acc: i % 4 === 0 });
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    this.onMoveBg = (e) => { const b = cv.getBoundingClientRect(); m.x = e.clientX - b.left; m.y = e.clientY - b.top; m.on = m.x >= 0 && m.y >= 0 && m.x <= b.width && m.y <= b.height; };
+    this.onLeaveBg = () => { m.on = false; };
+    this.onDownBg = (e) => {
+      const b = cv.getBoundingClientRect(); const x = e.clientX - b.left, y = e.clientY - b.top;
+      if (x < 0 || y < 0 || x > b.width || y > b.height) return;
+      if (e.target && e.target.closest && e.target.closest('button,a')) return;
+      for (const p of ps) { const dx = p.x - x, dy = p.y - y, d = Math.sqrt(dx * dx + dy * dy) || 1; if (d < 320) { const f = 1 - d / 320; p.vx += (dx / d) * f * 24; p.vy += (dy / d) * f * 24; } }
+    };
+    this.onResizeBg = resize;
+    window.addEventListener('mousemove', this.onMoveBg, { passive: true });
+    window.addEventListener('mousedown', this.onDownBg);
+    document.addEventListener('mouseleave', this.onLeaveBg);
+    window.addEventListener('resize', resize);
+    resize();
+    let cur = this.state.step;
+    const frame = (t) => {
+      const dt = last ? Math.min(64, t - last) : 16; last = t;
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (cv.clientWidth !== W || cv.clientHeight !== H) resize();
+      const b = cv.getBoundingClientRect();
+      const inView = b.bottom > 0 && b.top < (window.innerHeight || 800);
+      if (motion && inView && !this.state.hold) { this.elapsed += dt; if (this.elapsed >= DWELL) this.goStep(this.state.step + 1); }
+      if (this.state.step !== cur) {
+        cur = this.state.step;
+        for (const q of ps) { q.vx += (Math.random() - 0.5) * 10; q.vy += (Math.random() - 0.5) * 10; }
+      }
+      this.swirl *= 0.965;
+      const shape = shapes[cur];
+      const wide = W > 900;
+      const cx = wide ? W * 0.66 : W * 0.5, cy = wide ? H * 0.5 : H * 0.7;
+      const S = Math.min(wide ? W * 0.2 : W * 0.36, H * (wide ? 0.34 : 0.2));
+      const yaw = motion ? Math.sin(time * 0.0005) * 0.95 : 0.35;
+      const cy3 = Math.cos(yaw), sy3 = Math.sin(yaw);
+      const rot = motion ? Math.sin(time * 0.0003) * 0.1 : 0;
+      const cr = Math.cos(rot), sr = Math.sin(rot);
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < N; i++) {
+        const q = ps[i]; const s = shape[i];
+        const sx = s[0] * cr - s[1] * sr, sy = s[0] * sr + s[1] * cr;
+        const z = sx * sy3;
+        let tx = cx + sx * cy3 * S, ty = cy + sy * S;
+        if (motion) { tx += Math.sin(time * 0.002 + q.ph) * 1.3; ty += Math.cos(time * 0.0017 + q.ph) * 1.3; }
+        q.vx += (tx - q.x) * 0.014; q.vy += (ty - q.y) * 0.014;
+        if (this.swirl > 0.02) {
+          const dx = q.x - cx, dy = q.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          q.vx += (-dy / d) * this.swirl * 1.6; q.vy += (dx / d) * this.swirl * 1.6;
+        }
+        let near = 0;
+        if (m.on) {
+          const dx = q.x - m.x, dy = q.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) { near = 1 - d / R; q.vx += (dx / d) * near * near * 5; q.vy += (dy / d) * near * near * 5; }
+        }
+        q.vx *= 0.86; q.vy *= 0.86; q.x += q.vx; q.y += q.vy;
+        const spd = Math.min(1, Math.sqrt(q.vx * q.vx + q.vy * q.vy) / 6);
+        const depth = 1 + z * 0.35;
+        const k = Math.max(near, q.acc ? 0.9 : 0);
+        const rC = Math.round(30 + (ar - 30) * k), gC = Math.round(36 + (ag - 36) * k), bC = Math.round(44 + (ab - 44) * k);
+        ctx.fillStyle = 'rgba(' + rC + ',' + gC + ',' + bC + ',' + Math.min(0.95, (0.42 + z * 0.22 + spd * 0.3 + near * 0.15)).toFixed(2) + ')';
+        ctx.beginPath(); ctx.arc(q.x, q.y, Math.max(0.6, (1.5 + near * 1.8 + spd * 0.8) * depth), 0, TAU); ctx.fill();
+      }
+      this.bgRaf = requestAnimationFrame(frame);
+    };
+    this.bgRaf = requestAnimationFrame(frame);
+  }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() { this.startMesh(); this.startBg(); }
+  componentWillUnmount() {
+    if (this.bgRaf) cancelAnimationFrame(this.bgRaf);
+    if (this.onMoveBg) window.removeEventListener('mousemove', this.onMoveBg);
+    if (this.onDownBg) window.removeEventListener('mousedown', this.onDownBg);
+    if (this.onLeaveBg) document.removeEventListener('mouseleave', this.onLeaveBg);
+    if (this.onResizeBg) window.removeEventListener('resize', this.onResizeBg);
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state;
+    const ease = 'cubic-bezier(.2,.7,.2,1)';
+    const data = {
+      metal: [['IR-V03', 'Prokat va press valiklari', 'Yuqori yuklamaga chidamli'], ['IR-P01', "Qirg'ich plastinalar", 'Lenta tozalash uchun'], ['IR-S01', 'Shtamp prujinalari', "Metall o'rniga poliuretan"]],
+      print: [['IR-V05', "Bo'yoq va ofset valiklari", 'Erituvchilarga chidamli'], ['IR-V06', "Qog'oz tortuvchi roliklar", 'Aniq diametr'], ['IR-K01', 'Qayta qoplash', "Eski o'zak ustiga"]],
+      food: [['IR-V07', 'Konveyer roliklari', '[Ruxsat etilgan material]'], ['IR-P02', 'Tozalovchi pichoqlar', 'Lenta va idishlar'], ['IR-M01', 'Mufta yulduzchalari', 'Nasos va reduktorlar']],
+      auto: [['IR-A01', 'Amortizator vtulkalari', 'Osma tizimi uchun'], ['IR-A02', 'Rezina yostiqchalar', 'Dvigatel tayanchlari'], ['IR-X01', 'Maxsus detallar', "Chizma bo'yicha"]],
+      log: [['IR-G01', "Poliuretan g'ildiraklar", "Arava va yuk ko'targich"], ['IR-G02', 'Bandajlar', 'Metall disk ustiga'], ['IR-R01', "Yo'naltiruvchi roliklar", 'Podshipnikli']]
+    };
+    const labels = [['metal', 'Metallurgiya'], ['print', 'Poligrafiya'], ['food', 'Oziq-ovqat'], ['auto', 'Avto'], ['log', 'Logistika']];
+    const anim = st.flip ? 'irA' : 'irB';
+    return {
+      accent,
+      menuOpen: st.menu, toggleMenu: () => this.setState({ menu: !st.menu }),
+      menuBg: st.menu ? accent : '#fff', menuIcon: st.menu ? 'M6 6l12 12 M18 6L6 18' : 'M3 7h18 M3 12h18 M3 17h18',
+      stepNum: '0' + (st.step + 1),
+      stepChip: ['Valik', "G'ildirak", 'Mufta', 'Prujina', 'Maxsus'][st.step] + ' · 0' + (st.step + 1) + '/05',
+      barStyle: 'position:absolute;left:0;top:0;height:2px;background:#111418;width:100%;transform-origin:0 50%;animation:' + (st.bflip ? 'irbarA' : 'irbarB') + ' 4.5s linear forwards',
+      steps: [
+        ['Poliuretan valiklar', "Konveyer, press va prokat liniyalari uchun.", 'Ø [__]–[___] mm · 70–95 A'],
+        ["G'ildirak va bandajlar", "Arava va yuk ko'targichlar uchun.", "Yuk [___] kg gacha"],
+        ['Mufta yulduzchalari', 'Nasos va reduktor muftalari uchun.', "[__] ta o'lcham"],
+        ['Shtamp prujinalari', 'Shovqinsiz, shtampni asraydi.', '80–95 Shore A'],
+        ["Chizma bo'yicha detal", "Chizma yoki namuna yuboring.", 'Muddat: [__] kundan']
+      ].map(([t, d, spec], i) => ({ t, d, spec, style: 'position:absolute;left:0;top:0;right:0;display:flex;flex-direction:column;gap:8px;transition:opacity .5s ' + ease + ',transform .6s ' + ease + ';opacity:' + (i === st.step ? 1 : 0) + ';transform:translateY(' + (i === st.step ? 0 : (i < st.step ? -24 : 24)) + 'px)' })),
+      dots: ['Valik', "G'ildirak", 'Mufta', 'Prujina', 'Maxsus'].map((l, i) => ({ n: '0' + (i + 1), label: l, pick: () => this.goStep(i), style: 'flex:1;min-height:44px;border:1px solid #111418;font:600 12px JetBrains Mono,monospace;cursor:pointer;' + (i === st.step ? 'background:' + accent : 'background:#fff') })),
+      inds: labels.map(([k, l]) => ({ label: l, pick: () => this.setState({ ind: k, flip: !st.flip }), style: 'flex-shrink:0;min-height:44px;padding:0 16px;border:1px solid #111418;font:700 14px Archivo,sans-serif;cursor:pointer;' + (st.ind === k ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418') })),
+      shown: data[st.ind].map(([code, name, desc], i) => ({ code, name, desc, anim: 'display:flex;background:#fff;border:1px solid #111418;animation:' + anim + ' .5s ' + ease + ' ' + i * 80 + 'ms both' })),
+      cats: [['/01', 'Valiklar'], ['/02', 'Qayta qoplash'], ['/03', "Plastina va qirg'ich"], ['/04', 'Mufta va prujina'], ['/05', 'Avto detallar'], ['/06', 'Maxsus detallar']].map(([n, name]) => ({ n, name }))
+    };
+  }
+}
+</script>
+</body>
+</html>

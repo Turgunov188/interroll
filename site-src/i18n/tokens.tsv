@@ -1,0 +1,4 @@
+# Strings whose design gaps were reshaped by site tokens (build-tools/site_tokens.py): uz<TAB>ru<TAB>en<TAB>tr
+Du–Sha · ⟦open_hour⟧:00–⟦close_hour⟧:00	Пн–Сб · ⟦open_hour⟧:00–⟦close_hour⟧:00	Mon–Sat · ⟦open_hour⟧:00–⟦close_hour⟧:00	Pzt–Cmt · ⟦open_hour⟧:00–⟦close_hour⟧:00
+Kafolat: ⟦warranty_months⟧ oy	Гарантия: ⟦warranty_months⟧ мес.	Warranty: ⟦warranty_months⟧ months	Garanti: ⟦warranty_months⟧ ay
+Rezinadan ⟦service_life⟧ marta uzoq xizmat qiladi	Служит в ⟦service_life⟧ раз дольше резины	Lasts ⟦service_life⟧ times longer than rubber	Kauçuktan ⟦service_life⟧ kat uzun ömürlü

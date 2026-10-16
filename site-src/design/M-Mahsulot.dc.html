@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Mobil mahsulot</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+@keyframes irMenu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.menu{animation:irMenu .3s cubic-bezier(.2,.7,.2,1) both}
+.dim{transition:all .35s cubic-bezier(.2,.7,.2,1)}
+input[type=range]{width:100%;accent-color:#111418;height:32px;margin:0}
+.acc summary{list-style:none;cursor:pointer}
+.acc summary::-webkit-details-marker{display:none}
+.acc[open] .plus{transform:rotate(45deg)}
+.plus{transition:transform .3s}
+@media (prefers-reduced-motion: reduce){.menu{animation:none}.dim{transition:none}}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 2300px; font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; overflow: hidden">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+<header style="position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid #111418; height: 60px; padding: 0 8px 0 16px; display: flex; align-items: center; justify-content: space-between">
+<a href="M-Bosh.dc.html" style="display: flex; align-items: center; gap: 8px">
+<svg aria-hidden="true" width="26" height="26" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.6"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+<b style="font-size: 16px; letter-spacing: 0.03em">INTER ROLL</b>
+</a>
+<div style="display: flex">
+<a href="tel:+998000000000" aria-label="Qo'ng'iroq qilish" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+<button onClick="{{toggleMenu}}" aria-label="Menyu" style="width: 44px; height: 44px; border: 1px solid #111418; background: {{menuBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2.2"><path d="{{menuIcon}}"/></svg></button>
+</div>
+</header>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav class="menu" aria-label="Asosiy menyu" style="position: absolute; top: 60px; left: 0; right: 0; z-index: 39; background: #fff; border-bottom: 2px solid #111418; display: flex; flex-direction: column">
+<a href="M-Katalog.dc.html" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Mahsulotlar</a>
+<a href="#" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Qayta qoplash</a>
+<a href="#" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Zavod haqida</a>
+<a href="M-Aloqa.dc.html" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Aloqa</a>
+<div class="mono" style="display: flex; gap: 8px; padding: 16px"><a href="#" style="border: 1px solid #111418; padding: 10px 16px; font-weight: 600; background: {{accent}}">UZ</a><a href="#" style="border: 1px solid #111418; padding: 10px 16px">RU</a></div>
+</nav>
+</sc-if>
+
+<div class="mono" style="padding: 14px 16px; font-size: 11px; text-transform: uppercase; color: #3E4650"><a href="M-Katalog.dc.html" style="color: #3E4650">← Katalog</a> / Valiklar / IR-V01</div>
+
+<section style="margin: 0 16px; background: #fff; border: 1px solid #111418">
+<svg role="img" aria-label="{{drawLabel}}" viewBox="0 0 360 230" width="100%" style="display: block; background-image: linear-gradient(#EEF0F2 1px, transparent 1px), linear-gradient(90deg, #EEF0F2 1px, transparent 1px); background-size: 16px 16px">
+<defs><pattern id="mh" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#D2D7DC"/><line x1="0" y1="0" x2="0" y2="6" stroke="#8A939D" stroke-width="1.5"/></pattern></defs>
+<line x1="10" y1="{{dw.cy}}" x2="350" y2="{{dw.cy}}" stroke="#111418" stroke-dasharray="10 3 2 3"/>
+<rect class="dim" x="{{dw.shx}}" y="{{dw.shy}}" width="{{dw.shw}}" height="{{dw.shh}}" fill="#4A535E" stroke="#111418"/>
+<rect class="dim" x="{{dw.x}}" y="{{dw.y}}" width="{{dw.w}}" height="{{dw.h}}" fill="{{dw.coat}}" fill-opacity="{{dw.op}}" stroke="#111418" stroke-width="1.6"/>
+<rect class="dim" x="{{dw.x}}" y="{{dw.cyTop}}" width="{{dw.w}}" height="{{dw.coreH}}" fill="url(#mh)" stroke="#111418"/>
+<line class="dim" x1="{{dw.x}}" y1="{{dw.ldy}}" x2="{{dw.x2}}" y2="{{dw.ldy}}" stroke="#111418"/>
+<g font-family="JetBrains Mono, monospace" font-size="11" fill="#111418"><text class="dim" x="180" y="{{dw.lty}}" text-anchor="middle">L {{L}} · Ø{{D}} · {{shore}}A</text></g>
+</svg>
+<div class="mono" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #111418; font-size: 10px; text-transform: uppercase">
+<div style="padding: 10px; border-right: 1px solid #E3E7EB"><div style="color: #5B636D">Ø</div><b style="font: 800 18px Archivo, sans-serif">{{D}}</b></div>
+<div style="padding: 10px; border-right: 1px solid #E3E7EB"><div style="color: #5B636D">L</div><b style="font: 800 18px Archivo, sans-serif">{{L}}</b></div>
+<div style="padding: 10px"><div style="color: #5B636D">Shore</div><b style="font: 800 18px Archivo, sans-serif">{{shore}}A</b></div>
+</div>
+</section>
+
+<section style="padding: 22px 16px; display: flex; flex-direction: column; gap: 12px">
+<span class="mono" style="align-self: flex-start; font-size: 11px; background: #fff; border: 1px solid #111418; padding: 4px 8px">IR-V01 · VALIKLAR</span>
+<h1 style="margin: 0; font-weight: 800; font-size: 38px; line-height: 0.98; letter-spacing: -0.03em">Poliuretan <span style="background: {{accent}}; padding: 0 6px">valik</span></h1>
+<p style="margin: 0; color: #3E4650; font-size: 15px; line-height: 1.55">Metall o'zak ustiga quyilgan poliuretan qoplamali valik. Konveyer, press va poligrafiya liniyalari uchun.</p>
+</section>
+
+<section style="margin: 0 16px; background: #fff; border: 1px solid #111418; display: flex; flex-direction: column">
+<div class="mono" style="padding: 12px 14px; border-bottom: 1px solid #111418; font-size: 12px; text-transform: uppercase">Konfigurator</div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #E3E7EB">
+<span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Material</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #111418"><sc-for list="{{mats}}" as="m" hint-placeholder-count="3"><button onClick="{{m.pick}}" style="{{m.style}}">{{m.label}}</button></sc-for></div>
+</div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #E3E7EB">
+<span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Qattiqlik, Shore A</span>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid #111418"><sc-for list="{{shores}}" as="s" hint-placeholder-count="5"><button onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button></sc-for></div>
+</div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 14px">
+<label style="display: flex; flex-direction: column; gap: 4px"><span style="display: flex; justify-content: space-between"><span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Diametr Ø</span><b>{{D}} mm</b></span><input type="range" min="40" max="400" step="5" value="{{D}}" onChange="{{setD}}"></label>
+<label style="display: flex; flex-direction: column; gap: 4px"><span style="display: flex; justify-content: space-between"><span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Uzunlik L</span><b>{{L}} mm</b></span><input type="range" min="100" max="2000" step="10" value="{{L}}" onChange="{{setL}}"></label>
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Soni</span>
+<div style="display: flex; border: 1px solid #111418"><button onClick="{{minus}}" aria-label="Kamaytirish" style="width: 44px; height: 44px; border: 0; border-right: 1px solid #111418; background: #fff; font: 700 20px Archivo, sans-serif">−</button><span style="min-width: 64px; display: flex; align-items: center; justify-content: center; font-weight: 800">{{qty}}</span><button onClick="{{plus}}" aria-label="Ko'paytirish" style="width: 44px; height: 44px; border: 0; border-left: 1px solid #111418; background: #fff; font: 700 20px Archivo, sans-serif">+</button></div>
+</div>
+</div>
+</section>
+
+<section style="padding: 22px 16px 120px; display: flex; flex-direction: column">
+<details class="acc" open="open" style="border-top: 1px solid #111418; border-bottom: 1px solid #111418; background: #fff">
+<summary style="display: flex; justify-content: space-between; align-items: center; padding: 16px 14px; font-weight: 800; font-size: 18px">Xususiyatlar<span class="plus" aria-hidden="true" style="font-size: 24px; font-weight: 400">+</span></summary>
+<div class="mono" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); font-size: 12px; padding: 0 14px 14px; gap: 10px">
+<span style="color: #5B636D">MATERIAL</span><span>{{matName}}</span>
+<span style="color: #5B636D">QATTIQLIK</span><span>{{shore}} Shore A</span>
+<span style="color: #5B636D">O'ZAK</span><span>Po'lat / mijozniki</span>
+<span style="color: #5B636D">HARORAT</span><span>[__] … +[__] °C</span>
+<span style="color: #5B636D">MUDDAT</span><span>[__] kundan</span>
+</div>
+</details>
+<details class="acc" style="border-bottom: 1px solid #111418; background: #fff">
+<summary style="display: flex; justify-content: space-between; align-items: center; padding: 16px 14px; font-weight: 800; font-size: 18px">Qo'llanilishi<span class="plus" aria-hidden="true" style="font-size: 24px; font-weight: 400">+</span></summary>
+<div style="padding: 0 14px 14px; color: #3E4650; font-size: 14px; line-height: 1.6">Konveyer (85–90A) · Press va prokat (92–95A) · Poligrafiya (60–75A) · Yog'och liniyalari (80–90A)</div>
+</details>
+<details class="acc" style="border-bottom: 1px solid #111418; background: #fff">
+<summary style="display: flex; justify-content: space-between; align-items: center; padding: 16px 14px; font-weight: 800; font-size: 18px">Hujjatlar<span class="plus" aria-hidden="true" style="font-size: 24px; font-weight: 400">+</span></summary>
+<div class="mono" style="padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px; font-size: 13px"><a href="#">Texnik pasport · PDF ↓</a><a href="#">Chizma shabloni · PDF ↓</a></div>
+</details>
+</section>
+
+<div style="position: sticky; bottom: 0; z-index: 41; margin-top: -84px; padding: 10px 12px; background: rgba(255,255,255,0.97); border-top: 1px solid #111418; display: flex; flex-direction: column; gap: 6px">
+<span class="mono" style="font-size: 11px; color: #3E4650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{summary}}</span>
+<a href="M-Aloqa.dc.html" style="min-height: 52px; background: #111418; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-weight: 700">So'rov yuborish <span class="mono" style="font-size: 12px; color: {{accent}}">NARX — SO'ROV BO'YICHA →</span></a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"$preview":{"width":390,"height":2300}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { menu: false, mat: 'pu', shore: 90, D: 120, L: 800, qty: 4 }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() { this.startMesh(); }
+  componentWillUnmount() {
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state, D = st.D, L = st.L, T = Math.min(12, Math.floor(D / 2 - 12));
+    const coat = st.mat === 'pu' ? accent : (st.mat === 'nbr' ? '#2A3038' : '#4A535E');
+    const k = Math.min(260 / L, 120 / D), w = L * k, h = D * k, cx = 180, cy = 104, x = cx - w / 2, y = cy - h / 2;
+    const coreH = Math.max(4, (D - 2 * T) * k), shH = Math.max(5, coreH * 0.42);
+    const names = { pu: 'Poliuretan', nbr: 'Rezina NBR', epdm: 'Rezina EPDM' };
+    const seg = (on) => 'min-height:44px;border:0;border-right:1px solid #111418;font:600 12px JetBrains Mono,monospace;cursor:pointer;' + (on ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418');
+    return {
+      accent,
+      menuOpen: st.menu, toggleMenu: () => this.setState({ menu: !st.menu }), menuBg: st.menu ? accent : '#fff', menuIcon: st.menu ? 'M6 6l12 12 M18 6L6 18' : 'M3 7h18 M3 12h18 M3 17h18',
+      D, L, shore: st.shore, qty: st.qty, matName: names[st.mat],
+      drawLabel: 'Valik chizmasi: diametr ' + D + ' mm, uzunlik ' + L + ' mm',
+      dw: { cy, x: +x.toFixed(1), y: +y.toFixed(1), w: +w.toFixed(1), h: +h.toFixed(1), x2: +(x + w).toFixed(1), coat, op: st.mat === 'pu' ? (0.45 + (st.shore - 60) / 38 * 0.55).toFixed(2) : '0.9', cyTop: +(cy - coreH / 2).toFixed(1), coreH: +coreH.toFixed(1), shx: +(x - 26).toFixed(1), shw: +(w + 52).toFixed(1), shy: +(cy - shH / 2).toFixed(1), shh: +shH.toFixed(1), ldy: +(y + h + 22).toFixed(1), lty: +(y + h + 40).toFixed(1) },
+      mats: [['pu', 'PU'], ['nbr', 'NBR'], ['epdm', 'EPDM']].map(([kk, l]) => ({ label: l, pick: () => this.setState({ mat: kk }), style: seg(st.mat === kk) })),
+      shores: [70, 80, 85, 90, 95].map((v) => ({ label: v, pick: () => this.setState({ shore: v }), style: seg(st.shore === v) })),
+      setD: (e) => this.setState({ D: +e.target.value }), setL: (e) => this.setState({ L: +e.target.value }),
+      minus: () => this.setState({ qty: Math.max(1, st.qty - 1) }), plus: () => this.setState({ qty: st.qty + 1 }),
+      summary: 'IR-V01 · ' + names[st.mat] + ' · ' + st.shore + 'A · Ø' + D + '×' + L + ' · ' + st.qty + ' dona'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+"""Starting content for the admin (projects, posts, videos) taken from the approved design,
+in 4 languages, written as a PHP array for database/seeders/ContentSeeder.php.
+Run: python3 -I content_seed.py ../ir/project <laravel root>"""
+import json, os, re, subprocess, sys
+SRC, OUT = sys.argv[1], sys.argv[2]
+HERE = os.path.dirname(os.path.abspath(__file__))
+I18N = os.path.join(HERE, '..', 'i18n')
+D = {l: json.load(open(os.path.join(I18N, l + '.json'), encoding='utf-8')) for l in ('ru', 'en', 'tr')}
+EXTRA = {}
+for line in open(os.path.join(I18N, 'extra.tsv'), encoding='utf-8'):
+    p = line.rstrip('\n').split('\t')
+    if len(p) == 4:
+        EXTRA[p[0]] = dict(zip(('ru', 'en', 'tr'), p[1:]))
+MISSING = []
+sys.path.insert(0, HERE)
+from i18n_apply import JS_EXTRA
+for _page in JS_EXTRA.values():
+    for _uz, _t in _page.items():
+        EXTRA.setdefault(_uz, dict(zip(('ru', 'en', 'tr'), _t)))
+
+
+def arr(page, marker):
+    out = subprocess.check_output(['node', os.path.join(HERE, 'design_data.js'), os.path.join(SRC, page + '.dc.html'), marker])
+    return json.loads(out)
+
+
+def tr(uz):
+    """{"ru","uz","en","tr"} from the design's Uzbek string."""
+    if uz is None or uz == '':
+        return None
+    v = {'uz': uz}
+    for l in ('ru', 'en', 'tr'):
+        t = D[l].get(uz) or EXTRA.get(uz, {}).get(l)
+        if t is None:
+            MISSING.append(uz)
+            t = uz
+        v[l] = t
+    return {'ru': v['ru'], 'uz': v['uz'], 'en': v['en'], 'tr': v['tr']}
+
+
+def php(v, ind=0):
+    pad = '    ' * ind
+    if v is None:
+        return 'null'
+    if isinstance(v, bool):
+        return 'true' if v else 'false'
+    if isinstance(v, (int, float)):
+        return repr(v)
+    if isinstance(v, str):
+        return "'" + v.replace('\\', '\\\\').replace("'", "\\'") + "'"
+    if isinstance(v, list):
+        if not v:
+            return '[]'
+        return '[\n' + ''.join(pad + '    ' + php(x, ind + 1) + ',\n' for x in v) + pad + ']'
+    if isinstance(v, dict):
+        if not v:
+            return '[]'
+        return '[\n' + ''.join(pad + '    ' + php(k) + ' => ' + php(x, ind + 1) + ',\n' for k, x in v.items()) + pad + ']'
+    raise TypeError(v)
+
+
+INDUSTRY = {'metal': 'metallurgiya', 'print': 'poligrafiya', 'food': 'oziq-ovqat', 'log': 'ombor', 'auto': 'avtomobil'}
+SLUGS = ['prokat-valiklarini-qayta-qoplash', 'ofset-boyoq-valiklari', 'qadoqlash-konveyer-roliklari',
+         'yuk-aravalari-gildiraklari', 'osma-tizimi-vtulkalari', 'shtamp-prujinalari-va-qirgichlar']
+
+
+def projects():
+    rows = []
+    for i, c in enumerate(arr('Portfolio-G', 'const all = [')):
+        rows.append({
+            'slug': SLUGS[i],
+            'industry': INDUSTRY.get(c['f']),
+            'title': tr(c['t']), 'client': tr(c['client']), 'short': tr(c['short']),
+            'problem': tr(c['p']), 'solution': tr(c['s']), 'result': tr(c['r']),
+            'kpis': [{'value': c[k], 'label': tr(c[k + 'l'])} for k in ('k1', 'k2')],
+            'sort': i + 1,
+        })
+    return rows
+
+
+POST_SLUGS = ['valik-qachon-qayta-qoplanadi', 'poliuretan-yoki-rezina', 'chizmasiz-detal-buyurtma', 'yuqori-harorat-materiallari',
+              'konveyer-valigi-xizmat-muddati', 'import-detalni-almashtirish']
+
+
+def blog():
+    cats = [{'slug': k, 'name': tr(l), 'sort': i + 1} for i, (k, l) in enumerate(arr('Blog-G', 'const cl = [')) if k != 'all']
+    posts = [{
+        'slug': 'shore-a-hardness', 'category': 'tanlov', 'is_featured': True, 'read_minutes': 6,
+        'title': tr('Shore A qattiqlikni qanday tanlash kerak?'),
+        'excerpt': tr("Noto'g'ri qattiqlik — detal tez yeyilishining eng ko'p uchraydigan sababi. Mana tanlash bo'yicha amaliy qo'llanma."),
+        'cover_caption': None,
+    }]
+    for i, (k, cat, t, d, mins, img) in enumerate(arr('Blog-G', 'const all = [')):
+        posts.append({'slug': POST_SLUGS[i], 'category': k, 'is_featured': False, 'read_minutes': mins,
+                      'title': tr(t), 'excerpt': tr(d), 'cover_caption': tr(img)})
+    return cats, posts
+
+
+def videos():
+    rows = []
+    for i, v in enumerate(arr('Video-G', 'const vids = [')):
+        rows.append({'kind': 'main', 'title': tr(v['t']), 'category': tr(v['cat']), 'description': tr(v['d']),
+                     'duration': v['len'] if re.match(r'^\d+:\d\d$', v['len']) else None,
+                     'chapters': [{'at': at, 'label': tr(t)} for at, t, _ in v['chapters']], 'sort': i + 1})
+    for i, (t, ln) in enumerate(arr('Video-G', 'shorts: [')):
+        rows.append({'kind': 'short', 'title': tr(t), 'duration': ln, 'sort': 100 + i})
+    return rows
+
+
+cats, posts = blog()
+data = {'projects': projects(), 'post_categories': cats, 'posts': posts, 'videos': videos()}
+os.makedirs(os.path.join(OUT, 'database', 'seeders', 'data'), exist_ok=True)
+with open(os.path.join(OUT, 'database', 'seeders', 'data', 'content.php'), 'w', encoding='utf-8') as f:
+    f.write('<?php\n\n// Generated by build-tools/content_seed.py from the approved design. Edit the content in the admin, not here.\n\nreturn ' + php(data) + ';\n')
+print('projects', len(data['projects']), 'posts', len(posts), 'videos', len(data['videos']), 'missing translations', len(set(MISSING)))
+for m in sorted(set(MISSING)):
+    print('  ', m)

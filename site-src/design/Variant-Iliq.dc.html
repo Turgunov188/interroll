@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Variant C</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F4EE}
+a{color:#1C1A17;text-decoration:none}a:hover{color:#B23A0B}
+.ph{background:repeating-linear-gradient(135deg,#E4DED3 0 12px,#DCD5C8 12px 24px);display:flex;align-items:flex-end;padding:16px;box-sizing:border-box;color:#5B544A;font:500 13px Manrope,sans-serif}
+input,textarea{font:400 16px Manrope,sans-serif;border:0;border-bottom:2px solid #1C1A17;background:transparent;padding:14px 0;color:#1C1A17;width:100%;box-sizing:border-box}
+</style>
+</helmet>
+<div style="font-family: Manrope, sans-serif; color: #1C1A17; background: #F7F4EE">
+
+<header>
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 84px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#" style="font-weight: 800; font-size: 22px; letter-spacing: 0.06em">INTER<span style="color: {{accent}}">ROLL</span></a>
+<nav aria-label="Asosiy menyu" style="display: flex; flex-wrap: wrap; gap: 32px; font-size: 16px; font-weight: 600">
+<a href="#">Mahsulotlar</a><a href="#">Xizmatlar</a><a href="#">Zavod</a><a href="#">Loyihalar</a><a href="#">Aloqa</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 16px; font-weight: 600">
+<a href="#">UZ</a><a href="#" style="color: #6E665B">RU</a>
+<a href="#sorov" style="border: 2px solid #1C1A17; padding: 12px 20px; border-radius: 999px">Narx so'rash</a>
+</div>
+</div>
+</header>
+
+<section style="padding: 0 24px">
+<div style="max-width: 1280px; margin: 0 auto; position: relative">
+<div class="ph" style="height: 600px; border-radius: 28px">[Keng fotosurat: valiklar yoki quyish sexi]</div>
+<div style="position: absolute; left: 32px; right: 32px; bottom: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="background: #F7F4EE; border-radius: 22px; padding: 36px; max-width: 640px; display: flex; flex-direction: column; gap: 18px">
+<h1 style="margin: 0; font-weight: 800; font-size: 54px; line-height: 1.05; letter-spacing: -0.02em">Valik va detallar — <span style="color: {{accent}}">o'z zavodimizdan</span></h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #5B544A">Poliuretan va rezina detallar chizmangiz yoki namunangiz bo'yicha.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#" style="background: {{accent}}; color: #fff; padding: 17px 28px; border-radius: 999px; font-weight: 700">Katalog</a>
+<a href="tel:+998000000000" style="background: #fff; padding: 17px 28px; border-radius: 999px; font-weight: 700">+998 [__] ___-__-__</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding: 72px 24px 24px">
+<div style="max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; border-bottom: 1px solid #DCD5C8; padding-bottom: 48px">
+<div><div style="font-weight: 800; font-size: 44px">[__]</div><div style="color: #6E665B">yil tajriba</div></div>
+<div><div style="font-weight: 800; font-size: 44px">[__] t</div><div style="color: #6E665B">poliuretan / yil</div></div>
+<div><div style="font-weight: 800; font-size: 44px">[__] t</div><div style="color: #6E665B">rezina / yil</div></div>
+<div><div style="font-weight: 800; font-size: 44px">[__]</div><div style="color: #6E665B">sanoat mijozlari</div></div>
+</div>
+</section>
+
+<section style="padding: 72px 24px">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column">
+<h2 style="margin: 0 0 32px; font-weight: 800; font-size: 44px; letter-spacing: -0.01em">Nima ishlab chiqaramiz</h2>
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="4">
+<a href="#" style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px; padding: 28px 0; border-top: 1px solid #DCD5C8">
+<span style="font-weight: 800; font-size: 18px; color: {{accent}}; width: 48px">{{c.n}}</span>
+<span style="flex: 1 1 280px; font-weight: 800; font-size: 32px">{{c.name}}</span>
+<span style="flex: 1 1 280px; color: #5B544A; font-size: 17px; line-height: 1.5">{{c.desc}}</span>
+<div class="ph" style="width: 200px; height: 120px; border-radius: 14px">[Foto]</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #EFE9DF; padding: 96px 24px">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div class="ph" style="flex: 1 1 480px; min-width: 0; height: 460px; border-radius: 28px">[Quyish va tokarlik sexi]</div>
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<h2 style="margin: 0; font-weight: 800; font-size: 40px; line-height: 1.12">Chizmadan tayyor detalgacha — bitta zavodda</h2>
+<p style="margin: 0; color: #5B544A; font-size: 17px; line-height: 1.6">[Zavod haqida 2–3 jumla: tarix, uskunalar, sifat nazorati.]</p>
+<div style="display: flex; flex-direction: column; gap: 14px; font-weight: 600">
+<div style="display: flex; gap: 14px; align-items: center"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: {{accent}}"></span>Chizma yoki namuna bo'yicha ishlab chiqarish</div>
+<div style="display: flex; gap: 14px; align-items: center"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: {{accent}}"></span>Ish sharoitiga mos qattiqlik tanlovi</div>
+<div style="display: flex; gap: 14px; align-items: center"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: {{accent}}"></span>Eski valiklarni qayta qoplash</div>
+</div>
+<a href="#" style="align-self: flex-start; border-bottom: 2px solid {{accent}}; padding-bottom: 4px; font-weight: 700">Zavod haqida batafsil →</a>
+</div>
+</div>
+</section>
+
+<section id="sorov" style="padding: 96px 24px">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px">
+<h2 style="flex: 1 1 400px; margin: 0; font-weight: 800; font-size: 48px; line-height: 1.08">Chizmani yuboring — narxni <span style="color: {{accent}}">bugun</span> aytamiz</h2>
+<form style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<label style="display: flex; flex-direction: column; font-size: 14px; font-weight: 700">Ismingiz<input type="text" placeholder="Ism"></label>
+<label style="display: flex; flex-direction: column; font-size: 14px; font-weight: 700">Telefon<input type="tel" placeholder="+998"></label>
+<label style="display: flex; flex-direction: column; font-size: 14px; font-weight: 700">Detal va o'lcham<textarea rows="2" placeholder="Masalan: valik Ø120×800 mm, 90 Shore A, 4 dona"></textarea></label>
+<button type="submit" style="align-self: flex-start; background: #1C1A17; color: #F7F4EE; border: 0; padding: 18px 36px; border-radius: 999px; font: 700 16px Manrope, sans-serif">So'rov yuborish</button>
+</form>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #DCD5C8; padding: 40px 24px">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 14px; color: #6E665B">
+<span style="font-weight: 800; color: #1C1A17; letter-spacing: 0.06em">INTER<span style="color: {{accent}}">ROLL</span></span>
+<span>[Manzil] · +998 [__] ___-__-__</span>
+<span>© 2026 OOO «Inter Roll»</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C2410C","options":["#C2410C","#B91C1C","#0F766E"]},"$preview":{"width":1440,"height":3600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#C2410C',
+      cats: [
+        { n: '01', name: "Valiklar va g'ildiraklar", desc: "Poliuretan valiklar, roliklar va g'ildiraklar — konveyer, press va liniyalar uchun." },
+        { n: '02', name: 'Rezina qoplash', desc: "Eski valiklarni rezina yoki poliuretan bilan qayta qoplash." },
+        { n: '03', name: "Plastina va qirg'ichlar", desc: "Poliuretan listlar, qirg'ichlar va tozalovchi pichoqlar." },
+        { n: '04', name: 'Mufta va prujinalar', desc: "Mufta yulduzchalari, rezinalari va shtamp prujinalari." },
+        { n: '05', name: 'Maxsus detallar', desc: "Chizma bo'yicha har qanday poliuretan va rezina detal." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

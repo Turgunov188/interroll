@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="__CSRF_TOKEN__">
+<meta name="ir-lead-type" content="none">
+<title>Inter Roll — Order tracking</title>
+<link rel="canonical" href="__BASE__/en/kuzatish">
+<script type="application/json" id="ir-data">__IR_DATA__</script>
+
+<link rel="alternate" hreflang="uz" href="__BASE__/uz/kuzatish">
+<link rel="alternate" hreflang="ru" href="__BASE__/kuzatish">
+<link rel="alternate" hreflang="en" href="__BASE__/en/kuzatish">
+<link rel="alternate" hreflang="tr" href="__BASE__/tr/kuzatish">
+<link rel="alternate" hreflang="x-default" href="__BASE__/kuzatish">
+<style>
+@font-face{font-family:'Archivo';font-weight:500;font-display:swap;src:url(/fonts/site/archivo-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:700;font-display:swap;src:url(/fonts/site/archivo-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:800;font-display:swap;src:url(/fonts/site/archivo-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:500;font-display:swap;src:url(/fonts/site/archivo-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Archivo';font-weight:700;font-display:swap;src:url(/fonts/site/archivo-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Archivo';font-weight:800;font-display:swap;src:url(/fonts/site/archivo-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:600;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'JetBrains Mono';font-weight:600;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url(/fonts/site/jetbrains-mono-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'JetBrains Mono';font-weight:600;font-display:swap;src:url(/fonts/site/jetbrains-mono-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
+</style>
+
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+@keyframes irPop{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:none}}
+@keyframes irPulse{0%{box-shadow:0 0 0 0 rgba(245,183,0,.8)}100%{box-shadow:0 0 0 16px rgba(245,183,0,0)}}
+@keyframes irShake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pop{animation:irPop .6s cubic-bezier(.2,.7,.2,1) both}
+.pulse{animation:irPulse 1.5s ease-out infinite}
+.shake{animation:irShake .35s ease}
+.fill{transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+input[type=text]{font:600 20px 'JetBrains Mono',monospace;border:1px solid #111418;background:#fff;padding:18px;color:#111418;width:100%;box-sizing:border-box;border-radius:0;text-transform:uppercase}
+input:focus{outline:none;box-shadow:5px 5px 0 #111418}
+@media (prefers-reduced-motion: reduce){.pop,.pulse,.shake{animation:none}.fill{transition:none}}
+</style>
+
+<style></style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; --acc: {{accent}}">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="background: #fff; border-bottom: 1px solid #111418; position: sticky; top: 0; z-index: 40">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="/en" style="display: flex; align-items: center; gap: 12px"><svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.5"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg><span style="font-weight: 800; font-size: 20px; letter-spacing: 0.03em">INTER ROLL</span></a>
+<nav aria-label="Main menu" class="mono" style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 14px; text-transform: uppercase"><a href="/en/katalog">Products</a><a href="/en/qayta-qoplash">Recoating</a><a href="/en/zavod">Factory</a><a href="/en/aloqa">Contact</a></nav><span class="mono" style="display: flex; gap: 12px; font-size: 14px"><a href="/uz/kuzatish" hreflang="uz" lang="uz" style="color: #5B636D">UZ</a><a href="/kuzatish" hreflang="ru" lang="ru" style="color: #5B636D">RU</a><a href="/en/kuzatish" hreflang="en" lang="en" style="font-weight: 600; border-bottom: 2px solid {{accent}}">EN</a><a href="/tr/kuzatish" hreflang="tr" lang="tr" style="color: #5B636D">TR</a></span>
+<a href="/en/kuzatish" class="mono" style="font-size: 14px; text-transform: uppercase; border-bottom: 2px solid {{accent}}">Order tracking</a>
+</div>
+</header>
+
+<section style="padding: 56px 0 40px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end">
+<div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 14px">
+<div class="mono" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em">[ Order status ]</div>
+<h1 style="margin: 0; font-weight: 800; font-size: 64px; line-height: 0.95; letter-spacing: -0.03em">Your part <span style="background: {{accent}}; padding: 0 8px">in which workshop?</span></h1>
+<p style="margin: 0; color: #3E4650; font-size: 17px; line-height: 1.6">Enter the request number and the last 4 digits of your phone to see which stage your order is at, in real time.</p>
+</div>
+<form onSubmit="{{find}}" style="{{formStyle}}">
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 14px">Request number<input type="text" value="{{code}}" onChange="{{setCode}}" placeholder="IR-0000"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 14px">Last 4 digits of phone<input type="text" value="{{pin}}" onChange="{{setPin}}" placeholder="____" maxlength="4"></label>
+<button type="submit" class="btn" style="background: #111418; color: #fff; border: 1px solid #111418; padding: 18px; font: 700 16px Archivo, sans-serif; cursor: pointer">Check status →</button>
+<sc-if value="{{err}}" hint-placeholder-val="{{ false }}"><span class="mono" role="alert" style="font-size: 12px; color: #9B3A1E">No such request found. Check the number or call the sales department.</span></sc-if>
+<span class="mono" style="font-size: 11px; color: #5B636D">Try: <button type="button" onClick="{{demo1}}" style="border: 0; background: none; text-decoration: underline; font: 600 11px 'JetBrains Mono', monospace; cursor: pointer; padding: 0">IR-1042 / 1111</button> · <button type="button" onClick="{{demo2}}" style="border: 0; background: none; text-decoration: underline; font: 600 11px 'JetBrains Mono', monospace; cursor: pointer; padding: 0">IR-1030 / 4444</button></span>
+</form>
+</div>
+</section>
+
+<sc-if value="{{found}}" hint-placeholder-val="{{ true }}">
+<section class="pop" style="padding: 0 0 96px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="background: #fff; border: 1px solid #111418; display: flex; flex-wrap: wrap">
+<div style="flex: 2 1 420px; padding: 24px; border-right: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; color: #5B636D">{{o.id}} · {{o.date}}</span><b style="font-size: 26px">{{o.title}}</b><span style="color: #3E4650">{{o.spec}}</span></div>
+<div style="flex: 1 1 220px; padding: 24px; border-right: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; color: #5B636D; text-transform: uppercase">Current stage</span><b style="font-size: 22px">{{o.stageName}}</b><span class="mono" style="font-size: 12px">{{o.pct}}% done</span></div>
+<div style="flex: 1 1 220px; padding: 24px; display: flex; flex-direction: column; gap: 6px; background: {{o.etaBg}}"><span class="mono" style="font-size: 12px; text-transform: uppercase">{{o.etaLabel}}</span><b style="font-size: 26px">{{o.eta}}</b><span class="mono" style="font-size: 12px">{{o.etaSub}}</span></div>
+</div>
+
+<div style="background: #fff; border: 1px solid #111418; padding: 28px; display: flex; flex-direction: column; gap: 24px">
+<div style="position: relative; height: 6px; background: #E3E7EB"><span class="fill" style="position: absolute; left: 0; top: 0; bottom: 0; background: #111418; width: {{o.pct}}%"></span></div>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0">
+<sc-for list="{{stages}}" as="s" hint-placeholder-count="6">
+<li style="display: flex; flex-direction: column; gap: 8px; padding-right: 12px">
+<span class="{{s.cls}}" style="{{s.dot}}">{{s.mark}}</span>
+<b style="font-size: 15px; line-height: 1.2">{{s.t}}</b>
+<span class="mono" style="font-size: 11px; color: #5B636D">{{s.d}}</span>
+</li>
+</sc-for>
+</ol>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+<div style="flex: 2 1 520px; background: #fff; border: 1px solid #111418; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<b style="font-size: 20px">History</b>
+<sc-for list="{{log}}" as="l" hint-placeholder-count="4">
+<div style="display: flex; gap: 14px; align-items: flex-start; border-bottom: 1px solid #E3E7EB; padding-bottom: 12px"><span class="mono" style="font-size: 12px; color: #5B636D; min-width: 96px">{{l.d}}</span><span style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 15px">{{l.t}}</b><span style="font-size: 14px; color: #3E4650">{{l.n}}</span></span></div>
+</sc-for>
+</div>
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 16px">
+<div style="background: #111418; color: #EEF0F2; border: 1px solid #111418; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: {{accent}}">Account manager</span>
+<b style="font-size: 20px">[A. Manager]</b>
+<a href="tel:+998000000000" class="mono" style="color: #fff; font-size: 14px">+998 [__] ___-__-__</a>
+<a href="#" class="btn" style="background: {{accent}}; color: #111418; border: 1px solid #111418; padding: 14px; font-weight: 700; text-align: center">Get notifications in Telegram</a>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Documents</span>
+<sc-for list="{{docs}}" as="d" hint-placeholder-count="3"><span style="{{d.style}}"><span>{{d.t}}</span><span class="mono" style="font-size: 12px">{{d.s}}</span></span></sc-for>
+</div>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<footer style="background: #111418; color: #A9B0B8; padding: 40px 0">
+<div class="mono" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 13px"><span style="color: #fff; font-weight: 600">INTER ROLL</span><span style="display: flex; flex-wrap: wrap; gap: 18px"><a href="/en/ishlar" style="color: #A9B0B8; text-decoration: none">Projects</a><a href="/en/video" style="color: #A9B0B8; text-decoration: none">Video</a><a href="/en/blog" style="color: #A9B0B8; text-decoration: none">Blog</a><a href="/en/tanlash-ustasi" style="color: #A9B0B8; text-decoration: none">Selection wizard</a><a href="/en/kuzatish" style="color: #A9B0B8; text-decoration: none">Order tracking</a></span><span>© 2026 Inter Roll LLC</span></div>
+</footer>
+</div>
+</template>
+<script>
+/* Inter Roll — mini runtime: renders a Design Component template without any framework. */
+(function () {
+  'use strict';
+  var TABLE_MAP = { 'x-table': 'table', 'x-thead': 'thead', 'x-tbody': 'tbody', 'x-tr': 'tr', 'x-th': 'th', 'x-td': 'td' };
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g;
+  var WHOLE = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/;
+
+  function lookup(path, scope) {
+    path = path.trim();
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    if (path === 'null') return null;
+    if (/^-?\d+(\.\d+)?$/.test(path)) return parseFloat(path);
+    if (/^'.*'$|^".*"$/.test(path)) return path.slice(1, -1);
+    var parts = path.split('.');
+    var v = scope;
+    for (var i = 0; i < parts.length; i++) {
+      if (v == null) return undefined;
+      v = v[parts[i]];
+    }
+    return v;
+  }
+  function interp(str, scope) {
+    return str.replace(HOLE, function (_, p) { var v = lookup(p, scope); return v == null ? '' : String(v); });
+  }
+  function evalAttr(val, scope) {
+    var m = WHOLE.exec(val);
+    if (m) return lookup(m[1], scope);
+    if (val.indexOf('{{') >= 0) return interp(val, scope);
+    return val;
+  }
+
+  function eventName(attr, el) {
+    var n = attr.slice(2);
+    if (n === 'change') {
+      var tag = el.localName, type = (el.getAttribute && el.getAttribute('type')) || '';
+      if (tag === 'textarea' || (tag === 'input' && ['checkbox', 'radio', 'file'].indexOf(type) < 0)) return 'input';
+      return 'change';
+    }
+    return n;
+  }
+
+  function createFrom(tpl) {
+    var name = tpl.localName;
+    if (tpl.namespaceURI === SVG_NS) return document.createElementNS(SVG_NS, tpl.localName);
+    return document.createElement(TABLE_MAP[name] || name);
+  }
+
+  function renderNodes(tplParent, scope, out) {
+    var kids = tplParent.childNodes;
+    for (var i = 0; i < kids.length; i++) renderNode(kids[i], scope, out);
+    return out;
+  }
+
+  function renderNode(t, scope, out) {
+    if (t.nodeType === 3) {
+      var s = t.nodeValue;
+      out.push(document.createTextNode(s.indexOf('{{') >= 0 ? interp(s, scope) : s));
+      return;
+    }
+    if (t.nodeType !== 1) return;
+    var name = t.localName;
+    if (name === 'sc-for') {
+      var list = evalAttr(t.getAttribute('list') || '', scope) || [];
+      var as = t.getAttribute('as') || 'item';
+      for (var k = 0; k < list.length; k++) {
+        var sub = Object.create(scope);
+        sub[as] = list[k];
+        sub.$index = k;
+        renderNodes(t, sub, out);
+      }
+      return;
+    }
+    if (name === 'sc-if') {
+      if (evalAttr(t.getAttribute('value') || '', scope)) renderNodes(t, scope, out);
+      return;
+    }
+    var el = createFrom(t);
+    var handlers = {};
+    var props = {};
+    for (var a = 0; a < t.attributes.length; a++) {
+      var at = t.attributes[a];
+      var an = at.name;
+      if (an.indexOf('hint-') === 0) continue;
+      if (an.length > 2 && an.slice(0, 2) === 'on') {
+        var fn = evalAttr(at.value, scope);
+        if (typeof fn === 'function') handlers[eventName(an, t)] = fn;
+        continue;
+      }
+      var v = evalAttr(at.value, scope);
+      if (an === 'checked') { props.checked = !!v; if (v) el.setAttribute('checked', ''); continue; }
+      if (an === 'value' && (el.localName === 'input' || el.localName === 'textarea' || el.localName === 'select')) { props.value = v == null ? '' : String(v); el.setAttribute('value', props.value); continue; }
+      if (v === false || v == null) continue;
+      if (v === true) v = '';
+      if (typeof v === 'object' || typeof v === 'function') continue;
+      if (at.namespaceURI) el.setAttributeNS(at.namespaceURI, an, String(v));
+      else el.setAttribute(an, String(v));
+    }
+    el.__h = handlers;
+    el.__p = props;
+    var children = renderNodes(t.content || t, scope, []);
+    for (var c = 0; c < children.length; c++) el.appendChild(children[c]);
+    out.push(el);
+  }
+
+  function bindHandlers(el) {
+    if (!el.__bound) el.__bound = {};
+    var h = el.__h || {};
+    Object.keys(h).forEach(function (ev) {
+      if (!el.__bound[ev]) {
+        el.__bound[ev] = true;
+        el.addEventListener(ev, function (e) { var f = el.__h && el.__h[ev]; if (f) f(e); });
+      }
+    });
+  }
+  function applyProps(el) {
+    var p = el.__p || {};
+    if ('checked' in p && el.checked !== p.checked) el.checked = p.checked;
+    if ('value' in p && el.value !== p.value) {
+      if (el.localName === 'select') { el.value = p.value; }
+      else if (document.activeElement !== el || el.type === 'range') el.value = p.value;
+    }
+  }
+  function same(a, b) {
+    if (a.nodeType !== b.nodeType) return false;
+    if (a.nodeType === 3) return true;
+    return a.localName === b.localName && a.namespaceURI === b.namespaceURI;
+  }
+  function patchEl(oldEl, newEl) {
+    var oa = oldEl.attributes, na = newEl.attributes, i;
+    var isCanvas = oldEl.localName === 'canvas';
+    for (i = oa.length - 1; i >= 0; i--) {
+      var nm = oa[i].name;
+      // canvas width/height are set by the animation code, not the template — keep them,
+      // otherwise the bitmap resets to 300x150 and gets stretched (blurry, oversized mesh)
+      if (isCanvas && (nm === 'width' || nm === 'height')) continue;
+      if (!newEl.hasAttribute(nm)) oldEl.removeAttribute(nm);
+    }
+    for (i = 0; i < na.length; i++) { if (oldEl.getAttribute(na[i].name) !== na[i].value) oldEl.setAttribute(na[i].name, na[i].value); }
+    oldEl.__h = newEl.__h; oldEl.__p = newEl.__p;
+    bindHandlers(oldEl);
+    if (oldEl.localName !== 'canvas') patchChildren(oldEl, Array.prototype.slice.call(newEl.childNodes));
+    applyProps(oldEl);
+  }
+  function prepare(node) {
+    if (node.nodeType !== 1) return;
+    bindHandlers(node);
+    for (var c = node.firstChild; c; c = c.nextSibling) prepare(c);
+    applyProps(node);
+  }
+  function patchChildren(parent, list) {
+    var i = 0;
+    for (; i < list.length; i++) {
+      var cur = parent.childNodes[i];
+      var nw = list[i];
+      if (!cur) { prepare(nw); parent.appendChild(nw); continue; }
+      if (same(cur, nw)) {
+        if (cur.nodeType === 3) { if (cur.nodeValue !== nw.nodeValue) cur.nodeValue = nw.nodeValue; }
+        else patchEl(cur, nw);
+      } else { prepare(nw); parent.replaceChild(nw, cur); }
+    }
+    while (parent.childNodes.length > list.length) parent.removeChild(parent.lastChild);
+  }
+
+  function DCLogic(props) { this.props = props || {}; this.state = {}; }
+  DCLogic.prototype.setState = function (patch, cb) {
+    var p = typeof patch === 'function' ? patch(this.state, this.props) : patch;
+    if (p) this.state = Object.assign({}, this.state, p);
+    if (this.__schedule) this.__schedule();
+    if (cb) cb();
+  };
+  DCLogic.prototype.forceUpdate = function () { if (this.__schedule) this.__schedule(); };
+  window.DCLogic = DCLogic;
+
+  function demoToast(msg) {
+    var t = document.createElement('div');
+    t.setAttribute('role', 'status');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:9999;background:#111418;color:#fff;border:1px solid #111418;box-shadow:5px 5px 0 #F5B700;padding:14px 20px;font:600 14px "JetBrains Mono",monospace;transition:opacity .4s';
+    document.body.appendChild(t);
+    setTimeout(function () { t.style.opacity = '0'; }, 2400);
+    setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 2900);
+  }
+  // ---- Forms → POST /leads (Laravel). Inputs have no name attributes, so fields are
+  // recognised by type / placeholder / label text. Component state (cart, configurator,
+  // wizard answers) is attached as JSON payload so managers see what was chosen.
+  function meta(n) { var m = document.querySelector('meta[name="' + n + '"]'); return m ? m.getAttribute('content') : ''; }
+  var LANG = ((document.documentElement.lang || 'ru').slice(0, 2).toLowerCase());
+  if (['uz', 'ru', 'en', 'tr'].indexOf(LANG) < 0) LANG = 'ru';
+  var T = {
+    ru: { ok: '✓ Заявка отправлена. Мы свяжемся с вами.', phone: 'Укажите номер телефона', err: 'Не удалось отправить. Позвоните нам.', anon: 'С сайта' },
+    uz: { ok: "✓ So'rov yuborildi. Tez orada bog'lanamiz.", phone: 'Telefon raqamini kiriting', err: "Yuborib bo'lmadi. Iltimos, qo'ng'iroq qiling.", anon: 'Saytdan' },
+    en: { ok: '✓ Request sent. We will contact you shortly.', phone: 'Please enter your phone number', err: 'Could not send. Please call us.', anon: 'Website' },
+    tr: { ok: '✓ Talebiniz gönderildi. En kısa sürede size ulaşacağız.', phone: 'Lütfen telefon numaranızı girin', err: 'Gönderilemedi. Lütfen bizi arayın.', anon: 'Web sitesi' }
+  }[LANG];
+
+  function safeState() {
+    try {
+      var st = window.__dc && window.__dc.state ? window.__dc.state : null;
+      if (!st) return null;
+      var json = JSON.stringify(st, function (k, v) {
+        if (typeof v === 'function') return undefined;
+        if (v && typeof v === 'object' && (v.nodeType || v === window)) return undefined;
+        return v;
+      });
+      return json && json.length < 20000 ? json : null;
+    } catch (err) { return null; }
+  }
+
+  function collect(f) {
+    var fd = new FormData(), name = '', phone = '', company = '', email = '', msg = [];
+    // A form for one product (data-lead-product) turns its sized fields (data-lead-option) into an item.
+    var product = f.getAttribute('data-lead-product'), item = product ? { code: product, qty: 1, options: {} } : null;
+    var els = f.querySelectorAll('input, textarea, select');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i], type = (el.getAttribute('type') || '').toLowerCase();
+      if (type === 'file') { for (var j = 0; j < el.files.length; j++) fd.append('attachments[]', el.files[j]); continue; }
+      // Structured data the page prepares for the CRM, e.g. <input type="hidden" data-lead="items" value="[...]">
+      if (el.hasAttribute('data-lead')) { if (el.value) fd.append(el.getAttribute('data-lead'), el.value); continue; }
+      if (item && el.hasAttribute('data-lead-option')) {
+        var key = el.getAttribute('data-lead-option'), val = String(el.value || '').trim();
+        if (key === 'qty') item.qty = Math.max(1, parseInt(val.replace(/[^0-9]/g, ''), 10) || 1);
+        else if (val) item.options[key] = val;
+        continue;
+      }
+      if (type === 'submit' || type === 'button' || type === 'hidden') continue;
+      if ((type === 'checkbox' || type === 'radio') && !el.checked) continue;
+      var v = String(el.value || '').trim();
+      if (!v) continue;
+      var ph = (el.getAttribute('placeholder') || '').toLowerCase();
+      var lab = el.closest('label') ? el.closest('label').textContent.toLowerCase() : '';
+      if (type === 'tel' || /telefon|телефон|phone|\+998/.test(ph)) { phone = phone || v; continue; }
+      if (type === 'email' || /e-?mail|e-?posta|почта/.test(ph + ' ' + lab)) { email = email || v; continue; }
+      if (/^(ism|ismingiz|имя|ваше имя|name|your name|ad\b|adınız)/.test(ph)) { name = name || v; continue; }
+      if (/korxona|kompaniya|компани|организац|предприят|company|şirket/.test(ph + ' ' + lab)) { company = company || v; continue; }
+      var title = el.closest('label') ? el.closest('label').firstChild && String(el.closest('label').firstChild.textContent || '').trim() : '';
+      msg.push({ title: title || el.getAttribute('placeholder') || '', value: v });
+    }
+    fd.append('name', name || company || T.anon);
+    fd.append('phone', phone);
+    if (company) fd.append('company', company);
+    if (email) fd.append('email', email);
+    // One free-text field goes as is; several are labelled so the manager knows which is which.
+    if (msg.length) fd.append('message', msg.length === 1 ? msg[0].value : msg.map(function (m) { return (m.title ? m.title + ': ' : '') + m.value; }).join('\n'));
+    if (item && !fd.has('items')) fd.append('items', JSON.stringify([item]));
+    fd.append('type', meta('ir-lead-type') || 'quote');
+    fd.append('locale', LANG);
+    fd.append('source', location.pathname + location.search);
+    var st = safeState();
+    if (st) fd.append('payload', st);
+    return { fd: fd, phone: phone };
+  }
+
+  document.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target;
+    var hasOwnUi = !!(f.__h && f.__h.submit);
+    if (meta('ir-lead-type') === 'none' || f.hasAttribute('data-no-lead')) {
+      if (!hasOwnUi) demoToast(T.ok);
+      return;
+    }
+    var data = collect(f);
+    if (!data.phone) { demoToast(T.phone); return; }
+    fetch('/leads', {
+      method: 'POST',
+      headers: { 'X-CSRF-TOKEN': meta('csrf-token'), 'Accept': 'application/json' },
+      body: data.fd,
+      credentials: 'same-origin'
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (!hasOwnUi) demoToast(T.ok);
+      try { f.reset(); } catch (err) { }
+    }).catch(function () { demoToast(T.err); });
+  }, true);
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#"]') : null;
+    if (a) e.preventDefault();
+  });
+
+  // Data injected by Laravel (catalog, product). Static demo: placeholder stays → null.
+  window.__IR = (function () {
+    var el = document.getElementById('ir-data');
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (err) { return null; }
+  })();
+
+  window.__mountDC = function (Component, defaults) {
+    var tpl = document.getElementById('dc-template');
+    var root = document.getElementById('app');
+    var props = {};
+    Object.keys(defaults || {}).forEach(function (k) { if (k.charAt(0) !== '$' && defaults[k] && 'default' in defaults[k]) props[k] = defaults[k].default; });
+    var inst = new Component(props);
+    if (!inst.state) inst.state = {};
+    var pending = false;
+    function render() {
+      pending = false;
+      var vals = inst.renderVals ? inst.renderVals() : {};
+      var nodes = renderNodes(tpl.content, vals, []);
+      patchChildren(root, nodes);
+    }
+    inst.__schedule = function () {
+      if (pending) return;
+      pending = true;
+      (window.requestAnimationFrame || setTimeout)(render);
+    };
+    render();
+    if (inst.componentDidMount) inst.componentDidMount();
+    window.addEventListener('pagehide', function () { if (inst.componentWillUnmount) inst.componentWillUnmount(); });
+    window.__dc = inst;
+  };
+})();
+
+</script>
+<script>
+
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { code: 'IR-1042', pin: '1111', shown: 'IR-1042', err: false, shakeK: 0 }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() { this.startMesh(); }
+  componentWillUnmount() {
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state;
+    const orders = {
+      'IR-1042': { pin: '1111', id: 'IR-1042', date: '14.10.2026', title: 'Polyurethane roller × 4', spec: 'PU · 90 Shore A · Ø120 × L800 mm · coating 12 mm', stage: 2, eta: '[__].10.2026', log: [['14.10 09:12', 'Request received', 'Via product page'], ['14.10 09:20', 'Engineer approved', 'Material and hardness approved'], ['14.10 11:05', "Cores being prepared", 'Cleaning and adhesive layer'], ['14.10 14:30', 'In the casting shop', 'Batch [____]']] },
+      'IR-1030': { pin: '4444', id: 'IR-1030', date: '10.10.2026', title: 'Press roller × 2', spec: 'PU · 95 Shore A · Ø180 × L1200 mm', stage: 5, eta: 'Ready', log: [['10.10 14:30', 'Request received', 'Quote request'], ['11.10 10:00', 'Casting', 'Batch [____]'], ['12.10 16:00', 'Grinding', "Size Ø180 ± [_]"], ['13.10 11:20', 'Quality control — PASSED', 'Report No. [____]'], ['13.10 15:00', 'Ready to ship', 'Pickup or delivery']] }
+    };
+    const o = orders[st.shown] || orders['IR-1042'];
+    const names = ['Accepted', 'Engineering', 'Casting', 'Machining', 'Quality control', 'Ready'];
+    const pct = Math.round((o.stage / 5) * 100);
+    const done = o.stage >= 5;
+    return {
+      accent,
+      code: st.code, pin: st.pin,
+      setCode: (e) => this.setState({ code: e.target.value.toUpperCase(), err: false }),
+      setPin: (e) => this.setState({ pin: e.target.value.replace(/\D/g, '').slice(0, 4), err: false }),
+      find: (e) => { if (e && e.preventDefault) e.preventDefault(); const f = orders[st.code.trim()]; if (f && f.pin === st.pin) this.setState({ shown: f.id, err: false }); else this.setState({ err: true, shakeK: st.shakeK + 1 }); },
+      demo1: () => this.setState({ code: 'IR-1042', pin: '1111', shown: 'IR-1042', err: false }),
+      demo2: () => this.setState({ code: 'IR-1030', pin: '4444', shown: 'IR-1030', err: false }),
+      err: st.err,
+      formStyle: 'flex:1 1 420px;background:#fff;border:1px solid #111418;box-shadow:8px 8px 0 #111418;padding:24px;display:flex;flex-direction:column;gap:14px;' + (st.err ? 'animation:irShake .35s ease ' + (st.shakeK % 2 ? '' : '0s') : ''),
+      found: !!orders[st.shown],
+      o: Object.assign({}, o, { stageName: names[o.stage], pct, etaLabel: done ? 'Status' : 'Estimated completion', etaSub: done ? 'Ready for pickup' : '[__] working days left', etaBg: done ? accent : '#fff' }),
+      stages: names.map((t, i) => {
+        const past = i < o.stage, cur = i === o.stage;
+        return { t, d: past ? 'Done' : (cur ? (done ? 'Done' : 'Currently here') : 'Pending'), mark: past || (cur && done) ? '✓' : '0' + (i + 1), cls: cur && !done ? 'pulse' : '', dot: 'width:40px;height:40px;display:flex;align-items:center;justify-content:center;font:700 14px JetBrains Mono,monospace;border:1px solid #111418;' + (past || (cur && done) ? 'background:#111418;color:' + accent : (cur ? 'background:' + accent + ';color:#111418' : 'background:#fff;color:#8A939D')) };
+      }),
+      log: o.log.slice().reverse().map(([d, t, n]) => ({ d, t, n })),
+      docs: [['Commercial offer', o.stage >= 1 ? 'PDF ↓' : 'pending', o.stage >= 1], ['Test report', o.stage >= 5 ? 'PDF ↓' : 'After QC', o.stage >= 5], ['Invoice', o.stage >= 5 ? 'PDF ↓' : 'at dispatch', o.stage >= 5]].map(([t, s, ok]) => ({ t, s, style: 'display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid ' + (ok ? '#111418' : '#E3E7EB') + ';' + (ok ? 'font-weight:700' : 'color:#8A939D') }))
+    };
+  }
+}
+
+window.__mountDC(Component, {"accent": {"editor": "color", "default": "#F5B700", "options": ["#F5B700", "#FF7A1A", "#7BC043"]}, "bgMotion": {"editor": "boolean", "default": true}, "$preview": {"width": 1440, "height": 1800}});
+</script>
+</body>
+</html>

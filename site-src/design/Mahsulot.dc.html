@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Poliuretan valik</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F1EE}
+a{color:#16181B;text-decoration:none}a:hover{color:#C2410C}
+.ph{background:repeating-linear-gradient(135deg,#D9D7D2 0 12px,#CFCCC6 12px 24px);display:flex;align-items:flex-end;padding:14px;box-sizing:border-box;color:#3B3E44;font:500 13px 'IBM Plex Sans',sans-serif}
+input,textarea{font:400 16px 'IBM Plex Sans',sans-serif;border:1px solid #C9C6BF;background:#fff;padding:13px 15px;border-radius:4px;width:100%;box-sizing:border-box}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid #E2E0DB;font-size:15px}
+th{color:#5A5E66;font-weight:500;width:45%}
+</style>
+</helmet>
+<div style="font-family: 'IBM Plex Sans', sans-serif; color: #16181B; background: #F2F1EE">
+
+<header style="background: #16181B; color: #F2F1EE">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; min-height: 76px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #F2F1EE"><span aria-hidden="true" style="width: 36px; height: 36px; background: #F28C28; display: flex; align-items: center; justify-content: center; font: 700 15px Unbounded, sans-serif; color: #16181B">IR</span><span style="font: 700 18px Unbounded, sans-serif; letter-spacing: 0.04em">INTER ROLL</span></a>
+<nav aria-label="Asosiy menyu" style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 15px">
+<a href="Katalog.dc.html" style="color: #F28C28">Mahsulotlar</a><a href="#" style="color: #F2F1EE">Xizmatlar</a><a href="Zavod.dc.html" style="color: #F2F1EE">Zavod haqida</a><a href="#" style="color: #F2F1EE">Loyihalar</a><a href="#" style="color: #F2F1EE">Aloqa</a>
+</nav>
+<a href="#" style="background: #F28C28; color: #16181B; padding: 12px 20px; border-radius: 4px; font-weight: 600; font-size: 14px">Narx so'rash</a>
+</div>
+</header>
+
+<div style="max-width: 1240px; margin: 0 auto; padding: 40px 24px 96px; display: flex; flex-direction: column; gap: 40px">
+<div style="font-size: 14px; color: #5A5E66"><a href="Main.dc.html" style="color: #5A5E66">Bosh sahifa</a> / <a href="Katalog.dc.html" style="color: #5A5E66">Valiklar va g'ildiraklar</a> / Poliuretan valik</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="ph" style="height: 520px; border-radius: 4px; background-color: #fff">[Asosiy fotosurat — tayyor valik]</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<div class="ph" style="height: 110px; border-radius: 4px; outline: 2px solid #16181B">[1]</div>
+<div class="ph" style="height: 110px; border-radius: 4px">[2]</div>
+<div class="ph" style="height: 110px; border-radius: 4px">[3]</div>
+<div class="ph" style="height: 110px; border-radius: 4px">[Chizma]</div>
+</div>
+</div>
+
+<div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 26px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 14px; color: #5A5E66">Artikul: [IR-V01] · Ishlab chiqaruvchi: Inter Roll</div>
+<h1 style="margin: 0; font: 700 40px/1.12 Unbounded, sans-serif">Poliuretan valik</h1>
+<p style="margin: 0; color: #5A5E66; font-size: 17px; line-height: 1.6">Metall o'zak ustiga quyilgan poliuretan qoplamali valik. Ishqalanish va yuklamaga chidamli, buyurtma o'lchamida tayyorlanadi. [Qisqa tavsif.]</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 600">Qattiqlik (Shore A)</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{sizes}}" as="s" hint-placeholder-count="4">
+<button onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 600">Qoplama materiali</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button style="background: #16181B; color: #F2F1EE; border: 1px solid #16181B; padding: 12px 18px; border-radius: 4px; font: 600 15px 'IBM Plex Sans', sans-serif">Poliuretan</button>
+<button style="background: #fff; color: #16181B; border: 1px solid #C9C6BF; padding: 12px 18px; border-radius: 4px; font: 600 15px 'IBM Plex Sans', sans-serif">Rezina NBR</button>
+<button style="background: #fff; color: #16181B; border: 1px solid #C9C6BF; padding: 12px 18px; border-radius: 4px; font: 600 15px 'IBM Plex Sans', sans-serif">Rezina EPDM</button>
+</div>
+</div>
+
+<div style="background: #fff; border-radius: 4px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+<span style="font: 700 22px Unbounded, sans-serif">Narxi so'rov bo'yicha</span>
+<span style="font-size: 14px; color: #5A5E66">Hajmga qarab chegirma</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#forma" style="flex: 1 1 200px; text-align: center; background: #F28C28; color: #16181B; padding: 17px; border-radius: 4px; font-weight: 600">Tijoriy taklif olish</a>
+<a href="tel:+998000000000" style="flex: 1 1 160px; text-align: center; border: 1px solid #16181B; padding: 16px; border-radius: 4px; font-weight: 600">Qo'ng'iroq qilish</a>
+</div>
+</div>
+
+<a href="#" style="display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 15px">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15l3 3 3-3"/></svg>
+Texnik pasport (PDF)
+</a>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 56px">
+<section style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font: 700 28px Unbounded, sans-serif">Texnik xususiyatlar</h2>
+<table style="width: 100%; border-collapse: collapse; background: #fff; border-radius: 4px">
+<tbody>
+<tr><th>Diametr</th><td>Ø [__] – [___] mm</td></tr>
+<tr><th>Ishchi uzunlik</th><td>[____] mm gacha</td></tr>
+<tr><th>Qoplama qalinligi</th><td>[__] – [__] mm</td></tr>
+<tr><th>Qattiqlik</th><td>70 – 95 Shore A</td></tr>
+<tr><th>Ishchi harorat</th><td>[__] °C gacha</td></tr>
+<tr><th>O'zak</th><td>Po'lat / mijoz o'zagi</td></tr>
+<tr><th>Qo'llanilishi</th><td>Konveyer, press, poligrafiya, metall prokat</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="forma" style="flex: 1 1 400px; min-width: 0; background: #16181B; color: #F2F1EE; border-radius: 4px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font: 700 24px Unbounded, sans-serif">Shu mahsulotga narx so'rash</h2>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600">Telefon<input type="tel" placeholder="+998"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600">Soni<input type="text" placeholder="dona"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600">O'lcham va izoh<textarea rows="2" placeholder="Diametr, uzunlik, qattiqlik yoki chizma"></textarea></label>
+<button type="submit" style="background: #F28C28; color: #16181B; border: 0; padding: 17px; border-radius: 4px; font: 600 16px 'IBM Plex Sans', sans-serif">So'rov yuborish</button>
+</section>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2100}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { s: '90 A' }; }
+  renderVals() {
+    const on = 'background:#16181B;color:#F2F1EE;border:1px solid #16181B;padding:12px 18px;border-radius:4px;font:600 15px IBM Plex Sans,sans-serif;min-height:44px';
+    const off = 'background:#fff;color:#16181B;border:1px solid #C9C6BF;padding:12px 18px;border-radius:4px;font:600 15px IBM Plex Sans,sans-serif;min-height:44px';
+    return {
+      sizes: ['70 A', '80 A', '90 A', '95 A'].map((l) => ({ label: l, style: this.state.s === l ? on : off, pick: () => this.setState({ s: l }) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

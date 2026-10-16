@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Главная (RU)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}a:hover{color:#111418}
+.ph{background:repeating-linear-gradient(135deg,#DCE0E4 0 12px,#D2D7DC 12px 24px);display:flex;align-items:flex-end;padding:14px;box-sizing:border-box;color:#3E4650;font:400 12px 'JetBrains Mono',monospace}
+.mono{font-family:'JetBrains Mono',monospace}
+@keyframes irspin{from{transform:rotateX(0deg)}to{transform:rotateX(-360deg)}}
+.spin{animation:irspin 9s linear infinite}
+@keyframes irfloor{from{background-position:0 0}to{background-position:0 64px}}
+.floor{background-image:linear-gradient(#B9C0C8 1px,transparent 1px),linear-gradient(90deg,#B9C0C8 1px,transparent 1px);background-size:64px 64px;animation:irfloor 2.4s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%)}
+@keyframes irmarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marq{display:flex;width:max-content;animation:irmarq 28s linear infinite}
+@keyframes irA{from{opacity:0;transform:translateY(28px) rotate(-1deg)}to{opacity:1;transform:none}}
+@keyframes irB{from{opacity:0;transform:translateY(28px) rotate(1deg)}to{opacity:1;transform:none}}
+@keyframes irbarA{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes irbarB{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.rv{transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),clip-path 1.2s cubic-bezier(.7,0,.2,1)}
+.card{transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{transform:translate(-6px,-6px);box-shadow:6px 6px 0 #111418}
+.card:hover .ph{background-size:200% 200%}
+.row{transition:padding .35s ease,background-color .35s ease}
+.row:hover{padding-left:20px !important;padding-right:20px !important;background-color:var(--acc)}
+.row .arr{transition:transform .35s ease}
+.row:hover .arr{transform:translateX(10px)}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+@media (prefers-reduced-motion: reduce){.spin,.floor,.marq{animation:none}.rv{transition:none}}
+input,textarea{font:400 16px Archivo,sans-serif;border:1px solid #111418;background:#fff;padding:14px 16px;color:#111418;width:100%;box-sizing:border-box;border-radius:0;transition:box-shadow .2s}
+input:focus,textarea:focus{outline:none;box-shadow:4px 4px 0 #111418}
+</style>
+</helmet>
+<div style="font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; --acc: {{accent}}">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="background: #fff; border-bottom: 1px solid #111418; position: sticky; top: 0; z-index: 40">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#" style="display: flex; align-items: center; gap: 12px">
+<svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.5" style="{{logoSpin}}"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+<span style="font-weight: 800; font-size: 20px; letter-spacing: 0.03em">INTER ROLL</span>
+</a>
+<nav aria-label="Главное меню" class="mono" style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 14px; text-transform: uppercase">
+<a href="Katalog-G.dc.html">Продукция</a><a href="Qoplash-G.dc.html">Перефутеровка</a><a href="Zavod-G.dc.html">Завод</a><a href="Aloqa-G.dc.html">Контакты</a>
+</nav>
+<div class="mono" style="display: flex; align-items: center; gap: 16px; font-size: 14px">
+<a href="Variant-Birlashgan.dc.html" style="color: #5B636D">UZ</a><a href="Variant-RU.dc.html" style="font-weight: 600; border-bottom: 2px solid {{accent}}">RU</a>
+<a href="#chizma" class="btn" style="background: {{accent}}; padding: 13px 18px; font-weight: 600; text-transform: uppercase; border: 1px solid #111418">Отправить чертёж</a>
+</div>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 0; bottom: -1px; height: 3px; background: #111418; width: {{progress}}%"></div>
+</header>
+
+<section data-shape="roller" onMouseMove="{{move}}" onMouseLeave="{{leave}}" style="border-bottom: 1px solid #111418; position: relative; overflow: hidden; background: radial-gradient(ellipse at 60% 35%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 70%)">
+<div aria-hidden="true" style="position: absolute; left: {{sx}}%; top: {{sy}}%; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%; background: radial-gradient(circle, rgba(245,183,0,0.30), rgba(245,183,0,0) 65%); pointer-events: none; transition: left 0.12s ease-out, top 0.12s ease-out"></div>
+<div aria-hidden="true" style="position: absolute; top: 0; bottom: 0; right: -40px; width: 62%; perspective: 1400px; pointer-events: none">
+<div style="{{rollerWrap}}">
+<div style="{{tilt}}">
+<div class="spin" style="position: absolute; left: 0; top: 0; width: 560px; height: 0; transform-style: preserve-3d; transform-origin: 280px 0">
+<sc-for list="{{shaft}}" as="f" hint-placeholder-count="12"><div style="{{f.style}}"></div></sc-for>
+<sc-for list="{{faces}}" as="f" hint-placeholder-count="32"><div style="{{f.style}}"></div></sc-for>
+<sc-for list="{{caps}}" as="f" hint-placeholder-count="2"><div style="{{f.style}}"></div></sc-for>
+</div>
+</div>
+<div style="position: absolute; left: -260px; top: 190px; width: 520px; height: 44px; border-radius: 50%; background: radial-gradient(ellipse, rgba(17,20,24,0.28), rgba(17,20,24,0) 70%)"></div>
+<div class="mono" style="position: absolute; left: -200px; top: 250px; width: 400px; text-align: center; font-size: 12px; color: #3E4650; text-transform: uppercase">Ø120 × L800 · PU 90 Sh A</div>
+</div>
+</div>
+<div style="max-width: 1280px; margin: 0 auto; padding: 96px 24px; min-height: 560px; box-sizing: border-box; display: flex; align-items: center; position: relative; z-index: 2">
+<div style="flex: 0 1 620px; min-width: 0; display: flex; flex-direction: column; gap: 28px; {{heroPar}}">
+<div class="mono rv" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; {{h0}}">[01] — Полиуретан · Резина · Узбекистан</div>
+<h1 class="rv" style="margin: 0; font-weight: 800; font-size: 68px; line-height: 1; letter-spacing: -0.03em; {{h1}}">Вал. Колесо. Деталь.<br><span style="background: {{accent}}; padding: 0 8px">По вашему чертежу.</span></h1>
+<p class="rv" style="margin: 0; font-size: 19px; line-height: 1.6; color: #3E4650; max-width: 540px; {{h2}}">Отливаем и обрабатываем полиуретановые и резиновые детали для промышленного оборудования, восстанавливаем покрытие изношенных валов.</p>
+<div class="rv" style="display: flex; flex-wrap: wrap; gap: 12px; {{h3}}">
+<a href="Katalog-G.dc.html" class="btn" style="background: #111418; color: #fff; padding: 18px 28px; font-weight: 700; border: 1px solid #111418">Каталог →</a>
+<a href="#chizma" class="btn" style="border: 1px solid #111418; background: #fff; padding: 17px 28px; font-weight: 700">Рассчитать цену</a>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-label="Технические возможности" style="background: #111418; color: #EEF0F2; overflow: hidden">
+<div class="mono marq" style="padding: 22px 0; font-size: 14px; text-transform: uppercase; gap: 56px">
+<span>Твёрдость: [__]–[__] Shore A</span><span style="color: {{accent}}">●</span><span>Диаметр: Ø [__]–[___] мм</span><span style="color: {{accent}}">●</span><span>Длина: до [____] мм</span><span style="color: {{accent}}">●</span><span>Срок: от [__] дней</span><span style="color: {{accent}}">●</span><span>Полиуретан · Резина · Силикон</span><span style="color: {{accent}}">●</span>
+<span aria-hidden="true">Твёрдость: [__]–[__] Shore A</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">Диаметр: Ø [__]–[___] мм</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">Длина: до [____] мм</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">Срок: от [__] дней</span><span aria-hidden="true" style="color: {{accent}}">●</span><span aria-hidden="true">Полиуретан · Резина · Силикон</span><span aria-hidden="true" style="color: {{accent}}">●</span>
+</div>
+</section>
+
+<section id="hikoya" aria-label="Продукция" style="position: relative; border-bottom: 1px solid #111418">
+<div onMouseEnter="{{holdOn}}" onMouseLeave="{{holdOff}}" style="position: relative; height: 760px; overflow: hidden; background: radial-gradient(ellipse at 66% 50%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 62%)">
+<canvas data-bg="1" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block"></canvas>
+<div style="position: absolute; inset: 0; pointer-events: none">
+<div style="max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 24px; box-sizing: border-box; position: relative">
+<div class="mono" style="position: absolute; right: 24px; top: 28px; display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #111418; padding: 9px 14px; font-size: 13px; text-transform: uppercase"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: {{accent}}"></span>{{stepChip}}</div>
+<div style="position: absolute; left: 24px; top: 50%; transform: translateY(-50%); width: min(460px, calc(100% - 48px)); display: flex; flex-direction: column; gap: 18px">
+<div class="mono" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em">[03] — Что мы производим</div>
+<div style="display: flex; align-items: center; gap: 18px">
+<span style="font-weight: 800; font-size: 88px; line-height: 1; letter-spacing: -0.04em; min-width: 120px">{{stepNum}}</span>
+<span aria-hidden="true" style="flex: 1; height: 2px; background: #D2D7DC; position: relative"><span style="{{barStyle}}"></span></span>
+<span class="mono" style="font-size: 13px; color: #5B636D">/ 05</span>
+</div>
+<div style="position: relative; height: 230px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+<div style="{{s.style}}">
+<h3 style="margin: 0; font-weight: 800; font-size: 38px; line-height: 1.05; letter-spacing: -0.02em">{{s.t}}</h3>
+<p style="margin: 0; color: #3E4650; font-size: 17px; line-height: 1.6">{{s.d}}</p>
+<span class="mono" style="font-size: 13px; text-transform: uppercase; border-left: 4px solid {{accent}}; padding-left: 12px">{{s.spec}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; pointer-events: auto">
+<button onClick="{{prev}}" aria-label="Предыдущий продукт" class="btn" style="width: 44px; height: 44px; border: 1px solid #111418; background: #fff; font: 700 18px Archivo, sans-serif; cursor: pointer">←</button>
+<sc-for list="{{dots}}" as="b" hint-placeholder-count="5">
+<button onClick="{{b.pick}}" aria-label="{{b.label}}" style="{{b.style}}">{{b.n}}</button>
+</sc-for>
+<button onClick="{{next}}" aria-label="Следующий продукт" class="btn" style="width: 44px; height: 44px; border: 1px solid #111418; background: #111418; color: #fff; font: 700 18px Archivo, sans-serif; cursor: pointer">→</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="soha" data-shape="wheel" data-rv="s2" style="padding: 96px 0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 36px">
+<div class="mono rv" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; {{a0}}">[02] — Подбор по отрасли</div>
+<h2 class="rv" style="margin: 0; font-weight: 800; font-size: 44px; letter-spacing: -0.02em; {{a1}}">Что нужно вашей отрасли?</h2>
+<div class="rv" style="display: flex; flex-wrap: wrap; gap: 0; border: 1px solid #111418; background: #fff; {{a2}}">
+<sc-for list="{{inds}}" as="i" hint-placeholder-count="5">
+<button onClick="{{i.pick}}" style="{{i.style}}">{{i.label}}</button>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+<sc-for list="{{shown}}" as="p" hint-placeholder-count="3">
+<div class="rv" style="{{p.rv}}">
+<a href="#" class="card" style="{{p.anim}}">
+<div class="ph" style="height: 200px; border-bottom: 1px solid #111418">[{{p.name}}]</div>
+<div style="padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span class="mono" style="font-size: 12px; color: #5B636D">{{p.code}}</span>
+<span style="font-weight: 700; font-size: 20px">{{p.name}}</span>
+<span style="color: #3E4650; line-height: 1.5">{{p.desc}}</span>
+<span class="mono" style="margin-top: 8px; font-size: 13px; font-weight: 600">ЦЕНА — ПО ЗАПРОСУ →</span>
+</div>
+</a>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section data-shape="star" data-rv="s3" style="background: rgba(255,255,255,0.72); border-top: 1px solid #111418; border-bottom: 1px solid #111418; padding: 96px 0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 36px">
+<div class="mono rv" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; {{b0}}">[04] — Все направления</div>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="6">
+<a href="#" class="row rv" style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding: 22px 0; border-top: 1px solid #111418; {{c.rv}}">
+<span class="mono" style="width: 64px; font-size: 14px">{{c.n}}</span>
+<span style="flex: 1 1 300px; font-weight: 800; font-size: 28px; letter-spacing: -0.01em">{{c.name}}</span>
+<span style="flex: 1 1 320px; color: #3E4650">{{c.desc}}</span>
+<span aria-hidden="true" class="arr" style="font-size: 24px">→</span>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="qoplash" data-shape="spring" data-rv="s4" style="padding: 96px 0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div class="mono rv" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; {{c0}}">[05] — Перефутеровка</div>
+<h2 class="rv" style="margin: 0; font-weight: 800; font-size: 44px; line-height: 1.05; letter-spacing: -0.02em; {{c1}}">Не выбрасывайте старый вал</h2>
+<p class="rv" style="margin: 0; color: #3E4650; font-size: 17px; line-height: 1.6; {{c2}}">Снимаем изношенное покрытие и заливаем на металлический сердечник новый полиуретан или резину. Дешевле и быстрее нового вала.</p>
+<ol class="mono" style="margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 14px">
+<li class="rv" style="border-left: 4px solid {{accent}}; padding-left: 14px; {{c3}}">01 Снятие старого покрытия</li>
+<li class="rv" style="border-left: 4px solid {{accent}}; padding-left: 14px; {{c4}}">02 Подготовка сердечника и адгезионный слой</li>
+<li class="rv" style="border-left: 4px solid {{accent}}; padding-left: 14px; {{c5}}">03 Заливка, шлифовка, контроль размеров</li>
+</ol>
+</div>
+<div style="flex: 1 1 560px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border: 1px solid #111418; overflow: hidden">
+<div class="ph rv" style="height: 360px; border-right: 1px solid #111418; {{c6}}">[ДО — изношенный вал]</div>
+<div class="ph rv" style="height: 360px; {{c7}}">[ПОСЛЕ — новое покрытие]</div>
+</div>
+</div>
+</section>
+
+<section id="chizma" data-rv="s5" style="background: {{accent}}; border-top: 1px solid #111418; padding: 88px 0; overflow: hidden">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div class="mono rv" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; {{d0}}">[06] — Запрос цены</div>
+<h2 class="rv" style="margin: 0; font-weight: 800; font-size: 48px; line-height: 1.02; letter-spacing: -0.02em; {{d1}}">Пришлите чертёж или фото — рассчитаем цену</h2>
+<p class="mono rv" style="margin: 0; font-size: 14px; {{d2}}">+998 [__] ___-__-__ · Telegram @[interroll]</p>
+</div>
+<form class="rv" style="flex: 1 1 520px; min-width: 0; background: #fff; border: 1px solid #111418; padding: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; box-shadow: 10px 10px 0 #111418; {{d3}}">
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Компания / имя<input type="text" placeholder="Имя"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Телефон<input type="tel" placeholder="+998"></label>
+<label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Чертёж, фото или PDF
+<span style="border: 1px dashed #111418; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; font-weight: 400; background: #F6F7F8">
+<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
+<span>Перетащите файл сюда или выберите</span>
+<input type="file" style="border: 0; padding: 0; background: transparent; width: auto">
+</span>
+</label>
+<label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Комментарий<textarea rows="2" placeholder="Диаметр, длина, твёрдость, количество"></textarea></label>
+<button type="submit" class="btn" style="grid-column: 1 / -1; background: #111418; color: #fff; border: 1px solid #111418; padding: 18px; font: 700 16px Archivo, sans-serif">Отправить запрос →</button>
+</form>
+</div>
+</section>
+
+<footer style="background: #111418; color: #A9B0B8; padding: 40px 0">
+<div class="mono" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 13px">
+<span style="color: #fff; font-weight: 600">INTER ROLL</span><span style="display: flex; flex-wrap: wrap; gap: 18px"><a href="Portfolio-G.dc.html" style="color: #A9B0B8; text-decoration: none">Проекты</a><a href="Video-G.dc.html" style="color: #A9B0B8; text-decoration: none">Видео</a><a href="Blog-G.dc.html" style="color: #A9B0B8; text-decoration: none">Блог</a><a href="Usta-G.dc.html" style="color: #A9B0B8; text-decoration: none">Подбор детали</a><a href="Kuzatish-G.dc.html" style="color: #A9B0B8; text-decoration: none">Статус заказа</a></span><span>© 2026 ООО «Inter Roll»</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":4700}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { ind: 'metal', flip: false, mx: 0, my: 0, scr: 0, prog: 0, vis: {}, ready: false, step: 0, sp: 0, hold: false, bflip: false }; }
+  goStep(i) {
+    this.elapsed = 0;
+    this.swirl = 1;
+    this.setState({ step: (i + 5) % 5, bflip: !this.state.bflip });
+  }
+  startBg() {
+    const cv = document.querySelector('canvas[data-bg]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const N = 900, R = 140, TAU = Math.PI * 2, DWELL = 4500;
+    let W = 0, H = 0, last = 0;
+    this.elapsed = 0; this.swirl = 0;
+    const m = { x: -9999, y: -9999, on: false };
+    const line = (ax, ay, bx, by) => (u) => [ax + (bx - ax) * u, ay + (by - ay) * u];
+    const ell = (cx, cy, rx, ry) => (u) => [cx + Math.cos(u * TAU) * rx, cy + Math.sin(u * TAU) * ry];
+    const disc = (cx, cy, r0, r1) => () => { const a = Math.random() * TAU, r = Math.sqrt(r0 * r0 + Math.random() * (r1 * r1 - r0 * r0)); return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; };
+    const sample = (prims) => {
+      const tot = prims.reduce((s, p) => s + p[0], 0), out = [];
+      prims.forEach((p, k) => {
+        const c = k === prims.length - 1 ? N - out.length : Math.round(N * p[0] / tot);
+        for (let i = 0; i < c; i++) out.push(p[1]((i + 0.5) / c));
+      });
+      return out.slice(0, N);
+    };
+    const shapes = [
+      sample([
+        [2, line(-1, -0.42, 1, -0.42)], [2, line(-1, 0.42, 1, 0.42)],
+        [1.1, ell(-1, 0, 0.13, 0.42)], [1.1, ell(1, 0, 0.13, 0.42)],
+        [3, () => [-1 + Math.random() * 2, -0.4 + Math.random() * 0.8]],
+        [0.35, line(-1.35, -0.07, -1.13, -0.07)], [0.35, line(-1.35, 0.07, -1.13, 0.07)],
+        [0.35, line(1.13, -0.07, 1.35, -0.07)], [0.35, line(1.13, 0.07, 1.35, 0.07)]
+      ]),
+      sample([
+        [5, disc(0, 0, 0.74, 0.96)], [2, ell(0, 0, 0.74, 0.74)], [1.2, disc(0, 0, 0.1, 0.24)],
+        [0.5, line(0.24, 0, 0.74, 0)], [0.5, line(-0.24, 0, -0.74, 0)],
+        [0.5, line(0.12, 0.21, 0.37, 0.64)], [0.5, line(-0.12, -0.21, -0.37, -0.64)],
+        [0.5, line(-0.12, 0.21, -0.37, 0.64)], [0.5, line(0.12, -0.21, 0.37, -0.64)]
+      ]),
+      sample([
+        [5, () => { const a = Math.random() * TAU, rr = 0.62 + 0.3 * Math.cos(6 * a); const r = Math.sqrt(0.08 + Math.random() * 0.92) * rr; return [Math.cos(a) * r, Math.sin(a) * r]; }],
+        [1.4, ell(0, 0, 0.18, 0.18)]
+      ]),
+      sample([
+        [7, (u) => { const a = u * TAU * 6.5; return [-1 + 2 * u, 0.5 * Math.sin(a) + (Math.random() - 0.5) * 0.06]; }],
+        [0.6, line(-1.05, -0.5, -1.05, 0.5)], [0.6, line(1.05, -0.5, 1.05, 0.5)]
+      ]),
+      sample([
+        [5, disc(0, 0, 0.72, 0.98)], [2.2, disc(0, 0, 0.18, 0.42)], [1, line(0, -0.98, 0, -0.42)]
+      ])
+    ];
+    const ps = [];
+    for (let i = 0; i < N; i++) ps.push({ x: Math.random() * 1200, y: Math.random() * 760, vx: 0, vy: 0, ph: Math.random() * TAU, acc: i % 4 === 0 });
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    this.onMoveBg = (e) => { const b = cv.getBoundingClientRect(); m.x = e.clientX - b.left; m.y = e.clientY - b.top; m.on = m.x >= 0 && m.y >= 0 && m.x <= b.width && m.y <= b.height; };
+    this.onLeaveBg = () => { m.on = false; };
+    this.onDownBg = (e) => {
+      const b = cv.getBoundingClientRect(); const x = e.clientX - b.left, y = e.clientY - b.top;
+      if (x < 0 || y < 0 || x > b.width || y > b.height) return;
+      if (e.target && e.target.closest && e.target.closest('button,a')) return;
+      for (const p of ps) { const dx = p.x - x, dy = p.y - y, d = Math.sqrt(dx * dx + dy * dy) || 1; if (d < 320) { const f = 1 - d / 320; p.vx += (dx / d) * f * 24; p.vy += (dy / d) * f * 24; } }
+    };
+    this.onResizeBg = resize;
+    window.addEventListener('mousemove', this.onMoveBg, { passive: true });
+    window.addEventListener('mousedown', this.onDownBg);
+    document.addEventListener('mouseleave', this.onLeaveBg);
+    window.addEventListener('resize', resize);
+    resize();
+    let cur = this.state.step;
+    const frame = (t) => {
+      const dt = last ? Math.min(64, t - last) : 16; last = t;
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (cv.clientWidth !== W || cv.clientHeight !== H) resize();
+      const b = cv.getBoundingClientRect();
+      const inView = b.bottom > 0 && b.top < (window.innerHeight || 800);
+      if (motion && inView && !this.state.hold) { this.elapsed += dt; if (this.elapsed >= DWELL) this.goStep(this.state.step + 1); }
+      if (this.state.step !== cur) {
+        cur = this.state.step;
+        for (const q of ps) { q.vx += (Math.random() - 0.5) * 10; q.vy += (Math.random() - 0.5) * 10; }
+      }
+      this.swirl *= 0.965;
+      const shape = shapes[cur];
+      const wide = W > 900;
+      const cx = wide ? W * 0.66 : W * 0.5, cy = wide ? H * 0.5 : H * 0.7;
+      const S = Math.min(wide ? W * 0.2 : W * 0.36, H * (wide ? 0.34 : 0.2));
+      const yaw = motion ? Math.sin(time * 0.0005) * 0.95 : 0.35;
+      const cy3 = Math.cos(yaw), sy3 = Math.sin(yaw);
+      const rot = motion ? Math.sin(time * 0.0003) * 0.1 : 0;
+      const cr = Math.cos(rot), sr = Math.sin(rot);
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < N; i++) {
+        const q = ps[i]; const s = shape[i];
+        const sx = s[0] * cr - s[1] * sr, sy = s[0] * sr + s[1] * cr;
+        const z = sx * sy3;
+        let tx = cx + sx * cy3 * S, ty = cy + sy * S;
+        if (motion) { tx += Math.sin(time * 0.002 + q.ph) * 1.3; ty += Math.cos(time * 0.0017 + q.ph) * 1.3; }
+        q.vx += (tx - q.x) * 0.014; q.vy += (ty - q.y) * 0.014;
+        if (this.swirl > 0.02) {
+          const dx = q.x - cx, dy = q.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          q.vx += (-dy / d) * this.swirl * 1.6; q.vy += (dx / d) * this.swirl * 1.6;
+        }
+        let near = 0;
+        if (m.on) {
+          const dx = q.x - m.x, dy = q.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) { near = 1 - d / R; q.vx += (dx / d) * near * near * 5; q.vy += (dy / d) * near * near * 5; }
+        }
+        q.vx *= 0.86; q.vy *= 0.86; q.x += q.vx; q.y += q.vy;
+        const spd = Math.min(1, Math.sqrt(q.vx * q.vx + q.vy * q.vy) / 6);
+        const depth = 1 + z * 0.35;
+        const k = Math.max(near, q.acc ? 0.9 : 0);
+        const rC = Math.round(30 + (ar - 30) * k), gC = Math.round(36 + (ag - 36) * k), bC = Math.round(44 + (ab - 44) * k);
+        ctx.fillStyle = 'rgba(' + rC + ',' + gC + ',' + bC + ',' + Math.min(0.95, (0.42 + z * 0.22 + spd * 0.3 + near * 0.15)).toFixed(2) + ')';
+        ctx.beginPath(); ctx.arc(q.x, q.y, Math.max(0.6, (1.5 + near * 1.8 + spd * 0.8) * depth), 0, TAU); ctx.fill();
+      }
+      this.bgRaf = requestAnimationFrame(frame);
+    };
+    this.bgRaf = requestAnimationFrame(frame);
+  }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() {
+    this.startMesh();
+    this.startBg();
+    this.raf = 0;
+    this.onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = 0;
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        this.setState({ scr: y, prog: Math.min(100, (y / max) * 100) });
+      });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    const keys = ['s2', 's3', 's4', 's5'];
+    if (!('IntersectionObserver' in window)) {
+      const v = {}; keys.forEach((k) => { v[k] = true; }); this.setState({ vis: v, ready: true }); return;
+    }
+    this.io = new IntersectionObserver((entries) => {
+      const v = Object.assign({}, this.state.vis); let changed = false;
+      entries.forEach((e) => { const k = e.target.getAttribute('data-rv'); if (e.isIntersecting && !v[k]) { v[k] = true; changed = true; } });
+      if (changed) this.setState({ vis: v });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('[data-rv]').forEach((el) => this.io.observe(el));
+    setTimeout(() => this.setState({ ready: true }), 60);
+  }
+  componentWillUnmount() {
+    if (this.io) this.io.disconnect();
+    window.removeEventListener('scroll', this.onScroll);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.bgRaf) cancelAnimationFrame(this.bgRaf);
+    if (this.onMoveBg) window.removeEventListener('mousemove', this.onMoveBg);
+    if (this.onLeaveBg) document.removeEventListener('mouseleave', this.onLeaveBg);
+    if (this.onResizeBg) window.removeEventListener('resize', this.onResizeBg);
+    if (this.onDownBg) window.removeEventListener('mousedown', this.onDownBg);
+    if (this.onScrollBg) window.removeEventListener('scroll', this.onScrollBg);
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const { mx, my, scr, vis, ready } = this.state;
+    const ease = 'cubic-bezier(.2,.7,.2,1)';
+    const rv = (on, kind, d) => {
+      const base = 'transition-delay:' + (d || 0) + 'ms;';
+      if (on) return base + 'opacity:1;transform:none;clip-path:inset(0 0 0 0)';
+      if (kind === 'left') return base + 'opacity:0;transform:translateX(-70px)';
+      if (kind === 'right') return base + 'opacity:0;transform:translateX(70px)';
+      if (kind === 'scale') return base + 'opacity:0;transform:scale(.9) rotate(-1.5deg)';
+      if (kind === 'clip') return base + 'opacity:1;clip-path:inset(0 100% 0 0)';
+      if (kind === 'clipUp') return base + 'opacity:1;clip-path:inset(100% 0 0 0)';
+      return base + 'opacity:0;transform:translateY(48px)';
+    };
+    const L = 560, r = 120, n = 32, h = Math.ceil(2 * Math.PI * r / n) + 1;
+    const faces = [];
+    for (let i = 0; i < n; i++) {
+      const op = i % 8 === 0 ? 0.32 : (i % 2 ? 0.07 : 0);
+      faces.push({ style: 'position:absolute;left:0;top:' + (-h / 2) + 'px;width:' + L + 'px;height:' + h + 'px;transform:rotateX(' + (i * 360 / n) + 'deg) translateZ(' + r + 'px);backface-visibility:hidden;background:linear-gradient(rgba(17,20,24,' + op + '),rgba(17,20,24,' + op + ')),' + accent });
+    }
+    const sr = 30, sn = 12, sh = Math.ceil(2 * Math.PI * sr / sn) + 1, SL = L + 180;
+    const shaft = [];
+    for (let i = 0; i < sn; i++) {
+      shaft.push({ style: 'position:absolute;left:-90px;top:' + (-sh / 2) + 'px;width:' + SL + 'px;height:' + sh + 'px;transform:rotateX(' + (i * 360 / sn) + 'deg) translateZ(' + sr + 'px);backface-visibility:hidden;background:' + (i % 2 ? '#2A3038' : '#4A535E') });
+    }
+    const cap = (dx) => ({ style: 'position:absolute;left:' + (L / 2 - r) + 'px;top:' + (-r) + 'px;width:' + (2 * r) + 'px;height:' + (2 * r) + 'px;border-radius:50%;background:radial-gradient(circle,#4A535E 0 22%,#1D2228 23% 30%,' + accent + ' 31% 100%);box-shadow:inset 0 0 0 2px rgba(17,20,24,0.35);transform:translateX(' + dx + 'px) rotateY(90deg)' });
+    const s = Math.min(scr, 900);
+    const tilt = 'position:absolute;left:-280px;top:0;width:560px;height:0;transform-style:preserve-3d;transform-origin:280px 0;transition:transform 0.25s ease-out;transform:rotateY(' + (-28 + mx * 50 + s * 0.05) + 'deg) rotateX(' + (12 - my * 30 + s * 0.04) + 'deg)';
+    const rollerWrap = 'position:absolute;left:50%;top:50%;width:0;height:0;transform:translateY(' + Math.round(s * 0.35) + 'px) scale(' + (1 - s * 0.0004).toFixed(3) + ')';
+    const data = {
+      metal: [
+        { code: 'IR-V03', name: 'Прокатные и прессовые валы', desc: "Выдерживают высокую нагрузку и трение." },
+        { code: 'IR-P01', name: "Скребковые пластины", desc: "Для очистки ленты и конвейера." },
+        { code: 'IR-S01', name: 'Пружины для штампов', desc: "Полиуретан вместо металлических пружин." }
+      ],
+      print: [
+        { code: 'IR-V05', name: "Красочные и офсетные валы", desc: "Резина, стойкая к краскам и растворителям." },
+        { code: 'IR-V06', name: "Ролики протяжки бумаги", desc: "Равномерная твёрдость, точный диаметр." },
+        { code: 'IR-K01', name: 'Перефутеровка валов', desc: "Новый слой на старом сердечнике." }
+      ],
+      food: [
+        { code: 'IR-V07', name: 'Конвейерные ролики', desc: "[Материал с допуском к пищевому контакту]." },
+        { code: 'IR-P02', name: 'Очищающие ножи', desc: "Для очистки лент и ёмкостей." },
+        { code: 'IR-M01', name: 'Звёздочки муфт', desc: "Для насосов и редукторов." }
+      ],
+      auto: [
+        { code: 'IR-A01', name: 'Втулки амортизаторов', desc: "Полиуретановые втулки подвески." },
+        { code: 'IR-A02', name: 'Резиновые подушки', desc: "Опоры двигателя и кузова." },
+        { code: 'IR-X01', name: 'Специальные детали', desc: "По чертежу или образцу." }
+      ],
+      log: [
+        { code: 'IR-G01', name: "Полиуретановые колёса", desc: "Для тележек и погрузчиков." },
+        { code: 'IR-G02', name: 'Бандажи', desc: "Заливка на металлический диск." },
+        { code: 'IR-R01', name: "Направляющие ролики", desc: "С подшипником, под размер заказа." }
+      ]
+    };
+    const labels = [['metal', 'Металлургия'], ['print', 'Полиграфия'], ['food', 'Пищевая'], ['auto', 'Автомобильная'], ['log', 'Склад и логистика']];
+    const base = 'flex:1 1 180px;min-height:56px;border:0;border-right:1px solid #111418;padding:16px 20px;font:700 16px Archivo,sans-serif;text-align:left;cursor:pointer;transition:background .25s,color .25s;';
+    const animName = this.state.flip ? 'irA' : 'irB';
+    const cats = [
+      { n: '/01', name: "Валы и колёса", desc: 'Для конвейеров, прессов, линий' },
+      { n: '/02', name: 'Обрезинивание валов', desc: 'Восстановление покрытия старых валов' },
+      { n: '/03', name: "Пластины и скребки", desc: "Полиуретановые листы, ножи" },
+      { n: '/04', name: 'Муфты и пружины', desc: 'Звёздочки, вставки, пружины штампов' },
+      { n: '/05', name: 'Автодетали', desc: 'Втулки и подушки' },
+      { n: '/06', name: 'Специальные детали', desc: "Любая деталь по чертежу" }
+    ];
+    const v2 = !!vis.s2, v3 = !!vis.s3, v4 = !!vis.s4, v5 = !!vis.s5;
+    return {
+      accent,
+      faces, shaft, caps: [cap(-L / 2), cap(L / 2)], tilt, rollerWrap,
+      floor: 'position:absolute;inset:0;transform-origin:50% 100%;transition:transform 0.35s ease-out;transform:rotateX(' + (66 - my * 8) + 'deg) rotateZ(' + (mx * -6) + 'deg) translateX(' + Math.round(mx * -80) + 'px)',
+      sx: Math.round((mx + 0.5) * 100), sy: Math.round((my + 0.5) * 100),
+      heroPar: 'transform:translateY(' + Math.round(s * 0.25) + 'px);opacity:' + Math.max(0, 1 - s / 700).toFixed(2),
+      h0: rv(ready, 'up', 0), h1: rv(ready, 'up', 120), h2: rv(ready, 'up', 240), h3: rv(ready, 'up', 360),
+      progress: this.state.prog.toFixed(1),
+      logoSpin: 'transform:rotate(' + Math.round(scr * 0.4) + 'deg);transition:transform .2s linear',
+      move: (e) => { const b = e.currentTarget.getBoundingClientRect(); this.setState({ mx: (e.clientX - b.left) / b.width - 0.5, my: (e.clientY - b.top) / b.height - 0.5 }); },
+      leave: () => this.setState({ mx: 0, my: 0 }),
+      stepNum: '0' + (this.state.step + 1),
+      barStyle: 'position:absolute;left:0;top:0;height:2px;background:#111418;width:100%;transform-origin:0 50%;animation:' + (this.state.bflip ? 'irbarA' : 'irbarB') + ' 4.5s linear forwards;animation-play-state:' + (this.state.hold ? 'paused' : 'running'),
+      prev: () => this.goStep(this.state.step - 1),
+      next: () => this.goStep(this.state.step + 1),
+      holdOn: () => this.setState({ hold: true }),
+      holdOff: () => this.setState({ hold: false }),
+      dots: ['Вал', 'Колесо', 'Муфта', 'Пружина', 'Спец'].map((l, i) => ({ n: '0' + (i + 1), label: l, pick: () => this.goStep(i), style: 'min-width:44px;height:44px;padding:0 12px;border:1px solid #111418;font:600 13px JetBrains Mono,monospace;cursor:pointer;transition:background .2s,color .2s;' + (i === this.state.step ? 'background:' + accent + ';color:#111418' : 'background:#fff;color:#111418') })),
+      stepChip: ['Вал', 'Колесо', 'Муфта', 'Пружина', 'Спецдеталь'][this.state.step] + ' · 0' + (this.state.step + 1) + '/05',
+      steps: [
+        { t: 'Полиуретановые валы', d: "Для конвейеров, прессов и прокатных линий. Отливаем на металлический сердечник или восстанавливаем старый.", spec: 'Ø [__]–[___] мм · 70–95 Shore A' },
+        { t: "Колёса и бандажи", d: "Для тележек, погрузчиков и рольгангов. Полиуретановый бандаж заливается на металлический диск.", spec: 'Ø [__]–[___] мм · нагрузка до [___] кг' },
+        { t: 'Звёздочки муфт', d: "Эластичные звёздочки и вставки для муфт насосов, редукторов и двигателей.", spec: '[__] стандартных размеров' },
+        { t: 'Пружины для штампов', d: "Полиуретан вместо металлической пружины: бесшумно, долговечно, бережёт штамп.", spec: 'Ø [__]–[__] мм · 80–95 Shore A' },
+        { t: 'Деталь по чертежу', d: "Нет в каталоге? Пришлите чертёж, образец или изношенную деталь — отольём точно такую же.", spec: 'Срок: от [__] дней' }
+      ].map((s, i) => Object.assign({}, s, { style: 'position:absolute;left:0;top:0;right:0;display:flex;flex-direction:column;gap:14px;transition:opacity .5s ' + ease + ',transform .6s ' + ease + ';opacity:' + (i === this.state.step ? 1 : 0) + ';transform:translateY(' + (i === this.state.step ? 0 : (i < this.state.step ? -30 : 30)) + 'px)' })),
+      a0: rv(v2, 'up', 0), a1: rv(v2, 'up', 100), a2: rv(v2, 'right', 200),
+      inds: labels.map(([k, l]) => ({ label: l, style: base + (this.state.ind === k ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418'), pick: () => this.setState({ ind: k, flip: !this.state.flip }) })),
+      shown: data[this.state.ind].map((p, i) => Object.assign({}, p, {
+        rv: rv(v2, 'up', 300 + i * 140),
+        anim: 'background:#fff;border:1px solid #111418;display:flex;flex-direction:column;height:100%;animation:' + animName + ' .6s ' + ease + ' ' + (i * 90) + 'ms both'
+      })),
+      b0: rv(v3, 'up', 0),
+      cats: cats.map((c, i) => Object.assign({}, c, { rv: rv(v3, 'left', 120 + i * 90) })),
+      c0: rv(v4, 'up', 0), c1: rv(v4, 'up', 100), c2: rv(v4, 'up', 200), c3: rv(v4, 'left', 320), c4: rv(v4, 'left', 420), c5: rv(v4, 'left', 520),
+      c6: rv(v4, 'clip', 200), c7: rv(v4, 'clipUp', 650),
+      d0: rv(v5, 'up', 0), d1: rv(v5, 'up', 120), d2: rv(v5, 'up', 240), d3: rv(v5, 'scale', 200)
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Shore A qattiqlikni qanday tanlash kerak — Inter Roll</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418}
+.mono{font-family:'JetBrains Mono',monospace}
+.ph{background:repeating-linear-gradient(135deg,#E3E7EB 0 12px,#DCE0E4 12px 24px)}
+.prose p{margin:0 0 18px;font-size:18px;line-height:1.7;color:#22262B}
+.prose h2{margin:44px 0 16px;font-weight:800;font-size:32px;line-height:1.1;letter-spacing:-0.02em;scroll-margin-top:96px}
+.prose ul{margin:0 0 18px;padding-left:22px;font-size:18px;line-height:1.7}
+.toc{transition:background .2s,padding .2s}
+.mk{transition:left .35s cubic-bezier(.2,.7,.2,1)}
+input[type=range]{width:100%;accent-color:#111418;height:32px;margin:0}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+@media (prefers-reduced-motion: reduce){.mk,.toc{transition:none}}
+</style>
+</helmet>
+<div style="font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; --acc: {{accent}}">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="background: #fff; border-bottom: 1px solid #111418; position: sticky; top: 0; z-index: 40">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Variant-Birlashgan.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none"><svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.5"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg><span style="font-weight: 800; font-size: 20px; letter-spacing: 0.03em">INTER ROLL</span></a>
+<a href="Blog-G.dc.html" class="mono" style="font-size: 14px; text-transform: uppercase; text-decoration: none">← Blog</a>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 0; bottom: -1px; height: 4px; background: {{accent}}; width: {{prog}}%"></div>
+</header>
+
+<article style="padding: 48px 0 80px">
+<div style="max-width: 1180px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 860px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; display: flex; gap: 12px"><span style="background: {{accent}}; border: 1px solid #111418; padding: 3px 8px">Tanlov</span><span style="padding: 4px 0">6 daqiqa · [Muallif — bosh muhandis]</span></span>
+<h1 style="margin: 0; font-weight: 800; font-size: 60px; line-height: 0.98; letter-spacing: -0.03em">Shore A qattiqlikni qanday tanlash kerak?</h1>
+<p style="margin: 0; color: #3E4650; font-size: 20px; line-height: 1.6">Noto'g'ri qattiqlik — detal tez yeyilishining eng ko'p uchraydigan sababi. Mana tanlash bo'yicha amaliy qo'llanma.</p>
+</div>
+<div class="ph mono" style="height: 380px; border: 1px solid #111418; display: flex; align-items: flex-end; padding: 16px; font-size: 12px; color: #3E4650">[Durometr bilan poliuretan valik qattiqligini o'lchash]</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+<aside aria-label="Mundarija" style="flex: 0 1 260px; position: sticky; top: 100px; display: flex; flex-direction: column; background: #fff; border: 1px solid #111418">
+<span class="mono" style="font-size: 11px; text-transform: uppercase; padding: 12px 14px; border-bottom: 1px solid #111418">Mundarija</span>
+<sc-for list="{{toc}}" as="t" hint-placeholder-count="5"><a href="{{t.href}}" class="toc" style="{{t.style}}">{{t.t}}</a></sc-for>
+</aside>
+
+<div class="prose" style="flex: 1 1 560px; min-width: 0; max-width: 720px">
+<h2 id="nima" data-sec="0">Shore A nima?</h2>
+<p>Shore A — elastik materiallar (rezina, poliuretan) qattiqligini o'lchash shkalasi. Asbob — durometr — igna bilan materialga bosadi va qanchalik botganini o'lchaydi. Natija 0 dan 100 gacha: son qancha katta bo'lsa, material shuncha qattiq.</p>
+<p>Qattiqlik detalning qanday ishlashini belgilaydi: yuzani qanchalik "ushlashi", yuklama ostida shaklini saqlashi, ishqalanishga chidashi va tebranishni so'ndirishi.</p>
+
+<h2 id="shkala" data-sec="1">Shkalani his qiling</h2>
+<p>Raqamlar abstrakt tuyulishi mumkin. Slayderni suring — har bir qattiqlikka tanish narsalar bilan taqqoslang:</p>
+<div style="background: #fff; border: 1px solid #111418; box-shadow: 6px 6px 0 #111418; padding: 24px; margin: 8px 0 28px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span class="mono" style="font-size: 12px; text-transform: uppercase">Interaktiv shkala</span><b style="font-size: 44px; line-height: 1">{{sv}} <span style="font-size: 20px">A</span></b></div>
+<div style="position: relative; height: 18px; background: linear-gradient(90deg, #FFF3C4, {{accent}} 60%, #7A5A00); border: 1px solid #111418">
+<span class="mk" style="position: absolute; top: -8px; width: 4px; height: 34px; background: #111418; left: {{svPos}}%"></span>
+</div>
+<input type="range" min="20" max="98" value="{{sv}}" onChange="{{setSv}}" aria-label="Shore A qiymati">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="border: 1px solid #111418; padding: 14px; background: #F9FAFB"><span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Taxminan o'xshaydi</span><div style="font-weight: 800; font-size: 20px; margin-top: 4px">{{feel}}</div></div>
+<div style="border: 1px solid #111418; padding: 14px; background: {{accent}}"><span class="mono" style="font-size: 11px; text-transform: uppercase">Detallarda qo'llanadi</span><div style="font-weight: 800; font-size: 20px; margin-top: 4px">{{use}}</div></div>
+</div>
+<span class="mono" style="font-size: 11px; color: #5B636D">Taqqoslashlar taxminiy — har bir material uchun aniq qiymat o'lchanadi.</span>
+</div>
+
+<h2 id="xato" data-sec="2">"Qattiqroq — yaxshiroq" degan xato</h2>
+<p>Ko'pchilik uzoq ishlasin deb eng qattiq materialni so'raydi. Lekin juda qattiq valik:</p>
+<ul><li>yuzani yomon ushlaydi va sirpanadi;</li><li>zarbani so'ndirmaydi — podshipniklar va o'zak tezroq yeyiladi;</li><li>poligrafiyada bo'yoqni notekis o'tkazadi.</li></ul>
+<p>Aksincha, juda yumshoq material katta yuklama ostida deformatsiyalanib, qizib ketadi va yorila boshlaydi.</p>
+
+<h2 id="tanlash" data-sec="3">Ish sharoitiga qarab tanlash</h2>
+<p>Umumiy yo'nalish quyidagicha (yakuniy qiymatni muhandis aniqlaydi):</p>
+<ul><li><b>60–75 A</b> — ushlash, bo'yoq o'tkazish, laminatsiya, nozik yuzalar;</li><li><b>80–90 A</b> — konveyer va tortuvchi valiklar, universal ishlar;</li><li><b>92–95 A</b> — press, prokat, katta yuklama va abraziv muhit.</li></ul>
+<p>Harorat, yog' va suv ham muhim: ular materialni tanlashga ta'sir qiladi, qattiqlik esa shu material ichida tanlanadi.</p>
+
+<h2 id="xulosa" data-sec="4">Xulosa</h2>
+<p>To'g'ri qattiqlik — bu muvozanat: ushlash, chidamlilik va yuklama orasida. Ishonchingiz komil bo'lmasa, ish sharoitini yozing — tavsiya beramiz.</p>
+<div style="background: #111418; color: #EEF0F2; padding: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; margin-top: 24px">
+<span style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: {{accent}}">1 daqiqalik test</span><b style="font-size: 24px">Detalingiz uchun tavsiya oling</b></span>
+<a href="Usta-G.dc.html" class="btn" style="background: {{accent}}; color: #111418; border: 1px solid #111418; padding: 16px 22px; font-weight: 700; text-decoration: none">Tanlash ustasi →</a>
+</div>
+</div>
+</div>
+</div>
+</article>
+
+<footer style="background: #111418; color: #A9B0B8; padding: 40px 0">
+<div class="mono" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 13px"><span style="color: #fff; font-weight: 600">INTER ROLL</span><span style="display: flex; flex-wrap: wrap; gap: 18px"><a href="Portfolio-G.dc.html" style="color: #A9B0B8; text-decoration: none">Ishlar</a><a href="Video-G.dc.html" style="color: #A9B0B8; text-decoration: none">Video</a><a href="Blog-G.dc.html" style="color: #A9B0B8; text-decoration: none">Blog</a><a href="Usta-G.dc.html" style="color: #A9B0B8; text-decoration: none">Tanlash ustasi</a><a href="Kuzatish-G.dc.html" style="color: #A9B0B8; text-decoration: none">Buyurtmani kuzatish</a></span><span>© 2026 OOO «Inter Roll»</span></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":3600}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { sv: 85, sec: 0, prog: 0 }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() {
+    this.startMesh();
+    this.raf = 0;
+    this.onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = 0;
+        const y = window.scrollY || 0, max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        let sec = 0;
+        document.querySelectorAll('[data-sec]').forEach((el) => { if (el.getBoundingClientRect().top < window.innerHeight * 0.35) sec = +el.getAttribute('data-sec'); });
+        this.setState({ prog: Math.min(100, (y / max) * 100), sec });
+      });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state, v = st.sv;
+    const ref = [[30, 'Rezina rezinka (tasma)', "Juda yumshoq zichlagichlar"], [45, "O'chirg'ich (lastik)", 'Yumshoq ushlovchi roliklar'], [60, 'Yumshoq poyabzal tagi', "Bo'yoq va laminatsiya valiklari"], [72, 'Avtomobil shinasi', 'Ushlovchi va tortuvchi valiklar'], [82, 'Poyabzal poshnasi', 'Konveyer valiklari, vtulkalar'], [90, 'Qattiq poliuretan g\'ildirak', "G'ildiraklar, qirg'ichlar"], [96, 'Skeytbord g\'ildiragi', 'Press va prokat valiklari, prujinalar']];
+    let r = ref[0]; ref.forEach((x) => { if (v >= x[0] - 6) r = x; });
+    const secs = [['#nima', 'Shore A nima?'], ['#shkala', 'Shkalani his qiling'], ['#xato', '"Qattiqroq — yaxshiroq" xatosi'], ['#tanlash', 'Sharoitga qarab tanlash'], ['#xulosa', 'Xulosa']];
+    return {
+      accent,
+      prog: st.prog.toFixed(1),
+      sv: v, svPos: (((v - 20) / 78) * 100).toFixed(1), setSv: (e) => this.setState({ sv: +e.target.value }),
+      feel: r[1], use: r[2],
+      toc: secs.map(([href, t], i) => ({ href, t, style: 'display:block;padding:12px 14px;border-bottom:1px solid #E3E7EB;font-size:14px;text-decoration:none;color:#111418;' + (st.sec === i ? 'background:' + accent + ';font-weight:700;padding-left:20px' : '') }))
+    };
+  }
+}
+</script>
+</body>
+</html>

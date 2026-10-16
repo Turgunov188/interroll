@@ -1,0 +1,341 @@
+/* ==========================================================================
+   Inter Roll — admin panel theme (Filament 5)
+   Engineering look from the site design: graphite + steel + orange,
+   square corners, 1px ink borders, hard offset shadows, mono labels.
+   Plain CSS, no build step. Loaded after Filament's own styles; this file is
+   not inside a CSS @layer, so it wins over Filament's layered rules.
+   ========================================================================== */
+
+:root {
+    --ir-ink: #111418;
+    --ir-ink-2: #1d2228;
+    --ir-ink-3: #2a3038;
+    --ir-steel: #eef0f2;
+    --ir-bg: #f4f5f7;
+    --ir-line: #c9ced4;
+    --ir-line-soft: #e3e7eb;
+    --ir-muted: #5b636d;
+    --ir-muted-dark: #8a939d;
+    --ir-acc: #f28c00;
+    --ir-acc-soft: #fff3dc;
+    --ir-row-hover: #fff8dc;
+    --ir-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+
+    /* Square everything */
+    --radius-sm: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-xl: 0;
+    --mono-font-family: 'JetBrains Mono';
+}
+
+/* --- Page background: steel with a faint drawing grid ------------------- */
+.fi-body {
+    background-color: var(--ir-bg);
+    background-image:
+        linear-gradient(var(--ir-line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--ir-line-soft) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--ir-ink);
+}
+
+/* --- Sidebar: graphite -------------------------------------------------- */
+.fi-sidebar,
+.fi-sidebar-header,
+.fi-body-has-topbar .fi-sidebar-header {
+    background-color: var(--ir-ink);
+}
+.fi-sidebar {
+    border-inline-end: 1px solid var(--ir-ink);
+}
+.fi-sidebar-header,
+.fi-body-has-topbar .fi-sidebar-header {
+    box-shadow: none;
+    border-bottom: 1px solid var(--ir-ink-3);
+    color: #fff;
+}
+.fi-sidebar-nav {
+    padding-top: 12px;
+}
+.fi-sidebar-group-label {
+    font-family: var(--ir-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ir-muted-dark);
+}
+.fi-sidebar-group-btn .fi-icon,
+.fi-sidebar-group-collapse-btn .fi-icon {
+    color: var(--ir-muted-dark);
+}
+.fi-sidebar-item-btn {
+    border-radius: 0;
+    color: #d6dadf;
+}
+.fi-sidebar-item-btn > .fi-icon {
+    color: var(--ir-muted-dark);
+}
+.fi-sidebar-item-label {
+    color: #d6dadf;
+    font-weight: 500;
+}
+.fi-sidebar-item-btn:hover,
+.fi-sidebar-item-btn:focus-visible {
+    background-color: var(--ir-ink-3);
+}
+.fi-sidebar-item-btn:hover .fi-sidebar-item-label,
+.fi-sidebar-item-btn:hover > .fi-icon {
+    color: #fff;
+}
+/* Active item: orange slab with ink text, like the CRM mockup */
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+    background-color: var(--ir-acc);
+    box-shadow: inset 4px 0 0 var(--ir-ink);
+}
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-label,
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon {
+    color: var(--ir-ink);
+    font-weight: 700;
+}
+.fi-sidebar-item-badge-ctn .fi-badge,
+.fi-sidebar-item .fi-badge {
+    background: var(--ir-acc);
+    color: var(--ir-ink);
+    box-shadow: none;
+    font-family: var(--ir-mono);
+    font-weight: 600;
+}
+.fi-sidebar-item.fi-active .fi-badge {
+    background: var(--ir-ink);
+    color: #fff;
+}
+.fi-sidebar-close-overlay {
+    background-color: rgb(17 20 24 / 0.6);
+}
+
+/* --- Top bar ------------------------------------------------------------ */
+.fi-topbar {
+    background-color: #fff;
+    box-shadow: none;
+    border-bottom: 1px solid var(--ir-ink);
+}
+
+/* --- Brand -------------------------------------------------------------- */
+.ir-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    line-height: 1;
+}
+.ir-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.ir-brand-name {
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.03em;
+}
+.ir-brand-sub {
+    font-family: var(--ir-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--ir-muted-dark);
+}
+.fi-topbar .ir-brand,
+.fi-simple-layout .ir-brand {
+    color: var(--ir-ink);
+}
+.fi-topbar .ir-brand-sub,
+.fi-simple-layout .ir-brand-sub {
+    color: var(--ir-muted);
+}
+
+/* --- Page header -------------------------------------------------------- */
+.fi-header-heading {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+.fi-breadcrumbs,
+.fi-breadcrumbs a,
+.fi-breadcrumbs span {
+    font-family: var(--ir-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* --- Cards: sections, tables, widgets, modals, dropdowns ---------------- */
+.fi-section:not(.fi-section-not-contained),
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat,
+.fi-modal-window,
+.fi-dropdown-panel,
+.fi-fo-repeater-item,
+.fi-fo-key-value,
+.fi-sc-tabs.fi-contained,
+.fi-tabs.fi-contained,
+.fi-wi-chart .fi-section {
+    border-radius: 0;
+    box-shadow: none;
+    outline: 1px solid var(--ir-ink);
+    outline-offset: -1px;
+}
+.fi-section-header-heading {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+.fi-section-header-description {
+    color: var(--ir-muted);
+}
+.fi-modal-window {
+    box-shadow: 8px 8px 0 var(--ir-ink);
+}
+
+/* --- Stats (KPI tiles) --------------------------------------------------- */
+.fi-wi-stats-overview-stat-label {
+    font-family: var(--ir-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ir-muted);
+}
+.fi-wi-stats-overview-stat-value {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+.fi-wi-stats-overview-stat-description {
+    font-family: var(--ir-mono);
+    font-size: 11px;
+}
+
+/* --- Tables --------------------------------------------------------------- */
+.fi-ta-header-cell {
+    font-family: var(--ir-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ir-muted);
+    background-color: #fff;
+}
+.fi-ta-table > thead > tr {
+    border-bottom: 1px solid var(--ir-ink);
+}
+.fi-ta-row:hover,
+.fi-ta-row.fi-clickable:hover {
+    background-color: var(--ir-row-hover);
+}
+.fi-ta-row.fi-selected {
+    background-color: var(--ir-acc-soft);
+}
+
+/* --- Badges: flat mono tags ---------------------------------------------- */
+.fi-badge {
+    border-radius: 0;
+    font-family: var(--ir-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* --- Buttons -------------------------------------------------------------- */
+.fi-btn {
+    border-radius: 0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+/* Primary: orange slab with a hard ink shadow on hover */
+.fi-btn.fi-color-primary:not(.fi-outlined) {
+    background-color: var(--ir-acc);
+    color: var(--ir-ink);
+    box-shadow: inset 0 0 0 1px var(--ir-ink);
+    font-weight: 700;
+}
+.fi-btn.fi-color-primary:not(.fi-outlined) .fi-icon {
+    color: var(--ir-ink);
+}
+.fi-btn.fi-color-primary:not(.fi-outlined):hover {
+    background-color: var(--ir-acc);
+    transform: translate(-2px, -2px);
+    box-shadow: inset 0 0 0 1px var(--ir-ink), 3px 3px 0 var(--ir-ink);
+}
+/* Neutral buttons: white with ink outline */
+.fi-btn:not(.fi-outlined):not(.fi-color),
+.fi-btn.fi-color-gray:not(.fi-outlined) {
+    box-shadow: inset 0 0 0 1px var(--ir-ink);
+}
+
+/* --- Inputs ------------------------------------------------------------- */
+.fi-input-wrp {
+    border-radius: 0;
+    box-shadow: none;
+    outline: 1px solid var(--ir-line);
+    outline-offset: -1px;
+}
+.fi-input-wrp:focus-within {
+    outline: 2px solid var(--ir-ink);
+    outline-offset: -2px;
+}
+.fi-input-wrp.fi-invalid {
+    outline-color: #c9542e;
+}
+.fi-fo-field-label-content {
+    font-weight: 600;
+}
+.fi-checkbox-input,
+.fi-toggle {
+    border-radius: 0;
+}
+
+/* --- Tabs: underline in orange -------------------------------------------- */
+.fi-tabs-item {
+    border-radius: 0;
+}
+.fi-tabs-item.fi-active {
+    background-color: transparent;
+    box-shadow: inset 0 -3px 0 var(--ir-acc);
+}
+.fi-tabs-item.fi-active .fi-tabs-item-label,
+.fi-tabs-item.fi-active > .fi-icon {
+    color: var(--ir-ink);
+}
+
+/* --- Pagination ----------------------------------------------------------- */
+.fi-pagination-item-btn,
+.fi-pagination-items {
+    border-radius: 0;
+}
+
+/* --- Notifications (toasts) ----------------------------------------------- */
+.fi-no-notification {
+    border-radius: 0;
+    outline: 1px solid var(--ir-ink);
+    box-shadow: 5px 5px 0 var(--ir-acc);
+}
+
+/* --- Login page ------------------------------------------------------------ */
+.fi-simple-layout {
+    background-color: var(--ir-ink);
+    background-image:
+        linear-gradient(var(--ir-ink-3) 1px, transparent 1px),
+        linear-gradient(90deg, var(--ir-ink-3) 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+.fi-simple-main {
+    background: #fff;
+    border-radius: 0;
+    outline: 1px solid var(--ir-ink);
+    box-shadow: 10px 10px 0 var(--ir-acc);
+}
+.fi-simple-header-heading {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* --- Reduce motion --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .fi-btn { transition: none; }
+    .fi-btn.fi-color-primary:not(.fi-outlined):hover { transform: none; }
+}

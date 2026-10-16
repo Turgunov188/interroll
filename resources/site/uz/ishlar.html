@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="__CSRF_TOKEN__">
+<meta name="ir-lead-type" content="contact">
+<title>Inter Roll — Bajarilgan ishlar</title>
+<link rel="canonical" href="__BASE__/uz/ishlar">
+<script type="application/json" id="ir-data">__IR_DATA__</script>
+
+<link rel="alternate" hreflang="uz" href="__BASE__/uz/ishlar">
+<link rel="alternate" hreflang="ru" href="__BASE__/ishlar">
+<link rel="alternate" hreflang="en" href="__BASE__/en/ishlar">
+<link rel="alternate" hreflang="tr" href="__BASE__/tr/ishlar">
+<link rel="alternate" hreflang="x-default" href="__BASE__/ishlar">
+<style>
+@font-face{font-family:'Archivo';font-weight:500;font-display:swap;src:url(/fonts/site/archivo-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:700;font-display:swap;src:url(/fonts/site/archivo-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:800;font-display:swap;src:url(/fonts/site/archivo-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:500;font-display:swap;src:url(/fonts/site/archivo-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Archivo';font-weight:700;font-display:swap;src:url(/fonts/site/archivo-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Archivo';font-weight:800;font-display:swap;src:url(/fonts/site/archivo-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:600;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'JetBrains Mono';font-weight:600;font-display:swap;src:url(/fonts/site/jetbrains-mono-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url(/fonts/site/jetbrains-mono-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'JetBrains Mono';font-weight:600;font-display:swap;src:url(/fonts/site/jetbrains-mono-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
+</style>
+
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+.ph{background:repeating-linear-gradient(135deg,#E3E7EB 0 12px,#DCE0E4 12px 24px)}
+@keyframes irA{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes irB{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes irModal{from{opacity:0;transform:translateY(30px) scale(.98)}to{opacity:1;transform:none}}
+.modal{animation:irModal .4s cubic-bezier(.2,.7,.2,1) both}
+.card{transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{transform:translate(-6px,-6px);box-shadow:6px 6px 0 #111418}
+.card:hover .zoom{transform:scale(1.04)}
+.zoom{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+@media (prefers-reduced-motion: reduce){.modal{animation:none}}
+</style>
+
+<style></style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; --acc: {{accent}}">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="background: #fff; border-bottom: 1px solid #111418; position: sticky; top: 0; z-index: 40">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="/uz" style="display: flex; align-items: center; gap: 12px"><svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.5"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg><span style="font-weight: 800; font-size: 20px; letter-spacing: 0.03em">INTER ROLL</span></a>
+<nav aria-label="Asosiy menyu" class="mono" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 14px; text-transform: uppercase"><a href="/uz/katalog">Mahsulotlar</a><a href="/uz/qayta-qoplash">Qayta qoplash</a><a href="/uz/ishlar" style="border-bottom: 2px solid {{accent}}">Ishlar</a><a href="/uz/video">Video</a><a href="/uz/blog">Blog</a><a href="/uz/zavod">Zavod</a><a href="/uz/aloqa">Aloqa</a></nav><span class="mono" style="display: flex; gap: 12px; font-size: 14px"><a href="/uz/ishlar" hreflang="uz" lang="uz" style="font-weight: 600; border-bottom: 2px solid {{accent}}">UZ</a><a href="/ishlar" hreflang="ru" lang="ru" style="color: #5B636D">RU</a><a href="/en/ishlar" hreflang="en" lang="en" style="color: #5B636D">EN</a><a href="/tr/ishlar" hreflang="tr" lang="tr" style="color: #5B636D">TR</a></span>
+</div>
+</header>
+
+<section style="padding: 56px 0 32px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 24px">
+<div class="mono" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em">[ Bajarilgan ishlar ]</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<h1 style="margin: 0; font-weight: 800; font-size: 68px; line-height: 0.95; letter-spacing: -0.03em">Muammo → yechim →<br><span style="background: {{accent}}; padding: 0 8px">natija</span></h1>
+<p style="margin: 0; color: #3E4650; font-size: 17px; line-height: 1.6; max-width: 420px">Har bir keys — haqiqiy buyurtma. Raqamlar mijoz roziligi bilan va zavod ma'lumotlaridan olinadi.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; border: 1px solid #111418; background: #fff; align-self: flex-start">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="6"><button onClick="{{f.pick}}" style="{{f.style}}">{{f.l}} <span class="mono" style="font-size: 11px; opacity: .7">{{f.n}}</span></button></sc-for>
+</div>
+</div>
+</section>
+
+<section style="padding: 0 0 96px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px">
+<sc-for list="{{cases}}" as="c" hint-placeholder-count="6">
+<button onClick="{{c.open}}" class="card" style="{{c.style}}">
+<span style="display: block; overflow: hidden; border-bottom: 1px solid #111418; position: relative">
+<span class="ph zoom mono" style="height: 240px; display: flex; align-items: flex-end; padding: 14px; font-size: 12px; color: #3E4650">[{{c.photo}}]</span>
+<span class="mono" style="position: absolute; left: 14px; top: 14px; background: #fff; border: 1px solid #111418; padding: 5px 9px; font-size: 11px; text-transform: uppercase">{{c.ind}}</span>
+</span>
+<span style="padding: 22px; display: flex; flex-direction: column; gap: 10px; text-align: left">
+<b style="font-size: 22px; line-height: 1.15">{{c.t}}</b>
+<span style="color: #3E4650; font-size: 15px; line-height: 1.5">{{c.short}}</span>
+<span style="display: flex; gap: 12px; border-top: 1px dashed #111418; padding-top: 14px; margin-top: 4px">
+<span style="display: flex; flex-direction: column"><b style="font-size: 26px">{{c.k1}}</b><span class="mono" style="font-size: 11px; color: #5B636D; text-transform: uppercase">{{c.k1l}}</span></span>
+<span style="display: flex; flex-direction: column"><b style="font-size: 26px">{{c.k2}}</b><span class="mono" style="font-size: 11px; color: #5B636D; text-transform: uppercase">{{c.k2l}}</span></span>
+</span>
+<span class="mono" style="font-size: 12px; font-weight: 600">KEYSNI O'QISH →</span>
+</span>
+</button>
+</sc-for>
+</div>
+</section>
+
+<sc-if value="{{open}}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 60; background: rgba(17,20,24,0.55); display: flex; align-items: center; justify-content: center; padding: 24px">
+<button onClick="{{close}}" aria-label="Yopish" style="position: absolute; inset: 0; background: transparent; border: 0; cursor: pointer"></button>
+<div class="modal" role="dialog" aria-label="{{C.t}}" style="position: relative; width: min(1040px, 100%); max-height: 90vh; overflow-y: auto; background: #fff; border: 2px solid #111418; box-shadow: 12px 12px 0 {{accent}}">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 28px; border-bottom: 1px solid #111418; gap: 16px">
+<span style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">{{C.ind}} · {{C.client}}</span><b style="font-size: 32px; line-height: 1.05">{{C.t}}</b></span>
+<button onClick="{{close}}" aria-label="Keysni yopish" style="width: 44px; height: 44px; border: 1px solid #111418; background: #fff; font-size: 22px; cursor: pointer; flex-shrink: 0">×</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid #111418">
+<div class="mono" style="height: 240px; background: repeating-linear-gradient(135deg,#8A939D 0 10px,#7A838D 10px 20px); color: #fff; display: flex; align-items: flex-end; padding: 14px; font-size: 12px; border-right: 1px solid #111418">[OLDIN]</div>
+<div class="mono" style="height: 240px; background: repeating-linear-gradient(135deg,#D9C9A3 0 10px,#CDBB92 10px 20px); display: flex; align-items: flex-end; padding: 14px; font-size: 12px">[KEYIN]</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))">
+<sc-for list="{{C.blocks}}" as="b" hint-placeholder-count="3">
+<div style="padding: 24px 28px; border-right: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 10px"><span class="mono" style="font-size: 12px; text-transform: uppercase; display: flex; gap: 8px; align-items: center"><span style="width: 24px; height: 24px; background: {{b.bg}}; color: {{b.fg}}; border: 1px solid #111418; display: flex; align-items: center; justify-content: center; font-size: 11px">{{b.n}}</span>{{b.h}}</span><span style="line-height: 1.6">{{b.t}}</span></div>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); border-top: 1px solid #111418; background: #111418; color: #EEF0F2">
+<sc-for list="{{C.kpis}}" as="k" hint-placeholder-count="3"><div style="padding: 22px 28px; border-right: 1px solid #2A3038"><b style="font-size: 36px; color: {{accent}}">{{k.v}}</b><div class="mono" style="font-size: 11px; text-transform: uppercase; color: #A9B0B8; margin-top: 4px">{{k.l}}</div></div></sc-for>
+</div>
+<div style="padding: 24px 28px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px">
+<span style="font-weight: 700; font-size: 18px; max-width: 560px">“[Mijozning haqiqiy fikri — tasdiqlangandan keyin joylanadi]”</span>
+<a href="/uz/aloqa" class="btn" style="background: {{accent}}; border: 1px solid #111418; padding: 16px 22px; font-weight: 700">Menga ham shunday kerak →</a>
+</div>
+</div>
+</div>
+</sc-if>
+
+<footer style="background: #111418; color: #A9B0B8; padding: 40px 0">
+<div class="mono" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 13px"><span style="color: #fff; font-weight: 600">INTER ROLL</span><span style="display: flex; flex-wrap: wrap; gap: 18px"><a href="/uz/ishlar" style="color: #A9B0B8; text-decoration: none">Ishlar</a><a href="/uz/video" style="color: #A9B0B8; text-decoration: none">Video</a><a href="/uz/blog" style="color: #A9B0B8; text-decoration: none">Blog</a><a href="/uz/tanlash-ustasi" style="color: #A9B0B8; text-decoration: none">Tanlash ustasi</a><a href="/uz/kuzatish" style="color: #A9B0B8; text-decoration: none">Buyurtmani kuzatish</a></span><span>© 2026 OOO «Inter Roll»</span></div>
+</footer>
+</div>
+</template>
+<script>
+/* Inter Roll — mini runtime: renders a Design Component template without any framework. */
+(function () {
+  'use strict';
+  var TABLE_MAP = { 'x-table': 'table', 'x-thead': 'thead', 'x-tbody': 'tbody', 'x-tr': 'tr', 'x-th': 'th', 'x-td': 'td' };
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g;
+  var WHOLE = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/;
+
+  function lookup(path, scope) {
+    path = path.trim();
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    if (path === 'null') return null;
+    if (/^-?\d+(\.\d+)?$/.test(path)) return parseFloat(path);
+    if (/^'.*'$|^".*"$/.test(path)) return path.slice(1, -1);
+    var parts = path.split('.');
+    var v = scope;
+    for (var i = 0; i < parts.length; i++) {
+      if (v == null) return undefined;
+      v = v[parts[i]];
+    }
+    return v;
+  }
+  function interp(str, scope) {
+    return str.replace(HOLE, function (_, p) { var v = lookup(p, scope); return v == null ? '' : String(v); });
+  }
+  function evalAttr(val, scope) {
+    var m = WHOLE.exec(val);
+    if (m) return lookup(m[1], scope);
+    if (val.indexOf('{{') >= 0) return interp(val, scope);
+    return val;
+  }
+
+  function eventName(attr, el) {
+    var n = attr.slice(2);
+    if (n === 'change') {
+      var tag = el.localName, type = (el.getAttribute && el.getAttribute('type')) || '';
+      if (tag === 'textarea' || (tag === 'input' && ['checkbox', 'radio', 'file'].indexOf(type) < 0)) return 'input';
+      return 'change';
+    }
+    return n;
+  }
+
+  function createFrom(tpl) {
+    var name = tpl.localName;
+    if (tpl.namespaceURI === SVG_NS) return document.createElementNS(SVG_NS, tpl.localName);
+    return document.createElement(TABLE_MAP[name] || name);
+  }
+
+  function renderNodes(tplParent, scope, out) {
+    var kids = tplParent.childNodes;
+    for (var i = 0; i < kids.length; i++) renderNode(kids[i], scope, out);
+    return out;
+  }
+
+  function renderNode(t, scope, out) {
+    if (t.nodeType === 3) {
+      var s = t.nodeValue;
+      out.push(document.createTextNode(s.indexOf('{{') >= 0 ? interp(s, scope) : s));
+      return;
+    }
+    if (t.nodeType !== 1) return;
+    var name = t.localName;
+    if (name === 'sc-for') {
+      var list = evalAttr(t.getAttribute('list') || '', scope) || [];
+      var as = t.getAttribute('as') || 'item';
+      for (var k = 0; k < list.length; k++) {
+        var sub = Object.create(scope);
+        sub[as] = list[k];
+        sub.$index = k;
+        renderNodes(t, sub, out);
+      }
+      return;
+    }
+    if (name === 'sc-if') {
+      if (evalAttr(t.getAttribute('value') || '', scope)) renderNodes(t, scope, out);
+      return;
+    }
+    var el = createFrom(t);
+    var handlers = {};
+    var props = {};
+    for (var a = 0; a < t.attributes.length; a++) {
+      var at = t.attributes[a];
+      var an = at.name;
+      if (an.indexOf('hint-') === 0) continue;
+      if (an.length > 2 && an.slice(0, 2) === 'on') {
+        var fn = evalAttr(at.value, scope);
+        if (typeof fn === 'function') handlers[eventName(an, t)] = fn;
+        continue;
+      }
+      var v = evalAttr(at.value, scope);
+      if (an === 'checked') { props.checked = !!v; if (v) el.setAttribute('checked', ''); continue; }
+      if (an === 'value' && (el.localName === 'input' || el.localName === 'textarea' || el.localName === 'select')) { props.value = v == null ? '' : String(v); el.setAttribute('value', props.value); continue; }
+      if (v === false || v == null) continue;
+      if (v === true) v = '';
+      if (typeof v === 'object' || typeof v === 'function') continue;
+      if (at.namespaceURI) el.setAttributeNS(at.namespaceURI, an, String(v));
+      else el.setAttribute(an, String(v));
+    }
+    el.__h = handlers;
+    el.__p = props;
+    var children = renderNodes(t.content || t, scope, []);
+    for (var c = 0; c < children.length; c++) el.appendChild(children[c]);
+    out.push(el);
+  }
+
+  function bindHandlers(el) {
+    if (!el.__bound) el.__bound = {};
+    var h = el.__h || {};
+    Object.keys(h).forEach(function (ev) {
+      if (!el.__bound[ev]) {
+        el.__bound[ev] = true;
+        el.addEventListener(ev, function (e) { var f = el.__h && el.__h[ev]; if (f) f(e); });
+      }
+    });
+  }
+  function applyProps(el) {
+    var p = el.__p || {};
+    if ('checked' in p && el.checked !== p.checked) el.checked = p.checked;
+    if ('value' in p && el.value !== p.value) {
+      if (el.localName === 'select') { el.value = p.value; }
+      else if (document.activeElement !== el || el.type === 'range') el.value = p.value;
+    }
+  }
+  function same(a, b) {
+    if (a.nodeType !== b.nodeType) return false;
+    if (a.nodeType === 3) return true;
+    return a.localName === b.localName && a.namespaceURI === b.namespaceURI;
+  }
+  function patchEl(oldEl, newEl) {
+    var oa = oldEl.attributes, na = newEl.attributes, i;
+    var isCanvas = oldEl.localName === 'canvas';
+    for (i = oa.length - 1; i >= 0; i--) {
+      var nm = oa[i].name;
+      // canvas width/height are set by the animation code, not the template — keep them,
+      // otherwise the bitmap resets to 300x150 and gets stretched (blurry, oversized mesh)
+      if (isCanvas && (nm === 'width' || nm === 'height')) continue;
+      if (!newEl.hasAttribute(nm)) oldEl.removeAttribute(nm);
+    }
+    for (i = 0; i < na.length; i++) { if (oldEl.getAttribute(na[i].name) !== na[i].value) oldEl.setAttribute(na[i].name, na[i].value); }
+    oldEl.__h = newEl.__h; oldEl.__p = newEl.__p;
+    bindHandlers(oldEl);
+    if (oldEl.localName !== 'canvas') patchChildren(oldEl, Array.prototype.slice.call(newEl.childNodes));
+    applyProps(oldEl);
+  }
+  function prepare(node) {
+    if (node.nodeType !== 1) return;
+    bindHandlers(node);
+    for (var c = node.firstChild; c; c = c.nextSibling) prepare(c);
+    applyProps(node);
+  }
+  function patchChildren(parent, list) {
+    var i = 0;
+    for (; i < list.length; i++) {
+      var cur = parent.childNodes[i];
+      var nw = list[i];
+      if (!cur) { prepare(nw); parent.appendChild(nw); continue; }
+      if (same(cur, nw)) {
+        if (cur.nodeType === 3) { if (cur.nodeValue !== nw.nodeValue) cur.nodeValue = nw.nodeValue; }
+        else patchEl(cur, nw);
+      } else { prepare(nw); parent.replaceChild(nw, cur); }
+    }
+    while (parent.childNodes.length > list.length) parent.removeChild(parent.lastChild);
+  }
+
+  function DCLogic(props) { this.props = props || {}; this.state = {}; }
+  DCLogic.prototype.setState = function (patch, cb) {
+    var p = typeof patch === 'function' ? patch(this.state, this.props) : patch;
+    if (p) this.state = Object.assign({}, this.state, p);
+    if (this.__schedule) this.__schedule();
+    if (cb) cb();
+  };
+  DCLogic.prototype.forceUpdate = function () { if (this.__schedule) this.__schedule(); };
+  window.DCLogic = DCLogic;
+
+  function demoToast(msg) {
+    var t = document.createElement('div');
+    t.setAttribute('role', 'status');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:9999;background:#111418;color:#fff;border:1px solid #111418;box-shadow:5px 5px 0 #F5B700;padding:14px 20px;font:600 14px "JetBrains Mono",monospace;transition:opacity .4s';
+    document.body.appendChild(t);
+    setTimeout(function () { t.style.opacity = '0'; }, 2400);
+    setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 2900);
+  }
+  // ---- Forms → POST /leads (Laravel). Inputs have no name attributes, so fields are
+  // recognised by type / placeholder / label text. Component state (cart, configurator,
+  // wizard answers) is attached as JSON payload so managers see what was chosen.
+  function meta(n) { var m = document.querySelector('meta[name="' + n + '"]'); return m ? m.getAttribute('content') : ''; }
+  var LANG = ((document.documentElement.lang || 'ru').slice(0, 2).toLowerCase());
+  if (['uz', 'ru', 'en', 'tr'].indexOf(LANG) < 0) LANG = 'ru';
+  var T = {
+    ru: { ok: '✓ Заявка отправлена. Мы свяжемся с вами.', phone: 'Укажите номер телефона', err: 'Не удалось отправить. Позвоните нам.', anon: 'С сайта' },
+    uz: { ok: "✓ So'rov yuborildi. Tez orada bog'lanamiz.", phone: 'Telefon raqamini kiriting', err: "Yuborib bo'lmadi. Iltimos, qo'ng'iroq qiling.", anon: 'Saytdan' },
+    en: { ok: '✓ Request sent. We will contact you shortly.', phone: 'Please enter your phone number', err: 'Could not send. Please call us.', anon: 'Website' },
+    tr: { ok: '✓ Talebiniz gönderildi. En kısa sürede size ulaşacağız.', phone: 'Lütfen telefon numaranızı girin', err: 'Gönderilemedi. Lütfen bizi arayın.', anon: 'Web sitesi' }
+  }[LANG];
+
+  function safeState() {
+    try {
+      var st = window.__dc && window.__dc.state ? window.__dc.state : null;
+      if (!st) return null;
+      var json = JSON.stringify(st, function (k, v) {
+        if (typeof v === 'function') return undefined;
+        if (v && typeof v === 'object' && (v.nodeType || v === window)) return undefined;
+        return v;
+      });
+      return json && json.length < 20000 ? json : null;
+    } catch (err) { return null; }
+  }
+
+  function collect(f) {
+    var fd = new FormData(), name = '', phone = '', company = '', email = '', msg = [];
+    // A form for one product (data-lead-product) turns its sized fields (data-lead-option) into an item.
+    var product = f.getAttribute('data-lead-product'), item = product ? { code: product, qty: 1, options: {} } : null;
+    var els = f.querySelectorAll('input, textarea, select');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i], type = (el.getAttribute('type') || '').toLowerCase();
+      if (type === 'file') { for (var j = 0; j < el.files.length; j++) fd.append('attachments[]', el.files[j]); continue; }
+      // Structured data the page prepares for the CRM, e.g. <input type="hidden" data-lead="items" value="[...]">
+      if (el.hasAttribute('data-lead')) { if (el.value) fd.append(el.getAttribute('data-lead'), el.value); continue; }
+      if (item && el.hasAttribute('data-lead-option')) {
+        var key = el.getAttribute('data-lead-option'), val = String(el.value || '').trim();
+        if (key === 'qty') item.qty = Math.max(1, parseInt(val.replace(/[^0-9]/g, ''), 10) || 1);
+        else if (val) item.options[key] = val;
+        continue;
+      }
+      if (type === 'submit' || type === 'button' || type === 'hidden') continue;
+      if ((type === 'checkbox' || type === 'radio') && !el.checked) continue;
+      var v = String(el.value || '').trim();
+      if (!v) continue;
+      var ph = (el.getAttribute('placeholder') || '').toLowerCase();
+      var lab = el.closest('label') ? el.closest('label').textContent.toLowerCase() : '';
+      if (type === 'tel' || /telefon|телефон|phone|\+998/.test(ph)) { phone = phone || v; continue; }
+      if (type === 'email' || /e-?mail|e-?posta|почта/.test(ph + ' ' + lab)) { email = email || v; continue; }
+      if (/^(ism|ismingiz|имя|ваше имя|name|your name|ad\b|adınız)/.test(ph)) { name = name || v; continue; }
+      if (/korxona|kompaniya|компани|организац|предприят|company|şirket/.test(ph + ' ' + lab)) { company = company || v; continue; }
+      var title = el.closest('label') ? el.closest('label').firstChild && String(el.closest('label').firstChild.textContent || '').trim() : '';
+      msg.push({ title: title || el.getAttribute('placeholder') || '', value: v });
+    }
+    fd.append('name', name || company || T.anon);
+    fd.append('phone', phone);
+    if (company) fd.append('company', company);
+    if (email) fd.append('email', email);
+    // One free-text field goes as is; several are labelled so the manager knows which is which.
+    if (msg.length) fd.append('message', msg.length === 1 ? msg[0].value : msg.map(function (m) { return (m.title ? m.title + ': ' : '') + m.value; }).join('\n'));
+    if (item && !fd.has('items')) fd.append('items', JSON.stringify([item]));
+    fd.append('type', meta('ir-lead-type') || 'quote');
+    fd.append('locale', LANG);
+    fd.append('source', location.pathname + location.search);
+    var st = safeState();
+    if (st) fd.append('payload', st);
+    return { fd: fd, phone: phone };
+  }
+
+  document.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target;
+    var hasOwnUi = !!(f.__h && f.__h.submit);
+    if (meta('ir-lead-type') === 'none' || f.hasAttribute('data-no-lead')) {
+      if (!hasOwnUi) demoToast(T.ok);
+      return;
+    }
+    var data = collect(f);
+    if (!data.phone) { demoToast(T.phone); return; }
+    fetch('/leads', {
+      method: 'POST',
+      headers: { 'X-CSRF-TOKEN': meta('csrf-token'), 'Accept': 'application/json' },
+      body: data.fd,
+      credentials: 'same-origin'
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (!hasOwnUi) demoToast(T.ok);
+      try { f.reset(); } catch (err) { }
+    }).catch(function () { demoToast(T.err); });
+  }, true);
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#"]') : null;
+    if (a) e.preventDefault();
+  });
+
+  // Data injected by Laravel (catalog, product). Static demo: placeholder stays → null.
+  window.__IR = (function () {
+    var el = document.getElementById('ir-data');
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (err) { return null; }
+  })();
+
+  window.__mountDC = function (Component, defaults) {
+    var tpl = document.getElementById('dc-template');
+    var root = document.getElementById('app');
+    var props = {};
+    Object.keys(defaults || {}).forEach(function (k) { if (k.charAt(0) !== '$' && defaults[k] && 'default' in defaults[k]) props[k] = defaults[k].default; });
+    var inst = new Component(props);
+    if (!inst.state) inst.state = {};
+    var pending = false;
+    function render() {
+      pending = false;
+      var vals = inst.renderVals ? inst.renderVals() : {};
+      var nodes = renderNodes(tpl.content, vals, []);
+      patchChildren(root, nodes);
+    }
+    inst.__schedule = function () {
+      if (pending) return;
+      pending = true;
+      (window.requestAnimationFrame || setTimeout)(render);
+    };
+    render();
+    if (inst.componentDidMount) inst.componentDidMount();
+    window.addEventListener('pagehide', function () { if (inst.componentWillUnmount) inst.componentWillUnmount(); });
+    window.__dc = inst;
+  };
+})();
+
+</script>
+<script>
+
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { f: 'all', flip: false, sel: -1 }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() { this.startMesh(); }
+  componentWillUnmount() {
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state;
+    const all = [
+      { f: 'metal', ind: 'Metallurgiya', client: '[Mijoz korxona]', t: 'Prokat liniyasi valiklarini qayta qoplash', photo: 'Prokat valiklari', short: "Rezina valiklar tez yeyilardi — poliuretan bilan qayta qoplandi.", k1: '[__]×', k1l: 'uzoqroq xizmat', k2: '[__]%', k2l: 'tejash', p: "Rezina qoplamali valiklar [__] haftada yeyilib, liniya to'xtab qolardi.", s: "Eski o'zaklar saqlab qolindi, 92A poliuretan bilan qayta qoplandi, silliqlab o'lchamga keltirildi.", r: "Valiklar [__] oydan beri ishlamoqda, to'xtashlar soni kamaydi." },
+      { f: 'print', ind: 'Poligrafiya', client: '[Bosmaxona]', t: "Ofset mashinasi uchun bo'yoq valiklari", photo: "Bo'yoq valiklari", short: 'Import valiklar o\'rniga mahalliy — muddat [__] haftadan [__] kunga.', k1: '[__] kun', k1l: 'tayyorlash', k2: '[__]', k2l: 'dona', p: "Original valiklar chet eldan [__] haftada kelardi.", s: "O'lchamlar namunadan olindi, erituvchiga chidamli NBR tanlandi.", r: 'Mashina [__] kunda ishga tushdi.' },
+      { f: 'food', ind: 'Oziq-ovqat', client: '[Qadoqlash sexi]', t: 'Qadoqlash liniyasi uchun konveyer roliklari', photo: 'Konveyer roliklari', short: "Oziq-ovqatga ruxsat etilgan materialdan roliklar.", k1: '[__]', k1l: 'rolik', k2: '[__] kun', k2l: 'muddat', p: "Roliklar oziq-ovqat bilan aloqaga mos bo'lishi kerak edi.", s: "[Ruxsat etilgan material] tanlanib, sertifikat bilan topshirildi.", r: '[Natija — mijoz bilan tasdiqlash]' },
+      { f: 'log', ind: 'Logistika', client: '[Ombor kompleksi]', t: "Yuk aravalari uchun poliuretan g'ildiraklar", photo: "G'ildiraklar", short: "Shovqinsiz, polni buzmaydigan g'ildiraklar.", k1: '[__]', k1l: "g'ildirak", k2: '[__] kg', k2l: 'yuk', p: "Metall g'ildiraklar pol qoplamasini buzardi va shovqin qilardi.", s: "Mavjud disklar ustiga 95A poliuretan bandaj quyildi.", r: '[Natija]' },
+      { f: 'auto', ind: 'Avtomobil', client: '[Servis markazi]', t: 'Osma tizimi uchun poliuretan vtulkalar', photo: 'Vtulkalar', short: 'Rezina vtulkalar o\'rniga uzoq xizmat qiladigan poliuretan.', k1: '[__]×', k1l: 'uzoqroq', k2: '[__]', k2l: 'model', p: 'Rezina vtulkalar yo\'l sharoitida tez yorilardi.', s: "85A poliuretandan namunalar bo'yicha quyildi.", r: '[Natija]' },
+      { f: 'metal', ind: 'Metallurgiya', client: '[Zavod]', t: "Shtamp prujinalari va qirg'ich plastinalar", photo: 'Prujina va plastinalar', short: 'Metall prujinalar o\'rniga — shovqinsiz va shtampni asraydi.', k1: '[__]', k1l: 'dona', k2: '[__]%', k2l: 'kam shovqin', p: 'Metall prujinalar shtamp qismlarini yeyardi.', s: '90A poliuretan prujinalar va lenta qirg\'ichlari tayyorlandi.', r: '[Natija]' }
+    ];
+    const fl = [['all', 'Barchasi'], ['metal', 'Metallurgiya'], ['print', 'Poligrafiya'], ['food', 'Oziq-ovqat'], ['log', 'Logistika'], ['auto', 'Avto']];
+    const vis = all.map((c, i) => Object.assign({ i }, c)).filter((c) => st.f === 'all' || c.f === st.f);
+    const C = st.sel >= 0 ? all[st.sel] : all[0];
+    return {
+      accent,
+      filters: fl.map(([k, l]) => ({ l, n: k === 'all' ? all.length : all.filter((c) => c.f === k).length, pick: () => this.setState({ f: k, flip: !st.flip }), style: 'min-height:52px;padding:0 20px;border:0;border-right:1px solid #111418;font:700 15px Archivo,sans-serif;cursor:pointer;' + (st.f === k ? 'background:' + accent : 'background:#fff') })),
+      cases: vis.map((c, j) => Object.assign({}, c, { open: () => this.setState({ sel: c.i }), style: 'background:#fff;border:1px solid #111418;padding:0;display:flex;flex-direction:column;cursor:pointer;font-family:Archivo,sans-serif;color:#111418;animation:' + (st.flip ? 'irA' : 'irB') + ' .55s cubic-bezier(.2,.7,.2,1) ' + j * 80 + 'ms both' })),
+      open: st.sel >= 0, close: () => this.setState({ sel: -1 }),
+      C: Object.assign({}, C, {
+        blocks: [{ n: '01', h: 'Muammo', t: C.p, bg: '#FBE4DD', fg: '#111418' }, { n: '02', h: 'Yechim', t: C.s, bg: accent, fg: '#111418' }, { n: '03', h: 'Natija', t: C.r, bg: '#111418', fg: accent }],
+        kpis: [{ v: C.k1, l: C.k1l }, { v: C.k2, l: C.k2l }, { v: '[__] kun', l: 'buyurtma muddati' }]
+      })
+    };
+  }
+}
+
+window.__mountDC(Component, {"accent": {"editor": "color", "default": "#F5B700", "options": ["#F5B700", "#FF7A1A", "#7BC043"]}, "bgMotion": {"editor": "boolean", "default": true}, "$preview": {"width": 1440, "height": 2000}});
+</script>
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Admin panel</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+@keyframes irSlide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes irToast{0%{transform:translateY(20px);opacity:0}10%,85%{transform:none;opacity:1}100%{opacity:0}}
+@keyframes irIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.drawer{animation:irSlide .35s cubic-bezier(.2,.7,.2,1) both}
+.toast{animation:irToast 3s ease both}
+.fade{animation:irIn .4s cubic-bezier(.2,.7,.2,1) both}
+.lead{transition:transform .2s,box-shadow .2s}
+.lead:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 #111418}
+.nav{transition:background .15s}
+.nav:hover{background:#2A3038}
+.row:hover{background:#FFF8DC}
+input[type=text],input[type=search],input[type=number],textarea,select{font:400 14px Archivo,sans-serif;border:1px solid #C9CED4;background:#fff;padding:10px 12px;color:#111418;border-radius:0;box-sizing:border-box}
+input:focus,textarea:focus,select:focus{outline:2px solid #111418;outline-offset:-1px}
+th{font:600 11px 'JetBrains Mono',monospace;text-transform:uppercase;color:#5B636D;text-align:left;padding:12px 14px;border-bottom:1px solid #111418;background:#fff;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #E3E7EB;font-size:14px;vertical-align:middle}
+.tg{position:relative;width:44px;height:24px;border:1px solid #111418;cursor:pointer;padding:0}
+@media (prefers-reduced-motion: reduce){.drawer,.toast,.fade{animation:none}}
+</style>
+</helmet>
+<div style="font-family: Archivo, sans-serif; color: #111418; background: #F4F5F7; min-height: 900px; display: flex; flex-wrap: wrap">
+
+<aside aria-label="Admin menyu" style="flex: 0 0 240px; background: #111418; color: #EEF0F2; display: flex; flex-direction: column; min-height: 900px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 20px; border-bottom: 1px solid #2A3038">
+<svg aria-hidden="true" width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="{{accent}}" stroke-width="2.5"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+<span style="display: flex; flex-direction: column"><b style="font-size: 16px; letter-spacing: 0.03em">INTER ROLL</b><span class="mono" style="font-size: 10px; color: #8A939D">ADMIN · CRM</span></span>
+</div>
+<nav style="display: flex; flex-direction: column; padding: 12px 0; flex-grow: 1">
+<sc-for list="{{navs}}" as="n" hint-placeholder-count="6">
+<button onClick="{{n.pick}}" class="nav" style="{{n.style}}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{n.icon}}"/></svg><span style="flex-grow: 1; text-align: left">{{n.label}}</span><sc-if value="{{n.hasBadge}}" hint-placeholder-val="{{ false }}"><span class="mono" style="background: {{accent}}; color: #111418; font-size: 11px; padding: 2px 7px; font-weight: 600">{{n.badge}}</span></sc-if></button>
+</sc-for>
+</nav>
+<div style="padding: 16px 20px; border-top: 1px solid #2A3038; display: flex; flex-direction: column; gap: 8px">
+<label class="mono" style="font-size: 10px; color: #8A939D; text-transform: uppercase; display: flex; flex-direction: column; gap: 6px">Rol (ko'rinishni sinash)
+<select onChange="{{setRole}}" value="{{role}}" style="background: #1D2228; color: #fff; border-color: #3E4650; font-size: 13px">
+<option value="owner">Owner — to'liq</option><option value="admin">Admin — texnik</option><option value="sales">Sales — menejer</option><option value="r4">[4-rol — TZ da aniqlanmagan]</option>
+</select>
+</label>
+<span style="display: flex; align-items: center; gap: 10px; margin-top: 6px"><span style="width: 32px; height: 32px; background: {{accent}}; color: #111418; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px">{{meInit}}</span><span style="display: flex; flex-direction: column"><b style="font-size: 13px">{{meName}}</b><span class="mono" style="font-size: 10px; color: #8A939D">{{meRole}}</span></span></span>
+</div>
+</aside>
+
+<main style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; position: relative">
+<div style="background: #fff; border-bottom: 1px solid #111418; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span class="mono" style="font-size: 11px; color: #5B636D; text-transform: uppercase">Admin / {{screenName}}</span>
+<b style="font-size: 22px">{{screenName}}</b>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+<input type="search" placeholder="Telefon, INN, kompaniya, artikul…" style="width: 280px">
+<span class="mono" style="font-size: 11px; background: #FFF3C4; border: 1px solid #111418; padding: 6px 10px">NAMUNA MA'LUMOTLAR</span>
+<button aria-label="Bildirishnomalar" style="width: 40px; height: 40px; border: 1px solid #111418; background: #fff; cursor: pointer; position: relative"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0"/></svg><span style="position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: #C9542E"></span></button>
+</div>
+</div>
+
+<div style="padding: 24px; display: flex; flex-direction: column; gap: 20px; flex-grow: 1">
+
+<sc-if value="{{noAccess}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="background: #fff; border: 1px dashed #111418; padding: 48px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<b style="font-size: 24px">Bu bo'limga ruxsat yo'q</b>
+<span style="color: #3E4650">"{{meRole}}" roli uchun bu bo'lim yopiq. Ruxsatni Owner beradi.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{scLeads}}" hint-placeholder-val="{{ true }}">
+<div class="fade" style="display: flex; flex-direction: column; gap: 20px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="5">
+<div style="background: #fff; border: 1px solid #111418; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">{{k.l}}</span>
+<span style="font-weight: 800; font-size: 30px; line-height: 1">{{k.v}}</span>
+<span class="mono" style="font-size: 11px; color: {{k.c}}">{{k.s}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; border: 1px solid #111418">
+<button onClick="{{vKanban}}" style="{{vKStyle}}">Kanban</button>
+<button onClick="{{vTable}}" style="{{vTStyle}}">Jadval</button>
+</div>
+<div class="mono" style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; align-items: center">
+<span style="color: #5B636D">MANBA:</span>
+<sc-for list="{{srcF}}" as="s" hint-placeholder-count="4"><button onClick="{{s.pick}}" style="{{s.style}}">{{s.l}}</button></sc-for>
+</div>
+</div>
+
+<sc-if value="{{isKanban}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(5, minmax(220px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 6px">
+<sc-for list="{{cols}}" as="col" hint-placeholder-count="5">
+<div style="background: #E9EBEE; border: 1px solid #C9CED4; display: flex; flex-direction: column; min-height: 420px">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 3px solid {{col.c}}; background: #fff">
+<b style="font-size: 14px">{{col.t}}</b><span class="mono" style="font-size: 12px; background: #111418; color: #fff; padding: 2px 8px">{{col.n}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 10px">
+<sc-for list="{{col.items}}" as="l" hint-placeholder-count="2">
+<button onClick="{{l.open}}" class="lead" style="{{l.style}}">
+<span style="display: flex; justify-content: space-between; align-items: center; width: 100%"><span class="mono" style="font-size: 11px; color: #5B636D">{{l.id}}</span><span class="mono" style="font-size: 10px; padding: 2px 6px; background: {{l.slaBg}}; color: {{l.slaFg}}">{{l.sla}}</span></span>
+<b style="font-size: 15px; text-align: left">{{l.company}}</b>
+<span style="font-size: 13px; color: #3E4650; text-align: left">{{l.product}}</span>
+<span style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 4px"><span class="mono" style="font-size: 10px; text-transform: uppercase; border: 1px solid #C9CED4; padding: 2px 6px">{{l.src}}</span><span style="width: 24px; height: 24px; background: {{l.mgrBg}}; color: #111418; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 1px solid #111418">{{l.mgr}}</span></span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isTable}}" hint-placeholder-val="{{ false }}">
+<div style="background: #fff; border: 1px solid #111418; overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; min-width: 900px">
+<thead><tr><th>№</th><th>Sana</th><th>Kompaniya</th><th>Mahsulot / so'rov</th><th>Manba</th><th>Status</th><th>Menejer</th><th>1-javob</th></tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="l" hint-placeholder-count="6">
+<tr class="row" onClick="{{l.open}}" style="cursor: pointer">
+<td class="mono" style="font-size: 12px">{{l.id}}</td><td class="mono" style="font-size: 12px">{{l.date}}</td><td><b>{{l.company}}</b></td><td>{{l.product}}</td><td class="mono" style="font-size: 11px; text-transform: uppercase">{{l.src}}</td>
+<td><span class="mono" style="font-size: 11px; padding: 4px 8px; border: 1px solid #111418; background: {{l.stBg}}">{{l.stName}}</span></td>
+<td>{{l.mgrName}}</td><td><span class="mono" style="font-size: 11px; padding: 3px 7px; background: {{l.slaBg}}; color: {{l.slaFg}}">{{l.sla}}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{scClients}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<div style="flex: 2 1 560px; min-width: 0; background: #fff; border: 1px solid #111418; overflow-x: auto">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border-bottom: 1px solid #E3E7EB; flex-wrap: wrap; gap: 10px">
+<b>Kontragentlar bazasi</b>
+<span class="mono" style="font-size: 11px; background: #FFF3C4; border: 1px solid #111418; padding: 4px 8px">1 TA TAKRORIY TOPILDI · TELEFON BO'YICHA</span>
+</div>
+<table style="width: 100%; border-collapse: collapse; min-width: 640px">
+<thead><tr><th>Kompaniya</th><th>INN</th><th>Telefon</th><th>Buyurtmalar</th><th>Menejer</th></tr></thead>
+<tbody>
+<sc-for list="{{clients}}" as="c" hint-placeholder-count="5">
+<tr class="row" onClick="{{c.pick}}" style="{{c.rowStyle}}">
+<td><b>{{c.name}}</b><sc-if value="{{c.dup}}" hint-placeholder-val="{{ false }}"> <span class="mono" style="font-size: 10px; background: #C9542E; color: #fff; padding: 2px 6px; margin-left: 6px">TAKRORIY</span></sc-if></td>
+<td class="mono" style="font-size: 12px">{{c.inn}}</td><td class="mono" style="font-size: 12px">{{c.tel}}</td><td>{{c.orders}}</td><td>{{c.mgr}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; background: #fff; border: 1px solid #111418; display: flex; flex-direction: column">
+<div style="padding: 18px; border-bottom: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 4px">
+<span class="mono" style="font-size: 11px; color: #5B636D">KOMPANIYA KARTASI</span>
+<b style="font-size: 20px">{{cl.name}}</b>
+<span class="mono" style="font-size: 12px; color: #3E4650">INN {{cl.inn}} · {{cl.tel}}</span>
+</div>
+<div style="padding: 18px; display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid #E3E7EB">
+<span class="mono" style="font-size: 11px; color: #5B636D">BIRIKTIRILGAN MENEJER</span>
+<b>{{cl.mgr}}</b>
+</div>
+<div style="padding: 18px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #E3E7EB">
+<span class="mono" style="font-size: 11px; color: #5B636D">BUYURTMALAR TARIXI</span>
+<sc-for list="{{cl.hist}}" as="h" hint-placeholder-count="3"><span style="display: flex; justify-content: space-between; font-size: 14px; gap: 10px"><span>{{h.t}}</span><span class="mono" style="font-size: 12px; color: #5B636D">{{h.d}}</span></span></sc-for>
+</div>
+<div style="padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 11px; color: #5B636D">IZOH</span>
+<textarea rows="3" placeholder="Mijoz haqida izoh…" style="width: 100%"></textarea>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{scProducts}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center">
+<span class="mono" style="font-size: 12px; color: #5B636D">KATALOG: 18 POZITSIYA · 5 000 GACHA</span>
+<div style="display: flex; gap: 8px">
+<button onClick="{{openImport}}" style="background: {{accent}}; border: 1px solid #111418; padding: 11px 16px; font: 700 14px Archivo, sans-serif; cursor: pointer">↑ Excel / CSV import</button>
+<button style="background: #fff; border: 1px solid #111418; padding: 11px 16px; font: 700 14px Archivo, sans-serif; cursor: pointer">↓ Eksport</button>
+<button style="background: #111418; color: #fff; border: 1px solid #111418; padding: 11px 16px; font: 700 14px Archivo, sans-serif; cursor: pointer">+ Mahsulot</button>
+</div>
+</div>
+<sc-if value="{{importOpen}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="background: #fff; border: 2px solid #111418; box-shadow: 6px 6px 0 #111418; display: flex; flex-direction: column">
+<div style="display: flex; border-bottom: 1px solid #111418">
+<sc-for list="{{impSteps}}" as="s" hint-placeholder-count="4"><span style="{{s.style}}"><span class="mono" style="font-size: 11px">{{s.n}}</span> {{s.t}}</span></sc-for>
+</div>
+<div style="padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<sc-if value="{{imp1}}" hint-placeholder-val="{{ true }}">
+<div style="border: 2px dashed #111418; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; background: #F9FAFB">
+<b style="font-size: 18px">Faylni shu yerga tashlang</b>
+<span class="mono" style="font-size: 12px; color: #5B636D">.XLSX · .CSV · 5 000 QATORGACHA</span>
+<button onClick="{{impNext}}" style="background: #111418; color: #fff; border: 0; padding: 12px 18px; font: 700 14px Archivo, sans-serif; cursor: pointer">katalog_2026.xlsx tanlash (namuna)</button>
+</div>
+</sc-if>
+<sc-if value="{{imp2}}" hint-placeholder-val="{{ false }}">
+<span style="color: #3E4650">Fayl ustunlarini katalog maydonlariga moslang:</span>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px">
+<sc-for list="{{mapping}}" as="m" hint-placeholder-count="6">
+<label style="display: flex; flex-direction: column; gap: 6px; border: 1px solid #E3E7EB; padding: 10px"><span class="mono" style="font-size: 11px; color: #5B636D">EXCEL: "{{m.col}}"</span><select style="width: 100%"><option>{{m.to}}</option><option>— o'tkazib yuborish —</option></select></label>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{imp3}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<div style="border: 1px solid #111418; padding: 14px; background: #E8F5EC"><b style="font-size: 26px">412</b><div class="mono" style="font-size: 11px">TAYYOR</div></div>
+<div style="border: 1px solid #111418; padding: 14px; background: #FFF3C4"><b style="font-size: 26px">23</b><div class="mono" style="font-size: 11px">YANGILANADI (ARTIKUL BOR)</div></div>
+<div style="border: 1px solid #111418; padding: 14px; background: #FBE4DD"><b style="font-size: 26px">4</b><div class="mono" style="font-size: 11px">XATO — TUZATING</div></div>
+</div>
+<div class="mono" style="font-size: 12px; background: #FBE4DD; border: 1px solid #C9542E; padding: 12px; line-height: 1.7">Qator 57: "Artikul" bo'sh · Qator 88: "Kategoriya" topilmadi ("Rolik") · Qator 140: rasm havolasi ochilmadi · Qator 301: UZ nomi yo'q</div>
+</sc-if>
+<sc-if value="{{imp4}}" hint-placeholder-val="{{ false }}">
+<div style="border: 1px solid #111418; padding: 24px; background: #E8F5EC; display: flex; gap: 14px; align-items: center"><span style="width: 44px; height: 44px; background: #111418; color: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 800">✓</span><span><b style="font-size: 18px">435 ta pozitsiya import qilindi</b><br><span style="color: #3E4650; font-size: 14px">4 ta xatoli qator alohida faylga saqlandi</span></span></div>
+</sc-if>
+<div style="display: flex; justify-content: space-between">
+<button onClick="{{impClose}}" style="background: #fff; border: 1px solid #111418; padding: 11px 16px; font: 700 14px Archivo, sans-serif; cursor: pointer">Yopish</button>
+<sc-if value="{{impCanNext}}" hint-placeholder-val="{{ true }}"><button onClick="{{impNext}}" style="background: #111418; color: #fff; border: 1px solid #111418; padding: 11px 18px; font: 700 14px Archivo, sans-serif; cursor: pointer">{{impNextTxt}} →</button></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+<div style="background: #fff; border: 1px solid #111418; overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; min-width: 820px">
+<thead><tr><th>Artikul</th><th>Nomi</th><th>Kategoriya</th><th>UZ</th><th>RU</th><th>Narx</th><th>Saytda</th></tr></thead>
+<tbody>
+<sc-for list="{{prods}}" as="p" hint-placeholder-count="6">
+<tr class="row">
+<td class="mono" style="font-size: 12px">{{p.sku}}</td><td><b>{{p.name}}</b></td><td>{{p.cat}}</td>
+<td class="mono" style="font-size: 12px">{{p.uz}}</td><td class="mono" style="font-size: 12px; color: {{p.ruC}}">{{p.ru}}</td>
+<td class="mono" style="font-size: 12px">So'rov bo'yicha</td>
+<td><button onClick="{{p.toggle}}" class="tg" aria-label="Saytda ko'rsatish" style="{{p.tgStyle}}"><span style="{{p.knob}}"></span></button></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{scReports}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px">
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>Savdo voronkasi · oktabr</b>
+<sc-for list="{{funnel}}" as="f" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="mono" style="display: flex; justify-content: space-between; font-size: 12px"><span>{{f.l}}</span><span>{{f.v}}</span></span><span style="height: 22px; background: #E9EBEE; display: block"><span style="{{f.bar}}"></span></span></div>
+</sc-for>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>Arizalar manbasi</b>
+<sc-for list="{{sources}}" as="f" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="mono" style="display: flex; justify-content: space-between; font-size: 12px"><span>{{f.l}}</span><span>{{f.v}}</span></span><span style="height: 22px; background: #E9EBEE; display: block"><span style="{{f.bar}}"></span></span></div>
+</sc-for>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>SLA — birinchi javob vaqti</b>
+<div style="display: flex; align-items: flex-end; gap: 8px; height: 160px; border-bottom: 1px solid #111418; position: relative">
+<span class="mono" style="position: absolute; left: 0; right: 0; bottom: 96px; border-top: 1px dashed #C9542E; font-size: 10px; color: #C9542E; text-align: right">SLA [__] DAQ</span>
+<sc-for list="{{slaBars}}" as="b" hint-placeholder-count="7"><span style="{{b.style}}"></span></sc-for>
+</div>
+<div class="mono" style="display: flex; justify-content: space-between; font-size: 10px; color: #5B636D"><span>DU</span><span>SE</span><span>CH</span><span>PA</span><span>JU</span><span>SH</span><span>YA</span></div>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<b>Menejerlar</b>
+<sc-for list="{{mgrs}}" as="m" hint-placeholder-count="3">
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E3E7EB; padding-bottom: 10px"><span style="display: flex; gap: 10px; align-items: center"><span style="width: 28px; height: 28px; background: {{m.bg}}; border: 1px solid #111418; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{m.i}}</span>{{m.n}}</span><span class="mono" style="font-size: 12px">{{m.s}}</span></div>
+</sc-for>
+<button style="align-self: flex-start; background: #fff; border: 1px solid #111418; padding: 10px 14px; font: 700 13px Archivo, sans-serif; cursor: pointer">↓ Hisobotni Excel'ga</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{scUsers}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="display: flex; flex-direction: column; gap: 20px">
+<div style="background: #fff; border: 1px solid #111418; overflow-x: auto">
+<div style="padding: 14px; border-bottom: 1px solid #E3E7EB; display: flex; justify-content: space-between; align-items: center"><b>Ruxsatlar matritsasi</b><span class="mono" style="font-size: 11px; color: #5B636D">TZ, 3-BO'LIM</span></div>
+<table style="width: 100%; border-collapse: collapse; min-width: 760px">
+<thead><tr><th>Imkoniyat</th><th>Owner</th><th>Admin</th><th>Sales</th><th>[4-rol]</th></tr></thead>
+<tbody>
+<sc-for list="{{matrix}}" as="m" hint-placeholder-count="8">
+<tr><td>{{m.f}}</td><td class="mono" style="{{m.s0}}">{{m.a}}</td><td class="mono" style="{{m.s1}}">{{m.b}}</td><td class="mono" style="{{m.s2}}">{{m.c}}</td><td class="mono" style="color: #8A939D">[?]</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<div style="background: #fff; border: 1px solid #111418; overflow-x: auto">
+<div style="padding: 14px; border-bottom: 1px solid #E3E7EB; display: flex; justify-content: space-between; align-items: center"><b>Xodimlar</b><button style="background: #111418; color: #fff; border: 0; padding: 9px 14px; font: 700 13px Archivo, sans-serif; cursor: pointer">+ Xodim qo'shish</button></div>
+<table style="width: 100%; border-collapse: collapse; min-width: 640px">
+<thead><tr><th>Xodim</th><th>Rol</th><th>Telegram</th><th>Oxirgi faollik</th><th>Audit</th></tr></thead>
+<tbody>
+<sc-for list="{{users}}" as="u" hint-placeholder-count="4">
+<tr class="row"><td><b>{{u.n}}</b></td><td><span class="mono" style="font-size: 11px; border: 1px solid #111418; padding: 3px 8px">{{u.r}}</span></td><td class="mono" style="font-size: 12px">{{u.tg}}</td><td class="mono" style="font-size: 12px">{{u.last}}</td><td class="mono" style="font-size: 12px">{{u.audit}}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{scSettings}}" hint-placeholder-val="{{ false }}">
+<div class="fade" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px">
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>Bildirishnomalar</b>
+<sc-for list="{{notif}}" as="n" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid #E3E7EB; padding-bottom: 12px"><span style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{n.t}}</b><span class="mono" style="font-size: 11px; color: #5B636D">{{n.d}}</span></span><button onClick="{{n.toggle}}" class="tg" aria-label="{{n.t}}" style="{{n.tgStyle}}"><span style="{{n.knob}}"></span></button></div>
+</sc-for>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>SLA reglamenti</b>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px">Birinchi javob, daqiqa<input type="number" value="15" style="width: 140px"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px">KP yuborish, soat<input type="number" value="24" style="width: 140px"></label>
+<span class="mono" style="font-size: 11px; color: #5B636D; line-height: 1.6">TZ checklist: SLA reglamenti buyurtmachi bilan tasdiqlanishi kerak. Qiymatlar — namuna.</span>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>Telegram bot</b>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px">Bot nomi<input type="text" value="@[interroll_crm_bot]"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px">Guruh / chat<input type="text" value="[Sotuv bo'limi guruhi]"></label>
+<span class="mono" style="font-size: 11px; color: #5B636D">Bot tokeni server sozlamalarida saqlanadi, bu yerda ko'rsatilmaydi.</span>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<b>SEO va analitika</b>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px">Google Analytics 4 ID<input type="text" placeholder="G-XXXXXXX"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px">Yandex Metrika ID<input type="text" placeholder="[________]"></label>
+<span class="mono" style="font-size: 11px; color: #5B636D">Sitemap.xml, robots.txt, hreflang (uz/ru) — avtomatik</span>
+</div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{drawerOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; background: rgba(17,20,24,0.25); display: flex; justify-content: flex-end; z-index: 20">
+<button onClick="{{closeLead}}" aria-label="Yopish" style="flex-grow: 1; background: transparent; border: 0; cursor: pointer"></button>
+<div class="drawer" role="dialog" aria-label="Ariza kartasi" style="width: min(460px, 100%); background: #fff; border-left: 2px solid #111418; display: flex; flex-direction: column; overflow-y: auto">
+<div style="padding: 20px; border-bottom: 1px solid #111418; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px">
+<span style="display: flex; flex-direction: column; gap: 4px"><span class="mono" style="font-size: 11px; color: #5B636D">{{L.id}} · {{L.date}} · {{L.src}}</span><b style="font-size: 22px">{{L.company}}</b><span style="color: #3E4650">{{L.person}} · <span class="mono" style="font-size: 13px">{{L.tel}}</span></span></span>
+<button onClick="{{closeLead}}" aria-label="Kartani yopish" style="width: 36px; height: 36px; border: 1px solid #111418; background: #fff; cursor: pointer; font-size: 18px">×</button>
+</div>
+<div style="padding: 20px; border-bottom: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 11px; color: #5B636D">SO'ROV</span>
+<b>{{L.product}}</b>
+<span class="mono" style="font-size: 12px; background: #F4F5F7; padding: 10px; line-height: 1.6">{{L.note}}</span>
+</div>
+<div style="padding: 20px; border-bottom: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 11px; color: #5B636D">STATUS</span>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px">
+<sc-for list="{{stBtns}}" as="b" hint-placeholder-count="5"><button onClick="{{b.pick}}" style="{{b.style}}">{{b.t}}</button></sc-for>
+</div>
+<sc-if value="{{isLost}}" hint-placeholder-val="{{ false }}">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px">Yo'qotish sababi (majburiy)<select style="width: 100%"><option>Narx to'g'ri kelmadi</option><option>Muddat to'g'ri kelmadi</option><option>Raqobatchini tanladi</option><option>Ehtiyoj qolmadi</option></select></label>
+</sc-if>
+</div>
+<div style="padding: 20px; border-bottom: 1px solid #E3E7EB; display: flex; flex-wrap: wrap; gap: 14px">
+<label style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 13px">Mas'ul menejer<select onChange="{{setMgr}}" value="{{L.mgrKey}}" style="width: 100%"><option value="am">A. Menejer</option><option value="bm">B. Menejer</option><option value="none">— biriktirilmagan —</option></select></label>
+<span style="flex: 1 1 140px; display: flex; flex-direction: column; gap: 6px; font-size: 13px">SLA<span class="mono" style="font-size: 13px; padding: 10px; background: {{L.slaBg}}; color: {{L.slaFg}}">{{L.slaLong}}</span></span>
+</div>
+<div style="padding: 20px; border-bottom: 1px solid #E3E7EB; display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 11px; color: #5B636D">TIJORIY TAKLIF</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button style="background: {{accent}}; border: 1px solid #111418; padding: 10px 14px; font: 700 13px Archivo, sans-serif; cursor: pointer">KP yaratish</button>
+<button style="background: #fff; border: 1px solid #111418; padding: 10px 14px; font: 700 13px Archivo, sans-serif; cursor: pointer">PDF biriktirish</button>
+<button style="background: #fff; border: 1px dashed #8A939D; color: #5B636D; padding: 10px 14px; font: 700 13px Archivo, sans-serif; cursor: pointer">PDF hisob-faktura [TZ: kelishiladi]</button>
+</div>
+</div>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<span class="mono" style="font-size: 11px; color: #5B636D">TARIX</span>
+<sc-for list="{{L.hist}}" as="h" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px"><span style="width: 10px; height: 10px; margin-top: 5px; background: {{h.c}}; border: 1px solid #111418; flex-shrink: 0"></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px">{{h.t}}</span><span class="mono" style="font-size: 11px; color: #5B636D">{{h.d}}</span></span></div>
+</sc-for>
+<div style="display: flex; gap: 8px; margin-top: 6px"><input type="text" placeholder="Izoh qo'shish…" style="flex-grow: 1"><button style="background: #111418; color: #fff; border: 0; padding: 0 16px; font: 700 13px Archivo, sans-serif; cursor: pointer">→</button></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{toastOn}}" hint-placeholder-val="{{ false }}">
+<div class="toast mono" role="status" style="position: absolute; right: 24px; bottom: 24px; background: #111418; color: #fff; border: 1px solid #111418; padding: 14px 18px; font-size: 13px; display: flex; gap: 10px; align-items: center; z-index: 30; box-shadow: 4px 4px 0 {{accent}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2"><path d="M22 2L11 13 M22 2l-7 20-4-9-9-4z"/></svg>{{toast}}</div>
+</sc-if>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = {
+      screen: 'leads', view: 'kanban', role: 'owner', src: 'all', sel: null, client: 0, importOpen: false, impStep: 1,
+      toast: '', toastKey: 0,
+      hidden: {},
+      notif: { tg: true, mail: true, sla: true, daily: false },
+      leads: [
+        { id: 'IR-1042', date: '14.10 09:12', company: '[Kompaniya A]', person: '[Ism]', tel: '+998 90 ___ __ __', product: 'Poliuretan valik Ø120×800, 90A — 4 dona', src: 'Mahsulot kartasi', st: 'new', mgr: 'none', mins: 8, note: 'Konfigurator: PU · 90 Shore A · Ø120 × L800 · qoplama 12 mm · 4 dona' },
+        { id: 'IR-1041', date: '14.10 08:40', company: '[Kompaniya B]', person: '[Ism]', tel: '+998 93 ___ __ __', product: 'Qayta qoplash — konveyer valiklari, 6 dona', src: 'Qayta qoplash', st: 'new', mgr: 'none', mins: 41, note: 'Rasm biriktirilgan · Ø160 × L1200 · NBR' },
+        { id: 'IR-1039', date: '13.10 16:05', company: '[Kompaniya C]', person: '[Ism]', tel: '+998 97 ___ __ __', product: 'Mufta yulduzchasi — 20 dona', src: "Qo'ng'iroq", st: 'work', mgr: 'am', mins: 12, note: "Nasos muftasi, o'lchamlari telefon orqali" },
+        { id: 'IR-1037', date: '13.10 11:20', company: '[Kompaniya D]', person: '[Ism]', tel: '+998 99 ___ __ __', product: "Chizma bo'yicha detal — PDF", src: 'KP so\'rovi', st: 'work', mgr: 'bm', mins: 5, note: 'Chizma.pdf · ish harorati 70°C' },
+        { id: 'IR-1033', date: '12.10 10:02', company: '[Kompaniya E]', person: '[Ism]', tel: '+998 90 ___ __ __', product: "Qirg'ich plastina — 12 dona", src: 'Mahsulot kartasi', st: 'kp', mgr: 'am', mins: 9, note: 'KP yuborildi 12.10' },
+        { id: 'IR-1030', date: '10.10 14:30', company: '[Kompaniya F]', person: '[Ism]', tel: '+998 95 ___ __ __', product: 'Press valigi 95A — 2 dona', src: 'KP so\'rovi', st: 'won', mgr: 'bm', mins: 14, note: 'Shartnoma imzolandi' },
+        { id: 'IR-1028', date: '09.10 09:15', company: '[Kompaniya G]', person: '[Ism]', tel: '+998 93 ___ __ __', product: "G'ildirak — 40 dona", src: "Qo'ng'iroq", st: 'lost', mgr: 'am', mins: 33, note: 'Sabab: narx' }
+      ]
+    };
+  }
+  componentWillUnmount() { if (this.toastT) clearTimeout(this.toastT); }
+  say(msg) {
+    this.setState({ toast: msg, toastKey: this.state.toastKey + 1 });
+    if (this.toastT) clearTimeout(this.toastT);
+    this.toastT = setTimeout(() => this.setState({ toast: '' }), 3000);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state;
+    const roles = { owner: ['Owner', 'Bosh direktor', 'BD'], admin: ['Admin', 'Texnik admin', 'TA'], sales: ['Sales', 'A. Menejer', 'AM'], r4: ['[4-rol]', '[Xodim]', '??'] };
+    const access = { owner: ['leads', 'clients', 'products', 'reports', 'users', 'settings'], admin: ['products', 'settings'], sales: ['leads', 'clients'], r4: [] };
+    const allowed = access[st.role];
+    const screens = [
+      ['leads', 'Arizalar', 'M22 12h-6l-2 3h-4l-2-3H2 M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z'],
+      ['clients', 'Mijozlar', 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.9 M16 3.1a4 4 0 0 1 0 7.8'],
+      ['products', 'Mahsulotlar', 'M21 16V8l-9-5-9 5v8l9 5z M3.3 7L12 12l8.7-5 M12 22V12'],
+      ['reports', 'Hisobotlar', 'M18 20V10 M12 20V4 M6 20v-6'],
+      ['users', 'Xodimlar va rollar', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1'],
+      ['settings', 'Sozlamalar', 'M4 21v-7 M4 10V3 M12 21v-9 M12 8V3 M20 21v-5 M20 12V3 M1 14h6 M9 8h6 M17 16h6']
+    ];
+    const newCount = st.leads.filter((l) => l.st === 'new').length;
+    const statuses = [['new', 'Yangi', '#3B82C4'], ['work', 'Ishda', accent], ['kp', 'Tijoriy taklif', '#8B5CF6'], ['won', 'Muvaffaqiyatli', '#2E9E5B'], ['lost', "Yo'qotilgan", '#C9542E']];
+    const stMap = {}; statuses.forEach(([k, t, c]) => { stMap[k] = { t, c }; });
+    const mgrs = { am: ['AM', 'A. Menejer', accent], bm: ['BM', 'B. Menejer', '#9FC5E8'], none: ['—', 'Biriktirilmagan', '#fff'] };
+    const sla = (l) => {
+      if (l.st === 'won' || l.st === 'lost') return ['Yopilgan', '#E9EBEE', '#3E4650', 'Yopilgan'];
+      if (l.mins <= 15) return [l.mins + ' daq', '#E8F5EC', '#1E6B3E', '1-javob: ' + l.mins + ' daq · normada'];
+      if (l.mins <= 30) return [l.mins + ' daq', '#FFF3C4', '#7A5A00', '1-javob: ' + l.mins + ' daq · chegarada'];
+      return [l.mins + ' daq', '#FBE4DD', '#9B3A1E', '1-javob: ' + l.mins + ' daq · SLA buzildi'];
+    };
+    const srcList = [['all', 'Hammasi'], ['Mahsulot kartasi', 'Mahsulot'], ['Qayta qoplash', 'Qoplash'], ["Qo'ng'iroq", "Qo'ng'iroq"], ["KP so'rovi", 'KP']];
+    const vis = st.leads.filter((l) => (st.src === 'all' || l.src === st.src) && (st.role !== 'sales' || l.mgr === 'am' || l.mgr === 'none'));
+    const decorate = (l) => {
+      const s = sla(l), m = mgrs[l.mgr];
+      return Object.assign({}, l, {
+        sla: s[0], slaBg: s[1], slaFg: s[2], slaLong: s[3], mgr: m[0], mgrName: m[1], mgrBg: m[2], mgrKey: l.mgr,
+        stName: stMap[l.st].t, stBg: l.st === 'won' ? '#E8F5EC' : (l.st === 'lost' ? '#FBE4DD' : '#fff'),
+        open: () => this.setState({ sel: l.id }),
+        style: 'background:#fff;border:1px solid #111418;padding:12px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;cursor:pointer;font-family:Archivo,sans-serif;color:#111418;border-left:4px solid ' + stMap[l.st].c
+      });
+    };
+    const sel = st.leads.find((l) => l.id === st.sel);
+    const L = sel ? Object.assign(decorate(sel), {
+      hist: [
+        { t: 'Ariza tushdi — ' + sel.src, d: sel.date, c: '#3B82C4' },
+        { t: 'Telegram va Email\'ga bildirishnoma yuborildi', d: sel.date, c: '#E9EBEE' },
+        sel.mgr !== 'none' ? { t: mgrs[sel.mgr][1] + ' biriktirildi', d: '+' + sel.mins + ' daq', c: accent } : { t: 'Menejer biriktirilmagan', d: 'kutilmoqda', c: '#C9542E' }
+      ].concat(sel.st !== 'new' && sel.st !== 'work' ? [{ t: 'Status: ' + stMap[sel.st].t, d: 'oxirgi o\'zgarish', c: stMap[sel.st].c }] : [])
+    }) : { id: '', date: '', src: '', company: '', person: '', tel: '', product: '', note: '', hist: [], slaBg: '#fff', slaFg: '#111418', slaLong: '', mgrKey: 'none' };
+    const upd = (id, patch) => this.setState({ leads: st.leads.map((l) => (l.id === id ? Object.assign({}, l, patch) : l)) });
+    const seg = (on) => 'min-height:40px;padding:0 16px;border:0;font:700 14px Archivo,sans-serif;cursor:pointer;' + (on ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418');
+    const chip = (on) => 'min-height:32px;padding:0 10px;border:1px solid #111418;font:600 11px JetBrains Mono,monospace;cursor:pointer;text-transform:uppercase;' + (on ? 'background:' + accent : 'background:#fff');
+    const toggleStyle = (on) => ({ tgStyle: 'background:' + (on ? '#111418' : '#E3E7EB'), knob: 'position:absolute;top:2px;left:' + (on ? '22px' : '2px') + ';width:18px;height:18px;background:' + (on ? accent : '#fff') + ';border:1px solid #111418;transition:left .2s' });
+    const clients = [
+      { name: '[Kompaniya A]', inn: '[_________]', tel: '+998 90 ___ __ 11', orders: 3, mgr: 'A. Menejer', hist: [{ t: 'Valik Ø120 — 4 dona', d: '14.10.2026' }, { t: 'Qayta qoplash — 2 dona', d: '02.07.2026' }, { t: 'Mufta yulduzchasi — 10', d: '11.03.2026' }] },
+      { name: '[Kompaniya B]', inn: '[_________]', tel: '+998 93 ___ __ 22', orders: 1, mgr: 'Biriktirilmagan', hist: [{ t: 'Qayta qoplash — 6 dona', d: '14.10.2026' }] },
+      { name: '[Kompaniya B MChJ]', inn: '[_________]', tel: '+998 93 ___ __ 22', orders: 0, mgr: '—', dup: true, hist: [{ t: 'Takroriy yozuv — [Kompaniya B] bilan birlashtirish', d: 'telefon mos' }] },
+      { name: '[Kompaniya C]', inn: '[_________]', tel: '+998 97 ___ __ 33', orders: 5, mgr: 'A. Menejer', hist: [{ t: 'Mufta yulduzchasi — 20', d: '13.10.2026' }] },
+      { name: '[Kompaniya F]', inn: '[_________]', tel: '+998 95 ___ __ 44', orders: 2, mgr: 'B. Menejer', hist: [{ t: 'Press valigi — 2', d: '10.10.2026' }] }
+    ];
+    const prodsAll = [['IR-V01', 'Poliuretan valik', 'Valiklar', '✓', '✓'], ['IR-V02', 'Konveyer roligi', 'Valiklar', '✓', '—'], ['IR-G01', "Poliuretan g'ildirak", "G'ildiraklar", '✓', '✓'], ['IR-K01', 'Valikni qayta qoplash', 'Qayta qoplash', '✓', '✓'], ['IR-P01', "Qirg'ich plastina", 'Plastina', '✓', '—'], ['IR-M01', 'Mufta yulduzchasi', 'Mufta', '✓', '✓']];
+    const impNames = ['Fayl', 'Ustunlar', 'Tekshirish', 'Tayyor'];
+    const barRow = (l, v, max, col) => ({ l, v, bar: 'display:block;height:22px;width:' + Math.round(v / max * 100) + '%;background:' + col + ';border-right:2px solid #111418' });
+    const perms = [
+      ['Arizalarni ko\'rish', 2, 0, 1], ['Status o\'zgartirish', 2, 0, 1], ['Menejer biriktirish', 2, 0, 0], ['Mijozlar bazasi', 2, 0, 1],
+      ['Katalog va kontent', 2, 2, 0], ['SEO va til versiyalari', 2, 2, 0], ['Hisobotlar', 2, 0, 0], ['Xodimlar va rollar', 2, 0, 0], ['Audit jurnali', 2, 1, 1]
+    ];
+    const pTxt = ['—', 'O\'ziniki', '✓'];
+    const pSty = (v) => 'font-size:12px;' + (v === 2 ? 'font-weight:600' : (v === 1 ? 'color:#7A5A00' : 'color:#8A939D'));
+    return {
+      accent,
+      role: st.role,
+      setRole: (e) => { const r = e.target.value; const a = access[r]; this.setState({ role: r, screen: a.length ? a[0] : 'leads', sel: null }); },
+      meName: roles[st.role][1], meRole: roles[st.role][0], meInit: roles[st.role][2],
+      navs: screens.filter(([k]) => allowed.indexOf(k) >= 0).map(([k, l, icon]) => ({ label: l, icon, badge: newCount, hasBadge: k === 'leads' && newCount > 0, pick: () => this.setState({ screen: k, sel: null }), style: 'display:flex;align-items:center;gap:12px;min-height:44px;padding:0 20px;border:0;font:600 14px Archivo,sans-serif;cursor:pointer;color:#EEF0F2;border-left:3px solid ' + (st.screen === k ? accent : 'transparent') + ';background:' + (st.screen === k ? '#1D2228' : 'transparent') })),
+      screenName: (screens.find((s) => s[0] === st.screen) || ['', 'Panel'])[1],
+      noAccess: allowed.indexOf(st.screen) < 0,
+      scLeads: st.screen === 'leads' && allowed.indexOf('leads') >= 0,
+      scClients: st.screen === 'clients' && allowed.indexOf('clients') >= 0,
+      scProducts: st.screen === 'products' && allowed.indexOf('products') >= 0,
+      scReports: st.screen === 'reports' && allowed.indexOf('reports') >= 0,
+      scUsers: st.screen === 'users' && allowed.indexOf('users') >= 0,
+      scSettings: st.screen === 'settings' && allowed.indexOf('settings') >= 0,
+      kpis: [
+        { l: 'Yangi arizalar', v: newCount, s: '+2 bugun', c: '#1E6B3E' },
+        { l: 'Ishda', v: st.leads.filter((l) => l.st === 'work').length, s: 'menejerlarda', c: '#5B636D' },
+        { l: 'KP yuborilgan', v: st.leads.filter((l) => l.st === 'kp').length, s: 'javob kutilmoqda', c: '#5B636D' },
+        { l: 'Konversiya', v: '[__]%', s: 'oktabr', c: '#5B636D' },
+        { l: "O'rtacha 1-javob", v: '17 daq', s: 'SLA: [__] daq', c: '#7A5A00' }
+      ],
+      vKanban: () => this.setState({ view: 'kanban' }), vTable: () => this.setState({ view: 'table' }),
+      vKStyle: seg(st.view === 'kanban'), vTStyle: seg(st.view === 'table') + ';border-left:1px solid #111418',
+      isKanban: st.view === 'kanban', isTable: st.view === 'table',
+      srcF: srcList.map(([k, l]) => ({ l, pick: () => this.setState({ src: k }), style: chip(st.src === k) })),
+      cols: statuses.map(([k, t, c]) => { const items = vis.filter((l) => l.st === k).map(decorate); return { t, c, n: items.length, items }; }),
+      rows: vis.map(decorate),
+      drawerOpen: !!sel, L, closeLead: () => this.setState({ sel: null }),
+      isLost: sel ? sel.st === 'lost' : false,
+      stBtns: statuses.map(([k, t, c]) => ({ t, pick: () => { upd(sel.id, { st: k }); this.say(sel.id + ' → "' + t + '" · Telegram\'ga yuborildi'); }, style: 'min-height:38px;border:1px solid #111418;font:700 12px Archivo,sans-serif;cursor:pointer;' + (sel && sel.st === k ? 'background:' + c + ';color:' + (k === 'work' ? '#111418' : '#fff') : 'background:#fff;color:#111418') })),
+      setMgr: (e) => { upd(sel.id, { mgr: e.target.value }); this.say(sel.id + ' · ' + mgrs[e.target.value][1] + ' biriktirildi'); },
+      toastOn: !!st.toast, toast: st.toast,
+      clients: clients.map((c, i) => Object.assign({}, c, { dup: !!c.dup, pick: () => this.setState({ client: i }), rowStyle: 'cursor:pointer;' + (st.client === i ? 'background:#FFF3C4' : '') })),
+      cl: clients[st.client],
+      importOpen: st.importOpen, openImport: () => this.setState({ importOpen: true, impStep: 1 }), impClose: () => this.setState({ importOpen: false }),
+      impSteps: impNames.map((t, i) => ({ n: '0' + (i + 1), t, style: 'flex:1;padding:12px 14px;font-size:13px;font-weight:700;border-right:1px solid #111418;' + (st.impStep === i + 1 ? 'background:' + accent : (st.impStep > i + 1 ? 'background:#E8F5EC' : 'background:#fff;color:#8A939D')) })),
+      imp1: st.impStep === 1, imp2: st.impStep === 2, imp3: st.impStep === 3, imp4: st.impStep === 4,
+      impCanNext: st.impStep < 4, impNextTxt: ['', 'Davom etish', 'Tekshirish', 'Import qilish'][st.impStep] || '',
+      impNext: () => { const n = Math.min(4, st.impStep + 1); this.setState({ impStep: n }); if (n === 4) this.say('Katalog yangilandi · 435 pozitsiya'); },
+      mapping: [['Артикул', 'Artikul'], ['Наименование UZ', 'Nomi (UZ)'], ['Наименование RU', 'Nomi (RU)'], ['Категория', 'Kategoriya'], ['Твердость', 'Qattiqlik, Shore A'], ['Фото URL', 'Rasm havolasi']].map(([col, to]) => ({ col, to })),
+      prods: prodsAll.map(([sku, name, cat, uz, ru]) => Object.assign({ sku, name, cat, uz, ru, ruC: ru === '—' ? '#C9542E' : '#111418', toggle: () => this.setState({ hidden: Object.assign({}, st.hidden, { [sku]: !st.hidden[sku] }) }) }, toggleStyle(!st.hidden[sku]))),
+      funnel: [barRow('Arizalar', 48, 48, '#3B82C4'), barRow('Ishga olindi', 39, 48, accent), barRow('KP yuborildi', 24, 48, '#8B5CF6'), barRow('Muvaffaqiyatli', 11, 48, '#2E9E5B')],
+      sources: [barRow('Mahsulot kartasi', 21, 21, '#111418'), barRow('KP so\'rovi', 12, 21, '#3E4650'), barRow('Qayta qoplash', 9, 21, accent), barRow("Qo'ng'iroq", 6, 21, '#8A939D')],
+      slaBars: [12, 18, 9, 22, 14, 31, 0].map((v) => ({ style: 'flex:1;height:' + Math.max(2, v * 4) + 'px;background:' + (v > 24 ? '#C9542E' : '#111418') })),
+      mgrs: [{ i: 'AM', n: 'A. Menejer', s: '22 ariza · 14 daq', bg: accent }, { i: 'BM', n: 'B. Menejer', s: '17 ariza · 19 daq', bg: '#9FC5E8' }, { i: '—', n: 'Biriktirilmagan', s: '2 ariza', bg: '#fff' }],
+      matrix: perms.map(([f, a, b, c]) => ({ f, a: pTxt[a], b: pTxt[b], c: pTxt[c], s0: pSty(a), s1: pSty(b), s2: pSty(c) })),
+      users: [{ n: 'Bosh direktor', r: 'OWNER', tg: '@[____]', last: 'bugun 09:40', audit: "To'liq audit" }, { n: 'Texnik admin', r: 'ADMIN', tg: '@[____]', last: 'kecha 18:02', audit: 'Harakatlar yoziladi' }, { n: 'A. Menejer', r: 'SALES', tg: '@[____]', last: 'bugun 09:12', audit: 'Ariza tarixi' }, { n: 'B. Menejer', r: 'SALES', tg: '@[____]', last: 'bugun 08:55', audit: 'Ariza tarixi' }],
+      notif: [['tg', 'Telegram — yangi ariza', 'Sotuv guruhiga darhol'], ['mail', 'Email — yangi ariza', '[sales@…]'], ['sla', 'SLA ogohlantirish', 'Javob kechiksa Owner\'ga'], ['daily', 'Kunlik hisobot', 'Har kuni 18:00 da']].map(([k, t, d]) => Object.assign({ t, d, toggle: () => this.setState({ notif: Object.assign({}, st.notif, { [k]: !st.notif[k] }) }) }, toggleStyle(st.notif[k])))
+    };
+  }
+}
+</script>
+</body>
+</html>

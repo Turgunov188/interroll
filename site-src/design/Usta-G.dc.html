@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Detal tanlash ustasi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+@keyframes irStepA{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes irStepB{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes irPop{0%{opacity:0;transform:scale(.94)}100%{opacity:1;transform:none}}
+.pop{animation:irPop .5s cubic-bezier(.2,.7,.2,1) both}
+.opt{transition:transform .2s,box-shadow .2s,background .2s}
+.opt:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+.bar{transition:width .6s cubic-bezier(.2,.7,.2,1)}
+input[type=range]{width:100%;accent-color:#111418;height:32px;margin:0}
+@media (prefers-reduced-motion: reduce){.pop{animation:none}.bar{transition:none}}
+</style>
+</helmet>
+<div style="font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; --acc: {{accent}}">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="background: #fff; border-bottom: 1px solid #111418; position: sticky; top: 0; z-index: 40">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Variant-Birlashgan.dc.html" style="display: flex; align-items: center; gap: 12px"><svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.5"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg><span style="font-weight: 800; font-size: 20px; letter-spacing: 0.03em">INTER ROLL</span></a>
+<nav aria-label="Asosiy menyu" class="mono" style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 14px; text-transform: uppercase"><a href="Katalog-G.dc.html">Mahsulotlar</a><a href="Qoplash-G.dc.html">Qayta qoplash</a><a href="Zavod-G.dc.html">Zavod</a><a href="Aloqa-G.dc.html">Aloqa</a></nav>
+<a href="Aloqa-G.dc.html" class="btn mono" style="background: {{accent}}; padding: 13px 18px; font-weight: 600; text-transform: uppercase; border: 1px solid #111418; font-size: 14px">Muhandis bilan gaplashish</a>
+</div>
+</header>
+
+<section style="padding: 48px 0 96px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div class="mono" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em">[ Detal tanlash ustasi ]</div>
+<h1 style="margin: 0; font-weight: 800; font-size: 60px; line-height: 0.95; letter-spacing: -0.03em">Qaysi detal kerakligini<br><span style="background: {{accent}}; padding: 0 8px">bilmaysizmi?</span></h1>
+<p style="margin: 0; color: #3E4650; font-size: 17px; line-height: 1.6; max-width: 620px">4 ta savolga javob bering — ish sharoitingizga mos material va qattiqlikni tavsiya qilamiz. 1 daqiqa.</p>
+</div>
+<span class="mono" style="font-size: 13px; text-transform: uppercase">Qadam {{stepNo}} / 05</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid #111418; background: #fff">
+<sc-for list="{{prog}}" as="p" hint-placeholder-count="5"><button onClick="{{p.pick}}" style="{{p.style}}"><span class="mono" style="font-size: 11px">{{p.n}}</span><span style="font-weight: 700; font-size: 14px">{{p.t}}</span></button></sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<div style="{{panelStyle}}">
+
+<sc-if value="{{s1}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-weight: 800; font-size: 32px">Sizga qanday detal kerak?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px">
+<sc-for list="{{types}}" as="o" hint-placeholder-count="5">
+<button onClick="{{o.pick}}" class="opt" style="{{o.style}}"><svg aria-hidden="true" width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#111418" stroke-width="2.2" stroke-linejoin="round"><path d="{{o.icon}}"/></svg><span style="font-weight: 800; font-size: 18px">{{o.t}}</span><span style="font-size: 13px; color: #3E4650; text-align: left">{{o.d}}</span></button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-weight: 800; font-size: 32px">Qaysi sohada ishlaydi?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<sc-for list="{{inds}}" as="o" hint-placeholder-count="6">
+<button onClick="{{o.pick}}" class="opt" style="{{o.style}}"><span style="font-weight: 800; font-size: 20px">{{o.t}}</span><span style="font-size: 13px; color: #3E4650; text-align: left">{{o.d}}</span></button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-weight: 800; font-size: 32px">Detal qanday ishlaydi?</h2>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Yuklama / bosim</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #111418"><sc-for list="{{loads}}" as="o" hint-placeholder-count="3"><button onClick="{{o.pick}}" style="{{o.style}}"><b>{{o.t}}</b><span style="font-size: 12px; font-weight: 400">{{o.d}}</span></button></sc-for></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Ishqalanish / yeyilish</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #111418"><sc-for list="{{abr}}" as="o" hint-placeholder-count="3"><button onClick="{{o.pick}}" style="{{o.style}}"><b>{{o.t}}</b><span style="font-size: 12px; font-weight: 400">{{o.d}}</span></button></sc-for></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s4}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-weight: 800; font-size: 32px">Ish muhiti qanday?</h2>
+<label style="display: flex; flex-direction: column; gap: 8px">
+<span style="display: flex; justify-content: space-between"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Ish harorati</span><b style="font-size: 20px">{{temp}} °C</b></span>
+<input type="range" min="-40" max="200" step="5" value="{{temp}}" onChange="{{setTemp}}">
+<span class="mono" style="display: flex; justify-content: space-between; font-size: 11px; color: #5B636D"><span>−40</span><span>0</span><span>+80</span><span>+200</span></span>
+</label>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+<sc-for list="{{envs}}" as="o" hint-placeholder-count="3">
+<button onClick="{{o.pick}}" class="opt" style="{{o.style}}"><span style="display: flex; justify-content: space-between; width: 100%; align-items: center"><b style="font-size: 17px">{{o.t}}</b><span class="mono" style="{{o.chip}}">{{o.state}}</span></span><span style="font-size: 13px; color: #3E4650; text-align: left">{{o.d}}</span></button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s5}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="display: flex; flex-direction: column; gap: 22px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase">Tavsiya</span>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+<div style="flex: 1 1 260px; background: {{accent}}; border: 1px solid #111418; box-shadow: 6px 6px 0 #111418; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; text-transform: uppercase">Material</span><b style="font-size: 40px; line-height: 1">{{rec.mat}}</b><span style="font-size: 14px">{{rec.matNote}}</span></div>
+<div style="flex: 1 1 200px; background: #fff; border: 1px solid #111418; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Qattiqlik</span><b style="font-size: 40px; line-height: 1">{{rec.shore}}</b><span style="font-size: 14px; color: #3E4650">Shore A</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Nega aynan shu?</span>
+<sc-for list="{{rec.why}}" as="w" hint-placeholder-count="3"><div style="display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid #111418; padding: 12px 14px"><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; background: #111418; color: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px">✓</span><span style="line-height: 1.5">{{w}}</span></div></sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Mos mahsulotlar</span>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<sc-for list="{{rec.prods}}" as="p" hint-placeholder-count="2"><a href="Mahsulot-G.dc.html" class="opt" style="background: #fff; border: 1px solid #111418; padding: 16px; display: flex; flex-direction: column; gap: 4px"><span class="mono" style="font-size: 11px; color: #5B636D">{{p.c}}</span><b style="font-size: 17px">{{p.n}}</b><span class="mono" style="font-size: 11px; margin-top: 6px">BATAFSIL →</span></a></sc-for>
+</div>
+</div>
+<div class="mono" style="font-size: 12px; color: #5B636D; border-top: 1px dashed #111418; padding-top: 14px; line-height: 1.6">Bu umumiy tavsiya. Yakuniy material va qattiqlikni zavod muhandisi sizning sharoitingizni ko'rib tasdiqlaydi.</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Aloqa-G.dc.html" class="btn" style="background: #111418; color: #fff; border: 1px solid #111418; padding: 18px 26px; font-weight: 700">Shu tavsiya bilan so'rov yuborish →</a>
+<button onClick="{{restart}}" class="btn" style="background: #fff; border: 1px solid #111418; padding: 17px 22px; font: 700 15px Archivo, sans-serif; cursor: pointer">Qaytadan boshlash</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showNav}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; justify-content: space-between; border-top: 1px solid #E3E7EB; padding-top: 20px; margin-top: 8px">
+<button onClick="{{back}}" style="{{backStyle}}">← Orqaga</button>
+<button onClick="{{next}}" class="btn" style="{{nextStyle}}">{{nextTxt}} →</button>
+</div>
+</sc-if>
+</div>
+
+<aside aria-label="Tanlovingiz" style="flex: 1 1 300px; max-width: 380px; display: flex; flex-direction: column; gap: 14px; position: sticky; top: 96px">
+<div style="background: #111418; color: #EEF0F2; border: 1px solid #111418; padding: 22px; display: flex; flex-direction: column; gap: 14px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: {{accent}}">Jonli tavsiya</span>
+<b style="font-size: 28px; line-height: 1.05">{{rec.mat}}</b>
+<span class="mono" style="font-size: 13px">{{rec.shore}} Shore A</span>
+<sc-for list="{{rec.meter}}" as="m" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="mono" style="display: flex; justify-content: space-between; font-size: 11px; text-transform: uppercase; color: #A9B0B8"><span>{{m.l}}</span><span>{{m.t}}</span></span><span style="height: 6px; background: #2A3038; display: block"><span class="bar" style="{{m.bar}}"></span></span></div>
+</sc-for>
+</div>
+<div style="background: #fff; border: 1px solid #111418; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Javoblaringiz</span>
+<sc-for list="{{answers}}" as="a" hint-placeholder-count="4"><span style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; border-bottom: 1px solid #E3E7EB; padding-bottom: 6px"><span style="color: #5B636D">{{a.k}}</span><b style="text-align: right">{{a.v}}</b></span></sc-for>
+</div>
+</aside>
+</div>
+</div>
+</section>
+
+<footer style="background: #111418; color: #A9B0B8; padding: 40px 0">
+<div class="mono" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 13px"><span style="color: #fff; font-weight: 600">INTER ROLL</span><span style="display: flex; flex-wrap: wrap; gap: 18px"><a href="Portfolio-G.dc.html" style="color: #A9B0B8; text-decoration: none">Ishlar</a><a href="Video-G.dc.html" style="color: #A9B0B8; text-decoration: none">Video</a><a href="Blog-G.dc.html" style="color: #A9B0B8; text-decoration: none">Blog</a><a href="Usta-G.dc.html" style="color: #A9B0B8; text-decoration: none">Tanlash ustasi</a><a href="Kuzatish-G.dc.html" style="color: #A9B0B8; text-decoration: none">Buyurtmani kuzatish</a></span><span>© 2026 OOO «Inter Roll»</span></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { step: 1, flip: false, type: null, ind: null, load: 'mid', abr: 'mid', temp: 30, oil: false, water: false, food: false }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() { this.startMesh(); }
+  componentWillUnmount() {
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  recommend() {
+    const s = this.state; const why = [];
+    let mat = 'Poliuretan', key = 'pu', note = "Ishqalanish va yuklamaga eng chidamli";
+    if (s.temp > 120) { mat = 'Silikon'; key = 'sil'; note = 'Yuqori haroratga chidamli'; why.push('Harorat ' + s.temp + ' °C — poliuretan va oddiy rezina uchun juda yuqori.'); }
+    else if (s.water && s.temp > 60) { mat = 'Rezina EPDM'; key = 'epdm'; note = "Issiq suv va bug'ga chidamli"; why.push("Issiq suv yoki bug' bor — EPDM bunday muhitda barqaror ishlaydi."); }
+    else if (s.oil && s.abr === 'low' && s.load !== 'high') { mat = 'Rezina NBR'; key = 'nbr'; note = "Yog' va moylarga chidamli"; why.push("Yog' bor, yuklama va ishqalanish past — NBR yetarli va iqtisodiy."); }
+    else { why.push("Ishqalanish va yuklamaga poliuretan rezinadan ancha chidamli."); if (s.oil) why.push("Poliuretan yog' va moylarga ham yaxshi chidaydi."); }
+    if (s.food) why.push("Oziq-ovqat bilan aloqa — [oziq-ovqatga ruxsat etilgan material, sertifikat bilan] tanlanadi.");
+    if (s.temp < -20) why.push('Past harorat (' + s.temp + ' °C) — sovuqqa chidamli markani tanlash kerak.');
+    let shore = '85–90';
+    if (s.ind === 'print') shore = '60–75';
+    else if (s.load === 'high') shore = '92–95';
+    else if (s.load === 'low') shore = '70–80';
+    if (key === 'sil') shore = '40–70';
+    if (key === 'epdm' || key === 'nbr') shore = s.load === 'high' ? '80–85' : '65–75';
+    why.push(s.load === 'high' ? 'Katta yuklama — qattiqroq material shaklini saqlaydi.' : (s.load === 'low' ? "Yengil yuklama — yumshoqroq material yaxshiroq ushlaydi va silliq ishlaydi." : "O'rtacha yuklama — universal qattiqlik."));
+    const lv = { pu: [4, 3, 2, 3], nbr: [2, 4, 2, 3], epdm: [2, 1, 3, 4], sil: [1, 2, 4, 3] }[key];
+    const prodMap = { valik: [['IR-V01', 'Poliuretan valik'], ['IR-K01', 'Valikni qayta qoplash']], gildirak: [['IR-G01', "Poliuretan g'ildirak"], ['IR-G02', 'Bandaj']], plastina: [['IR-P01', "Qirg'ich plastina"], ['IR-P03', 'Poliuretan list']], mufta: [['IR-M01', 'Mufta yulduzchasi'], ['IR-S01', 'Shtamp prujinasi']], bilmayman: [['IR-X01', "Chizma bo'yicha detal"], ['IR-V01', 'Poliuretan valik']] };
+    return { mat, matNote: note, shore, why, lv, prods: (prodMap[s.type] || prodMap.bilmayman).map(([c, n]) => ({ c, n })) };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state;
+    const go = (n) => this.setState({ step: Math.max(1, Math.min(5, n)), flip: !st.flip });
+    const card = (on) => 'border:1px solid #111418;padding:18px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;font-family:Archivo,sans-serif;color:#111418;min-height:120px;' + (on ? 'background:' + accent + ';box-shadow:4px 4px 0 #111418' : 'background:#fff');
+    const seg = (on) => 'min-height:64px;border:0;border-right:1px solid #111418;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;font:600 15px Archivo,sans-serif;' + (on ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418');
+    const types = [['valik', 'Valik / rolik', 'Konveyer, press, poligrafiya', 'M10 22h44v20H10z M10 32h44 M4 30h6v4H4z M54 30h6v4h-6z'], ['gildirak', "G'ildirak", 'Arava, yuk ko\'targich', 'M32 6a26 26 0 1 0 0.01 0z M32 18a14 14 0 1 0 0.01 0z M32 28a4 4 0 1 0 0.01 0z'], ['plastina', "Plastina / qirg'ich", 'Tozalash, qirish', 'M6 42l40-22 12 8-40 22z M14 40l34-18'], ['mufta', 'Mufta / prujina', 'Uzatma, shtamp', 'M32 6l5 13 13-5-5 13 13 5-13 5 5 13-13-5-5 13-5-13-13 5 5-13-13-5 13-5-5-13 13 5z'], ['bilmayman', 'Aniq bilmayman', 'Rasm yoki namuna bor', 'M32 54a22 22 0 1 0 0-44 22 22 0 0 0 0 44z M26 26a6 6 0 1 1 8 5.6c-1.4.6-2 1.6-2 3.4 M32 42v.5']];
+    const inds = [['metal', 'Metallurgiya', 'Prokat, quyish'], ['print', 'Poligrafiya', "Bo'yoq, qog'oz, laminatsiya"], ['food', 'Oziq-ovqat', 'Qadoqlash, konveyer'], ['auto', 'Avtomobil', 'Osma, tayanchlar'], ['log', 'Ombor va logistika', "Arava, rolganglar"], ['other', 'Boshqa', 'Yog\'och, qurilish va b.']];
+    const rec = this.recommend();
+    const lvTxt = ['', 'past', "o'rta", 'yaxshi', "a'lo"];
+    const canNext = st.step === 1 ? !!st.type : (st.step === 2 ? !!st.ind : true);
+    const tName = (types.find((t) => t[0] === st.type) || [0, '—'])[1];
+    const iName = (inds.find((t) => t[0] === st.ind) || [0, '—'])[1];
+    const loadN = { low: 'Yengil', mid: "O'rtacha", high: 'Katta' }, abrN = { low: 'Kam', mid: "O'rtacha", high: "Ko'p" };
+    return {
+      accent,
+      stepNo: '0' + st.step,
+      prog: ['Detal turi', 'Soha', 'Ish sharoiti', 'Muhit', 'Natija'].map((t, i) => ({ n: '0' + (i + 1), t, pick: () => { if (i + 1 <= st.step || (i === 1 && st.type) ) go(i + 1); }, style: 'min-height:60px;border:0;border-right:1px solid #111418;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:0 16px;cursor:pointer;font-family:Archivo,sans-serif;text-align:left;' + (st.step === i + 1 ? 'background:' + accent + ';color:#111418' : (st.step > i + 1 ? 'background:#111418;color:#fff' : 'background:#fff;color:#8A939D')) })),
+      panelStyle: 'flex:2 1 620px;min-width:0;background:#fff;border:1px solid #111418;padding:32px;display:flex;flex-direction:column;gap:20px;animation:' + (st.flip ? 'irStepA' : 'irStepB') + ' .45s cubic-bezier(.2,.7,.2,1) both',
+      s1: st.step === 1, s2: st.step === 2, s3: st.step === 3, s4: st.step === 4, s5: st.step === 5,
+      types: types.map(([k, t, d, icon]) => ({ t, d, icon, pick: () => this.setState({ type: k, step: 2, flip: !st.flip }), style: card(st.type === k) })),
+      inds: inds.map(([k, t, d]) => ({ t, d, pick: () => this.setState({ ind: k, step: 3, flip: !st.flip, food: k === 'food' ? true : st.food }), style: card(st.ind === k) })),
+      loads: [['low', 'Yengil', 'ushlash, yo\'naltirish'], ['mid', "O'rtacha", 'konveyer, tortish'], ['high', 'Katta', 'press, prokat']].map(([k, t, d]) => ({ t, d, pick: () => this.setState({ load: k }), style: seg(st.load === k) })),
+      abr: [['low', 'Kam', 'silliq yuza'], ['mid', "O'rtacha", 'oddiy material'], ['high', "Ko'p", 'qum, metall, abraziv']].map(([k, t, d]) => ({ t, d, pick: () => this.setState({ abr: k }), style: seg(st.abr === k) })),
+      temp: st.temp, setTemp: (e) => this.setState({ temp: +e.target.value }),
+      envs: [['oil', "Yog' / moy", "Moy, benzin, solyarka bilan aloqa"], ['water', "Suv / bug'", 'Yuvish, namlik, bug\''], ['food', 'Oziq-ovqat', "Mahsulot bilan to'g'ridan-to'g'ri aloqa"]].map(([k, t, d]) => ({ t, d, state: st[k] ? 'HA' : "YO'Q", chip: 'font-size:11px;padding:4px 8px;border:1px solid #111418;' + (st[k] ? 'background:#111418;color:#fff' : 'background:#fff'), pick: () => this.setState({ [k]: !st[k] }), style: card(st[k]) })),
+      rec: Object.assign({}, rec, { meter: [['Ishqalanish', 0], ["Yog'ga chidamlilik", 1], ['Harorat', 2], ['Elastiklik', 3]].map(([l, i]) => ({ l, t: lvTxt[rec.lv[i]], bar: 'display:block;height:6px;background:' + accent + ';width:' + rec.lv[i] * 25 + '%;transition:width .6s cubic-bezier(.2,.7,.2,1)' })) }),
+      answers: [{ k: 'Detal', v: tName }, { k: 'Soha', v: iName }, { k: 'Yuklama', v: loadN[st.load] + ' · ishqalanish ' + abrN[st.abr].toLowerCase() }, { k: 'Muhit', v: st.temp + ' °C' + (st.oil ? ' · yog\'' : '') + (st.water ? ' · suv' : '') + (st.food ? ' · oziq-ovqat' : '') }],
+      showNav: st.step < 5,
+      back: () => go(st.step - 1),
+      backStyle: 'background:#fff;border:1px solid #111418;padding:14px 20px;font:700 15px Archivo,sans-serif;cursor:pointer;visibility:' + (st.step > 1 ? 'visible' : 'hidden'),
+      next: () => { if (canNext) go(st.step + 1); },
+      nextTxt: st.step === 4 ? 'Natijani ko\'rish' : 'Davom etish',
+      nextStyle: 'border:1px solid #111418;padding:15px 24px;font:700 15px Archivo,sans-serif;cursor:' + (canNext ? 'pointer' : 'not-allowed') + ';' + (canNext ? 'background:#111418;color:#fff' : 'background:#E3E7EB;color:#8A939D'),
+      restart: () => this.setState({ step: 1, type: null, ind: null, load: 'mid', abr: 'mid', temp: 30, oil: false, water: false, food: false, flip: !st.flip })
+    };
+  }
+}
+</script>
+</body>
+</html>

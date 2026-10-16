@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Katalog</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F1EE}
+a{color:#16181B;text-decoration:none}a:hover{color:#C2410C}
+.ph{background:repeating-linear-gradient(135deg,#D9D7D2 0 12px,#CFCCC6 12px 24px);display:flex;align-items:flex-end;padding:14px;box-sizing:border-box;color:#3B3E44;font:500 13px 'IBM Plex Sans',sans-serif}
+input[type=search]{font:400 16px 'IBM Plex Sans',sans-serif;border:1px solid #C9C6BF;background:#fff;padding:14px 16px;border-radius:4px;width:100%;box-sizing:border-box}
+input[type=checkbox]{width:18px;height:18px;accent-color:#16181B}
+</style>
+</helmet>
+<div style="font-family: 'IBM Plex Sans', sans-serif; color: #16181B; background: #F2F1EE">
+
+<header style="background: #16181B; color: #F2F1EE">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; min-height: 76px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #F2F1EE"><span aria-hidden="true" style="width: 36px; height: 36px; background: #F28C28; display: flex; align-items: center; justify-content: center; font: 700 15px Unbounded, sans-serif; color: #16181B">IR</span><span style="font: 700 18px Unbounded, sans-serif; letter-spacing: 0.04em">INTER ROLL</span></a>
+<nav aria-label="Asosiy menyu" style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 15px">
+<a href="Katalog.dc.html" style="color: #F28C28">Mahsulotlar</a><a href="#" style="color: #F2F1EE">Xizmatlar</a><a href="Zavod.dc.html" style="color: #F2F1EE">Zavod haqida</a><a href="#" style="color: #F2F1EE">Loyihalar</a><a href="#" style="color: #F2F1EE">Aloqa</a>
+</nav>
+<a href="#" style="background: #F28C28; color: #16181B; padding: 12px 20px; border-radius: 4px; font-weight: 600; font-size: 14px">Narx so'rash</a>
+</div>
+</header>
+
+<div style="max-width: 1240px; margin: 0 auto; padding: 40px 24px 96px; display: flex; flex-direction: column; gap: 32px">
+<div style="font-size: 14px; color: #5A5E66"><a href="Main.dc.html" style="color: #5A5E66">Bosh sahifa</a> / Mahsulotlar</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<h1 style="margin: 0; font: 700 44px/1.1 Unbounded, sans-serif">Mahsulotlar katalogi</h1>
+<label style="flex: 0 1 420px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600">Artikul yoki nom bo'yicha qidirish<input type="search" placeholder="Masalan: IR-V120 yoki valik"></label>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+<button onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+<aside aria-label="Filtrlar" style="flex: 1 1 240px; max-width: 280px; background: #fff; border-radius: 4px; padding: 24px; display: flex; flex-direction: column; gap: 28px">
+<fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-weight: 600; margin-bottom: 12px">Material</legend>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox" checked> Poliuretan</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Rezina (NBR)</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Rezina (EPDM)</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Silikon</label>
+</fieldset>
+<fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-weight: 600; margin-bottom: 12px">Qattiqlik (Shore A)</legend>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> 60–75 A</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> 80–90 A</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> 92–98 A</label>
+</fieldset>
+<fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-weight: 600; margin-bottom: 12px">Soha</legend>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Metallurgiya</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Poligrafiya va qog'oz</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Oziq-ovqat</label>
+<label style="display: flex; gap: 10px; align-items: center"><input type="checkbox"> Avtomobilsozlik</label>
+</fieldset>
+<button style="background: transparent; border: 1px solid #16181B; padding: 12px; border-radius: 4px; font: 600 14px 'IBM Plex Sans', sans-serif">Filtrlarni tozalash</button>
+</aside>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; justify-content: space-between; color: #5A5E66; font-size: 14px"><span>[__] ta mahsulot</span><span>Saralash: Ommabop</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px">
+<sc-for list="{{items}}" as="p" hint-placeholder-count="6">
+<article style="background: #fff; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column">
+<a href="Mahsulot.dc.html" class="ph" style="height: 200px">[{{p.name}} fotosurati]</a>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 6px; flex-grow: 1">
+<div style="font-size: 13px; color: #5A5E66">Artikul: {{p.sku}}</div>
+<a href="Mahsulot.dc.html" style="font-weight: 600; font-size: 18px">{{p.name}}</a>
+<div style="font-size: 14px; color: #5A5E66">{{p.spec}}</div>
+<div style="margin-top: auto; padding-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="font-size: 14px; font-weight: 600">Narxi so'rov bo'yicha</span>
+<a href="Mahsulot.dc.html" style="background: #16181B; color: #F2F1EE; padding: 11px 16px; border-radius: 4px; font-size: 14px; font-weight: 600">Narx so'rash</a>
+</div>
+</div>
+</article>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: "Valiklar va g'ildiraklar" }; }
+  renderVals() {
+    const labels = ['Barchasi', "Valiklar va g'ildiraklar", 'Rezina qoplash', "Plastina va qirg'ichlar", 'Mufta va prujinalar', 'Maxsus detallar', 'Avtomobil detallari'];
+    const on = 'background:#16181B;color:#F2F1EE;border:1px solid #16181B;padding:11px 18px;border-radius:999px;font:600 14px IBM Plex Sans,sans-serif;min-height:44px';
+    const off = 'background:#fff;color:#16181B;border:1px solid #C9C6BF;padding:11px 18px;border-radius:999px;font:600 14px IBM Plex Sans,sans-serif;min-height:44px';
+    return {
+      tabs: labels.map((l) => ({ label: l, style: this.state.tab === l ? on : off, pick: () => this.setState({ tab: l }) })),
+      items: [
+        { name: 'Poliuretan valik', sku: '[IR-V01]', spec: 'Ø [__]–[__] mm · 70–95 Shore A' },
+        { name: 'Konveyer roligi', sku: '[IR-V02]', spec: 'Poliuretan qoplamali · buyurtma o\'lchamida' },
+        { name: "Poliuretan g'ildirak", sku: '[IR-G01]', spec: "Arava va yuk ko'targichlar uchun" },
+        { name: 'Press valigi', sku: '[IR-V03]', spec: 'Yuqori bosimga chidamli · 95 Shore A' },
+        { name: 'Yo\'naltiruvchi rolik', sku: '[IR-R01]', spec: 'Podshipnikli · Ø [__] mm' },
+        { name: 'Bandaj (g\'ildirak qoplamasi)', sku: '[IR-G02]', spec: 'Metall disk ustiga quyish' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

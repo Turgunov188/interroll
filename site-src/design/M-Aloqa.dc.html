@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Mobil aloqa</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace}
+@keyframes irMenu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes irPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3);opacity:0}}
+@keyframes irPop{0%{opacity:0;transform:scale(.92)}100%{opacity:1;transform:none}}
+.menu{animation:irMenu .3s cubic-bezier(.2,.7,.2,1) both}
+.ring{animation:irPulse 2s ease-out infinite;transform-origin:center;transform-box:fill-box}
+.pop{animation:irPop .45s cubic-bezier(.2,.7,.2,1) both}
+input[type=text],input[type=tel],textarea{font:400 16px Archivo,sans-serif;border:1px solid #111418;background:#fff;padding:14px;color:#111418;width:100%;box-sizing:border-box;border-radius:0}
+@media (prefers-reduced-motion: reduce){.menu,.ring,.pop{animation:none}}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 2000px; font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; overflow: hidden">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+<header style="position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid #111418; height: 60px; padding: 0 8px 0 16px; display: flex; align-items: center; justify-content: space-between">
+<a href="M-Bosh.dc.html" style="display: flex; align-items: center; gap: 8px">
+<svg aria-hidden="true" width="26" height="26" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.6"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+<b style="font-size: 16px; letter-spacing: 0.03em">INTER ROLL</b>
+</a>
+<div style="display: flex">
+<a href="tel:+998000000000" aria-label="Qo'ng'iroq qilish" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+<button onClick="{{toggleMenu}}" aria-label="Menyu" style="width: 44px; height: 44px; border: 1px solid #111418; background: {{menuBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="2.2"><path d="{{menuIcon}}"/></svg></button>
+</div>
+</header>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav class="menu" aria-label="Asosiy menyu" style="position: absolute; top: 60px; left: 0; right: 0; z-index: 39; background: #fff; border-bottom: 2px solid #111418; display: flex; flex-direction: column">
+<a href="M-Katalog.dc.html" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Mahsulotlar</a>
+<a href="#" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Qayta qoplash</a>
+<a href="#" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Zavod haqida</a>
+<a href="M-Aloqa.dc.html" style="padding: 18px 16px; border-bottom: 1px solid #E3E7EB; font-weight: 800; font-size: 24px">Aloqa</a>
+<div class="mono" style="display: flex; gap: 8px; padding: 16px"><a href="#" style="border: 1px solid #111418; padding: 10px 16px; font-weight: 600; background: {{accent}}">UZ</a><a href="#" style="border: 1px solid #111418; padding: 10px 16px">RU</a></div>
+</nav>
+</sc-if>
+
+<section style="padding: 24px 16px; display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-weight: 800; font-size: 42px; line-height: 0.95; letter-spacing: -0.03em">Bog'laning — <span style="background: {{accent}}; padding: 0 6px">muhandis javob beradi</span></h1>
+<div class="mono" style="background: #fff; border: 1px solid #111418; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; font-size: 12px">
+<span style="display: flex; align-items: center; gap: 8px; text-transform: uppercase; font-weight: 600"><span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 50%; background: {{dot}}"></span>{{openTitle}}</span>
+<span style="color: #3E4650">{{openSub}}</span>
+</div>
+<a href="tel:+998000000000" style="background: {{accent}}; border: 1px solid #111418; box-shadow: 4px 4px 0 #111418; padding: 18px; display: flex; justify-content: space-between; align-items: center"><span style="display: flex; flex-direction: column; gap: 2px"><span class="mono" style="font-size: 11px; text-transform: uppercase">Qo'ng'iroq · eng tez</span><b style="font-size: 22px">+998 [__] ___-__-__</b></span><span aria-hidden="true" style="font-size: 22px">→</span></a>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<a href="#" style="background: #fff; border: 1px solid #111418; padding: 14px; display: flex; flex-direction: column; gap: 4px; min-height: 88px"><span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Telegram</span><b>@[interroll]</b><span style="font-size: 12px; color: #3E4650">rasm va chizmalar</span></a>
+<a href="#" style="background: #fff; border: 1px solid #111418; padding: 14px; display: flex; flex-direction: column; gap: 4px; min-height: 88px"><span class="mono" style="font-size: 11px; text-transform: uppercase; color: #5B636D">Email</span><b style="word-break: break-all">[info@…]</b><span style="font-size: 12px; color: #3E4650">KP va hujjatlar</span></a>
+</div>
+</section>
+
+<section style="margin: 0 16px; background: #fff; border: 1px solid #111418">
+<svg role="img" aria-label="Zavodga borish sxemasi" viewBox="0 0 360 200" width="100%" style="display: block; background: #F4F5F7">
+<path d="M0 150 C80 145 140 128 200 128 S300 118 360 108" stroke="#C9CED4" stroke-width="18" fill="none"/>
+<path d="M230 0 L246 200" stroke="#C9CED4" stroke-width="12" fill="none"/>
+<path d="M30 148 C90 146 150 130 200 130 S236 124 238 100 L240 76" stroke="#111418" stroke-width="2.5" fill="none" stroke-dasharray="6 6"/>
+<rect x="218" y="48" width="44" height="34" fill="{{accent}}" stroke="#111418" stroke-width="2"/>
+<circle class="ring" cx="240" cy="65" r="7" fill="{{accent}}"/><circle cx="240" cy="65" r="5" fill="#111418"/>
+<text x="270" y="44" font-family="JetBrains Mono, monospace" font-size="10" fill="#111418">INTER ROLL</text>
+<text x="10" y="140" font-family="JetBrains Mono, monospace" font-size="10" fill="#5B636D">[Asosiy ko'cha]</text>
+</svg>
+<div style="padding: 14px; border-top: 1px solid #111418; display: flex; flex-direction: column; gap: 4px"><b>[Shahar, ko'cha, uy]</b><span class="mono" style="font-size: 12px; color: #5B636D">Du–Sha · {{hours}}</span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid #111418">
+<a href="#" class="mono" style="min-height: 48px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #111418; font-size: 12px; font-weight: 600">YANDEX ↗</a>
+<a href="#" class="mono" style="min-height: 48px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600">GOOGLE ↗</a>
+</div>
+</section>
+
+<section id="forma" style="margin-top: 28px; background: {{accent}}; border-top: 1px solid #111418; padding: 32px 16px 48px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1">Savolingizni yozing</h2>
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="background: #fff; border: 1px solid #111418; box-shadow: 6px 6px 0 #111418; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; background: #111418; color: {{accent}}; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800">✓</span><b style="font-size: 22px">Ariza qabul qilindi</b><span style="color: #3E4650; font-size: 14px">{{replyTxt}} orqali bog'lanamiz.</span><button onClick="{{again}}" class="mono" style="align-self: flex-start; background: #fff; border: 1px solid #111418; padding: 10px 14px; font-size: 12px">YANA YUBORISH</button></div>
+</sc-if>
+<sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{submit}}" style="background: #fff; border: 1px solid #111418; box-shadow: 6px 6px 0 #111418; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px"><sc-for list="{{topics}}" as="t" hint-placeholder-count="4"><button type="button" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button></sc-for></div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 14px">Ism<input type="text" placeholder="Ismingiz"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 14px">Telefon<input type="tel" placeholder="+998"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 14px">Xabar<textarea rows="3" placeholder="{{hint}}"></textarea></label>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #111418"><sc-for list="{{replies}}" as="r" hint-placeholder-count="3"><button type="button" onClick="{{r.pick}}" style="{{r.style}}">{{r.label}}</button></sc-for></div>
+<button type="submit" style="min-height: 52px; background: #111418; color: #fff; border: 0; font: 700 16px Archivo, sans-serif">Ariza yuborish →</button>
+</form>
+</sc-if>
+</section>
+<footer class="mono" style="background: #111418; color: #A9B0B8; padding: 28px 16px; font-size: 12px; display: flex; flex-direction: column; gap: 6px"><b style="color: #fff">INTER ROLL</b><span>STIR [_________]</span><span>© 2026 OOO «Inter Roll»</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"ochilish":{"editor":"int","default":8,"section":"Ish vaqti"},"yopilish":{"editor":"int","default":18,"section":"Ish vaqti"},"$preview":{"width":390,"height":2000}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { menu: false, now: null, topic: 'narx', reply: 'tel', sent: false }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() {
+    this.startMesh();
+    const tick = () => { try { const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Tashkent', hour: '2-digit', minute: '2-digit', weekday: 'short', hour12: false }).formatToParts(new Date()); const g = (t) => (parts.find((p) => p.type === t) || {}).value; this.setState({ now: { h: +g('hour'), m: +g('minute'), wd: g('weekday') } }); } catch (e) { } };
+    tick(); this.clock = setInterval(tick, 30000);
+  }
+  componentWillUnmount() {
+    if (this.clock) clearInterval(this.clock);
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state, op = this.props.ochilish ?? 8, cl = this.props.yopilish ?? 18;
+    const pad = (n) => (n < 10 ? '0' : '') + n;
+    let openTitle = 'Ish vaqti: Du–Sha', openSub = pad(op) + ':00 – ' + pad(cl) + ':00', dot = '#8A939D';
+    if (st.now) {
+      const mins = st.now.h * 60 + st.now.m, wd = st.now.wd, open = wd !== 'Sun' && mins >= op * 60 && mins < cl * 60;
+      if (open) { openTitle = 'Hozir ochiq'; dot = '#2E9E5B'; openSub = 'Yopilishiga ' + Math.floor((cl * 60 - mins) / 60) + ' soat ' + ((cl * 60 - mins) % 60) + ' daqiqa'; }
+      else { openTitle = 'Hozir yopiq'; dot = '#C9542E'; openSub = pad(op) + ':00 da ochiladi · ariza qoldiring'; }
+    }
+    const topics = [['narx', 'Narx', "Detal, o'lcham va soni"], ['qoplash', 'Qoplash', "Valik o'lchami va holati"], ['texnik', 'Texnik', 'Harorat, yuklama, muhit'], ['hamkor', 'Hamkorlik', 'Taklifingiz']];
+    const replies = [['tel', "Qo'ng'iroq"], ['tg', 'Telegram'], ['mail', 'Email']];
+    const seg = (on) => 'min-height:44px;border:1px solid #111418;font:700 13px Archivo,sans-serif;cursor:pointer;' + (on ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418');
+    return {
+      accent,
+      menuOpen: st.menu, toggleMenu: () => this.setState({ menu: !st.menu }), menuBg: st.menu ? accent : '#fff', menuIcon: st.menu ? 'M6 6l12 12 M18 6L6 18' : 'M3 7h18 M3 12h18 M3 17h18',
+      openTitle, openSub, dot, hours: pad(op) + ':00–' + pad(cl) + ':00',
+      topics: topics.map(([k, l]) => ({ label: l, pick: () => this.setState({ topic: k }), style: seg(st.topic === k) })),
+      replies: replies.map(([k, l]) => ({ label: l, pick: () => this.setState({ reply: k }), style: seg(st.reply === k) + ';border-width:0 1px 0 0' })),
+      hint: topics.find((t) => t[0] === st.topic)[2], replyTxt: replies.find((r) => r[0] === st.reply)[1],
+      sent: st.sent, notSent: !st.sent,
+      submit: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sent: true }); },
+      again: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

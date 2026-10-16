@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<title>Inter Roll — Poliuretan valik</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF0F2}
+a{color:#111418;text-decoration:none}a:hover{color:#111418}
+.mono{font-family:'JetBrains Mono',monospace}
+.ph{background:repeating-linear-gradient(135deg,#E3E7EB 0 12px,#DCE0E4 12px 24px)}
+@keyframes irIn{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes irspin{from{transform:rotateX(0deg)}to{transform:rotateX(-360deg)}}
+.spin{animation:irspin 7s linear infinite}
+.in{animation:irIn .9s cubic-bezier(.2,.7,.2,1) both}
+.card{transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{transform:translate(-6px,-6px);box-shadow:6px 6px 0 #111418}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 #111418}
+.dim{transition:all .35s cubic-bezier(.2,.7,.2,1)}
+input[type=range]{width:100%;accent-color:#111418;height:28px;margin:0}
+input[type=text],input[type=tel],textarea{font:400 16px Archivo,sans-serif;border:1px solid #111418;background:#fff;padding:14px 16px;color:#111418;width:100%;box-sizing:border-box;border-radius:0;transition:box-shadow .2s}
+input:focus,textarea:focus{outline:none;box-shadow:4px 4px 0 #111418}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid #DDE1E5;font-size:15px}
+th{color:#5B636D;font-weight:500;width:46%;font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase}
+@media (prefers-reduced-motion: reduce){.in,.spin{animation:none}.dim{transition:none}}
+</style>
+</helmet>
+<div style="font-family: Archivo, sans-serif; color: #111418; position: relative; z-index: 0; --acc: {{accent}}">
+<canvas data-mesh="1" aria-hidden="true" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block"></canvas>
+
+<header style="background: #fff; border-bottom: 1px solid #111418; position: sticky; top: 0; z-index: 40">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Variant-Birlashgan.dc.html" style="display: flex; align-items: center; gap: 12px">
+<svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#111418" stroke-width="2.5" style="{{logoSpin}}"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+<span style="font-weight: 800; font-size: 20px; letter-spacing: 0.03em">INTER ROLL</span>
+</a>
+<nav aria-label="Asosiy menyu" class="mono" style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 14px; text-transform: uppercase">
+<a href="Katalog-G.dc.html" style="border-bottom: 2px solid {{accent}}; padding-bottom: 2px">Mahsulotlar</a><a href="Qoplash-G.dc.html">Qayta qoplash</a><a href="Zavod-G.dc.html">Zavod</a><a href="Aloqa-G.dc.html">Aloqa</a>
+</nav>
+<div class="mono" style="display: flex; align-items: center; gap: 16px; font-size: 14px">
+<a href="#" style="font-weight: 600">UZ</a><a href="#" style="color: #5B636D">RU</a>
+<a href="#sorov" class="btn" style="background: {{accent}}; padding: 13px 18px; font-weight: 600; text-transform: uppercase; border: 1px solid #111418">Chizma yuborish</a>
+</div>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 0; bottom: -1px; height: 3px; background: #111418; width: {{progress}}%"></div>
+</header>
+
+<section style="padding: 40px 0 72px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 28px">
+<div class="mono in" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #3E4650"><a href="Variant-Birlashgan.dc.html" style="color: #3E4650">Bosh sahifa</a> / <a href="Katalog-G.dc.html" style="color: #3E4650">Katalog</a> / Valiklar / IR-V01</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+<div class="in" style="flex: 1 1 600px; min-width: 0; background: #fff; border: 1px solid #111418; display: flex; flex-direction: column; animation-delay: 80ms; position: sticky; top: 96px">
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111418">
+<div style="display: flex">
+<sc-for list="{{views}}" as="v" hint-placeholder-count="3">
+<button onClick="{{v.pick}}" style="{{v.style}}">{{v.label}}</button>
+</sc-for>
+</div>
+<span class="mono" style="padding: 0 16px; font-size: 12px; color: #5B636D">M 1:{{scaleTxt}}</span>
+</div>
+
+<sc-if value="{{isDraw}}" hint-placeholder-val="{{ true }}">
+<svg role="img" aria-label="{{drawLabel}}" viewBox="0 0 640 380" width="100%" style="display: block; background-image: linear-gradient(#EEF0F2 1px, transparent 1px), linear-gradient(90deg, #EEF0F2 1px, transparent 1px); background-size: 20px 20px">
+<g stroke="#111418" fill="none" stroke-width="1">
+<line x1="40" y1="{{dw.cy}}" x2="600" y2="{{dw.cy}}" stroke-dasharray="14 4 2 4"/>
+</g>
+<rect class="dim" x="{{dw.shx1}}" y="{{dw.shy}}" width="{{dw.shw}}" height="{{dw.shh}}" fill="#4A535E" stroke="#111418" stroke-width="1.5"/>
+<rect class="dim" x="{{dw.x}}" y="{{dw.y}}" width="{{dw.w}}" height="{{dw.h}}" fill="{{dw.coat}}" fill-opacity="{{dw.op}}" stroke="#111418" stroke-width="2"/>
+<rect class="dim" x="{{dw.x}}" y="{{dw.cyTop}}" width="{{dw.w}}" height="{{dw.coreH}}" fill="url(#hatch)" stroke="#111418" stroke-width="1.5"/>
+<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#D2D7DC"/><line x1="0" y1="0" x2="0" y2="8" stroke="#8A939D" stroke-width="2"/></pattern></defs>
+<g stroke="#111418" stroke-width="1" fill="none">
+<line class="dim" x1="{{dw.x}}" y1="{{dw.ldy}}" x2="{{dw.x2}}" y2="{{dw.ldy}}"/>
+<line class="dim" x1="{{dw.x}}" y1="{{dw.ldy1}}" x2="{{dw.x}}" y2="{{dw.ldy2}}"/>
+<line class="dim" x1="{{dw.x2}}" y1="{{dw.ldy1}}" x2="{{dw.x2}}" y2="{{dw.ldy2}}"/>
+<line class="dim" x1="{{dw.ddx}}" y1="{{dw.y}}" x2="{{dw.ddx}}" y2="{{dw.y2}}"/>
+<line class="dim" x1="{{dw.ddx1}}" y1="{{dw.y}}" x2="{{dw.ddx2}}" y2="{{dw.y}}"/>
+<line class="dim" x1="{{dw.ddx1}}" y1="{{dw.y2}}" x2="{{dw.ddx2}}" y2="{{dw.y2}}"/>
+</g>
+<g font-family="JetBrains Mono, monospace" font-size="13" fill="#111418">
+<text class="dim" x="{{dw.ltx}}" y="{{dw.lty}}" text-anchor="middle">L = {{L}}</text>
+<text class="dim" x="{{dw.dtx}}" y="{{dw.dty}}">Ø{{D}}</text>
+<text class="dim" x="{{dw.x}}" y="{{dw.tty}}">{{matShort}} · {{shore}} Sh A · qoplama {{T}} mm</text>
+</g>
+<g font-family="JetBrains Mono, monospace" font-size="11" fill="#5B636D">
+<text x="24" y="360">IR-V01 · POLIURETAN VALIK · O'LCHAMLAR MM</text>
+<text x="616" y="360" text-anchor="end">INTER ROLL</text>
+</g>
+</svg>
+</sc-if>
+
+<sc-if value="{{is3d}}" hint-placeholder-val="{{ false }}">
+<div onMouseMove="{{move3d}}" onMouseLeave="{{leave3d}}" style="height: 380px; position: relative; overflow: hidden; perspective: 1200px; background: radial-gradient(ellipse at 50% 45%, #FFFFFF 0%, #EEF0F2 75%)">
+<div style="position: absolute; left: 50%; top: 46%; width: 0; height: 0">
+<div style="{{tilt}}">
+<div class="spin" style="{{spinBox}}">
+<sc-for list="{{shaft}}" as="f" hint-placeholder-count="12"><div style="{{f.style}}"></div></sc-for>
+<sc-for list="{{faces}}" as="f" hint-placeholder-count="32"><div style="{{f.style}}"></div></sc-for>
+<sc-for list="{{caps}}" as="f" hint-placeholder-count="2"><div style="{{f.style}}"></div></sc-for>
+</div>
+</div>
+</div>
+<span class="mono" style="position: absolute; left: 16px; bottom: 14px; font-size: 12px; color: #5B636D; text-transform: uppercase">Kursor bilan aylantiring</span>
+</div>
+</sc-if>
+
+<sc-if value="{{isFoto}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #111418">
+<div class="ph mono" style="height: 189px; display: flex; align-items: flex-end; padding: 12px; font-size: 12px; color: #3E4650">[Tayyor valik]</div>
+<div class="ph mono" style="height: 189px; display: flex; align-items: flex-end; padding: 12px; font-size: 12px; color: #3E4650">[Kesim]</div>
+<div class="ph mono" style="height: 189px; display: flex; align-items: flex-end; padding: 12px; font-size: 12px; color: #3E4650">[Liniyada ishlashi]</div>
+<div class="ph mono" style="height: 189px; display: flex; align-items: flex-end; padding: 12px; font-size: 12px; color: #3E4650">[Qadoqlash]</div>
+</div>
+</sc-if>
+
+<div class="mono" style="border-top: 1px solid #111418; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); font-size: 12px; text-transform: uppercase">
+<div style="padding: 14px 16px; border-right: 1px solid #DDE1E5"><div style="color: #5B636D">Diametr</div><div style="font: 800 22px Archivo, sans-serif; margin-top: 4px">Ø{{D}}</div></div>
+<div style="padding: 14px 16px; border-right: 1px solid #DDE1E5"><div style="color: #5B636D">Uzunlik</div><div style="font: 800 22px Archivo, sans-serif; margin-top: 4px">{{L}}</div></div>
+<div style="padding: 14px 16px; border-right: 1px solid #DDE1E5"><div style="color: #5B636D">Qoplama</div><div style="font: 800 22px Archivo, sans-serif; margin-top: 4px">{{T}} mm</div></div>
+<div style="padding: 14px 16px"><div style="color: #5B636D">Qattiqlik</div><div style="font: 800 22px Archivo, sans-serif; margin-top: 4px">{{shore}} A</div></div>
+</div>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<div class="in" style="display: flex; flex-direction: column; gap: 12px; animation-delay: 160ms">
+<span class="mono" style="align-self: flex-start; font-size: 12px; background: #fff; border: 1px solid #111418; padding: 5px 10px">IR-V01 · VALIKLAR</span>
+<h1 style="margin: 0; font-weight: 800; font-size: 56px; line-height: 0.98; letter-spacing: -0.03em">Poliuretan<br><span style="background: {{accent}}; padding: 0 8px">valik</span></h1>
+<p style="margin: 0; color: #3E4650; font-size: 17px; line-height: 1.6">Metall o'zak ustiga quyilgan poliuretan qoplamali valik. Ishqalanish, yog' va yuklamaga chidamli. Konveyer, press, prokat va poligrafiya liniyalari uchun buyurtma o'lchamida tayyorlanadi.</p>
+</div>
+
+<div class="in" style="background: #fff; border: 1px solid #111418; display: flex; flex-direction: column; animation-delay: 240ms">
+<div class="mono" style="padding: 14px 20px; border-bottom: 1px solid #111418; font-size: 13px; text-transform: uppercase; display: flex; justify-content: space-between"><span>Konfigurator</span><span style="color: #5B636D">o'lchamlar mm</span></div>
+
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #DDE1E5">
+<span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Material</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #111418">
+<sc-for list="{{mats}}" as="mt" hint-placeholder-count="3">
+<button onClick="{{mt.pick}}" style="{{mt.style}}">{{mt.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid #DDE1E5">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Qattiqlik, Shore A</span><span style="font-weight: 800; font-size: 20px">{{shore}} A</span></div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid #111418">
+<sc-for list="{{shores}}" as="s" hint-placeholder-count="5">
+<button onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+</sc-for>
+</div>
+<div aria-hidden="true" style="position: relative; height: 10px; background: linear-gradient(90deg, #FFF3C4, {{accent}} 55%, #7A5A00)">
+<span class="dim" style="position: absolute; top: -5px; width: 4px; height: 20px; background: #111418; left: {{shorePos}}%"></span>
+</div>
+<div class="mono" style="display: flex; justify-content: space-between; font-size: 11px; color: #5B636D; text-transform: uppercase"><span>Yumshoq · ushlash</span><span>{{shoreHint}}</span><span>Qattiq · yuklama</span></div>
+</div>
+
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 18px; border-bottom: 1px solid #DDE1E5">
+<label style="display: flex; flex-direction: column; gap: 6px">
+<span style="display: flex; justify-content: space-between"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Diametr Ø</span><b>{{D}} mm</b></span>
+<input type="range" min="40" max="400" step="5" value="{{D}}" onChange="{{setD}}">
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px">
+<span style="display: flex; justify-content: space-between"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Ishchi uzunlik L</span><b>{{L}} mm</b></span>
+<input type="range" min="100" max="2000" step="10" value="{{L}}" onChange="{{setL}}">
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px">
+<span style="display: flex; justify-content: space-between"><span class="mono" style="font-size: 12px; text-transform: uppercase; color: #5B636D">Qoplama qalinligi</span><b>{{T}} mm</b></span>
+<input type="range" min="5" max="{{Tmax}}" step="1" value="{{T}}" onChange="{{setT}}">
+</label>
+</div>
+
+<div style="padding: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<div style="display: flex; align-items: center; border: 1px solid #111418">
+<button onClick="{{minus}}" aria-label="Kamaytirish" style="width: 44px; height: 44px; border: 0; border-right: 1px solid #111418; background: #fff; font: 700 20px Archivo, sans-serif; cursor: pointer">−</button>
+<span style="min-width: 72px; text-align: center; font-weight: 800; font-size: 18px">{{qty}} dona</span>
+<button onClick="{{plus}}" aria-label="Ko'paytirish" style="width: 44px; height: 44px; border: 0; border-left: 1px solid #111418; background: #fff; font: 700 20px Archivo, sans-serif; cursor: pointer">+</button>
+</div>
+<span class="mono" style="font-size: 13px; font-weight: 600; text-transform: uppercase">Narx — so'rov bo'yicha</span>
+</div>
+<a href="#sorov" class="btn" style="margin: 0 20px 20px; background: #111418; color: #fff; border: 1px solid #111418; padding: 18px; font-weight: 700; text-align: center">Shu o'lcham bilan so'rov yuborish →</a>
+</div>
+
+<div class="mono in" style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 13px; animation-delay: 320ms">
+<a href="#" class="btn" style="border: 1px solid #111418; background: #fff; padding: 12px 16px; display: flex; gap: 8px; align-items: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15l3 3 3-3"/></svg>Texnik pasport (PDF)</a>
+<a href="#" class="btn" style="border: 1px solid #111418; background: #fff; padding: 12px 16px">Katalog (PDF)</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="background: rgba(255,255,255,0.78); border-top: 1px solid #111418; border-bottom: 1px solid #111418; padding: 72px 0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; border: 1px solid #111418; background: #fff; align-self: flex-start">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<button onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{tabSpec}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 32px">
+<table style="flex: 1 1 520px; border-collapse: collapse; background: #fff; border: 1px solid #111418">
+<tbody>
+<tr><th>Material</th><td>{{matLong}}</td></tr>
+<tr><th>Qattiqlik</th><td>{{shore}} Shore A</td></tr>
+<tr><th>Diametr</th><td>Ø {{D}} mm (40–400)</td></tr>
+<tr><th>Ishchi uzunlik</th><td>{{L}} mm (2000 gacha)</td></tr>
+<tr><th>Qoplama qalinligi</th><td>{{T}} mm</td></tr>
+<tr><th>O'zak</th><td>Po'lat · yoki mijoz o'zagi</td></tr>
+<tr><th>Ishchi harorat</th><td>[__] °C … +[__] °C</td></tr>
+<tr><th>Tayyorlash muddati</th><td>[__] ish kunidan</td></tr>
+</tbody>
+</table>
+<div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-weight: 800; font-size: 26px; line-height: 1.15">Nega poliuretan?</div>
+<div style="border-left: 4px solid {{accent}}; padding-left: 14px; line-height: 1.55">Rezinadan [__] marta uzoq xizmat qiladi — <span class="mono" style="font-size: 12px">[raqamni tasdiqlash]</span></div>
+<div style="border-left: 4px solid {{accent}}; padding-left: 14px; line-height: 1.55">Yog', benzin va ko'p erituvchilarga chidamli</div>
+<div style="border-left: 4px solid {{accent}}; padding-left: 14px; line-height: 1.55">Qattiqlikni ish sharoitiga qarab tanlash mumkin</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{tabUse}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+<sc-for list="{{uses}}" as="u" hint-placeholder-count="4">
+<div style="background: #fff; border: 1px solid #111418; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span class="mono" style="font-size: 12px; color: #5B636D">{{u.n}}</span>
+<span style="font-weight: 800; font-size: 20px">{{u.t}}</span>
+<span style="color: #3E4650; line-height: 1.5">{{u.d}}</span>
+<span class="mono" style="font-size: 12px; margin-top: 6px">Tavsiya: {{u.s}}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{tabDocs}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; background: #fff; border: 1px solid #111418">
+<a href="#" style="display: flex; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #DDE1E5"><span>Texnik pasport — IR-V01</span><span class="mono" style="font-size: 13px">PDF · [__] KB ↓</span></a>
+<a href="#" style="display: flex; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #DDE1E5"><span>Sertifikat / muvofiqlik</span><span class="mono" style="font-size: 13px">PDF · [__] KB ↓</span></a>
+<a href="#" style="display: flex; justify-content: space-between; padding: 18px 20px"><span>Buyurtma uchun chizma shabloni</span><span class="mono" style="font-size: 13px">DWG / PDF ↓</span></a>
+</div>
+</sc-if>
+</div>
+</section>
+
+<section style="padding: 72px 0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px">
+<h2 style="margin: 0; font-weight: 800; font-size: 40px; letter-spacing: -0.02em">Shu bilan birga so'raladi</h2>
+<a href="Katalog-G.dc.html" class="mono" style="font-size: 13px; text-transform: uppercase; border-bottom: 2px solid {{accent}}">Butun katalog →</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+<sc-for list="{{related}}" as="r" hint-placeholder-count="3">
+<a href="Mahsulot-G.dc.html" class="card" style="background: #fff; border: 1px solid #111418; display: flex; flex-direction: column">
+<div class="ph" style="height: 150px; border-bottom: 1px solid #111418; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="80" height="80" viewBox="0 0 64 64" fill="none" stroke="#111418" stroke-width="2" stroke-linejoin="round"><path d="{{r.icon}}"/></svg></div>
+<div style="padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<span class="mono" style="font-size: 12px; color: #5B636D">{{r.code}}</span>
+<span style="font-weight: 800; font-size: 19px">{{r.name}}</span>
+<span class="mono" style="font-size: 12px; margin-top: 6px; font-weight: 600">BATAFSIL →</span>
+</div>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="sorov" style="background: {{accent}}; border-top: 1px solid #111418; padding: 80px 0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div class="mono" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em">[ So'rov ]</div>
+<h2 style="margin: 0; font-weight: 800; font-size: 46px; line-height: 1.02; letter-spacing: -0.02em">Konfiguratsiya tayyor — narxni hisoblaymiz</h2>
+<div class="mono" style="background: #fff; border: 1px solid #111418; padding: 16px; font-size: 14px; line-height: 1.7">{{summary}}</div>
+</div>
+<form style="flex: 1 1 480px; min-width: 0; background: #fff; border: 1px solid #111418; padding: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; box-shadow: 10px 10px 0 #111418">
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Kompaniya / ism<input type="text" placeholder="Ism"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Telefon<input type="tel" placeholder="+998"></label>
+<label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Izoh<textarea rows="3" placeholder="Qo'shimcha izoh: ish sharoiti, harorat, muddat"></textarea></label>
+<label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700">Chizma yoki foto (ixtiyoriy)<input type="file" style="font: 400 14px Archivo, sans-serif"></label>
+<button type="submit" class="btn" style="grid-column: 1 / -1; background: #111418; color: #fff; border: 1px solid #111418; padding: 18px; font: 700 16px Archivo, sans-serif; cursor: pointer">So'rov yuborish →</button>
+</form>
+</div>
+</section>
+
+<footer style="background: #111418; color: #A9B0B8; padding: 40px 0">
+<div class="mono" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; font-size: 13px">
+<span style="color: #fff; font-weight: 600">INTER ROLL</span><span style="display: flex; flex-wrap: wrap; gap: 18px"><a href="Portfolio-G.dc.html" style="color: #A9B0B8; text-decoration: none">Ishlar</a><a href="Video-G.dc.html" style="color: #A9B0B8; text-decoration: none">Video</a><a href="Blog-G.dc.html" style="color: #A9B0B8; text-decoration: none">Blog</a><a href="Usta-G.dc.html" style="color: #A9B0B8; text-decoration: none">Tanlash ustasi</a><a href="Kuzatish-G.dc.html" style="color: #A9B0B8; text-decoration: none">Buyurtmani kuzatish</a></span><span>© 2026 OOO «Inter Roll»</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B700","options":["#F5B700","#FF7A1A","#7BC043"]},"bgMotion":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { view: 'draw', mat: 'pu', shore: 90, D: 120, L: 800, T: 12, qty: 4, tab: 'spec', vx: 0, vy: 0, scr: 0, prog: 0 }; }
+  startMesh() {
+    const cv = document.querySelector('canvas[data-mesh]');
+    if (!cv || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gap = 38, R = 170;
+    let W = 0, H = 0, nodes = [], cols = 0, rows = 0;
+    const m = { x: -9999, y: -9999, px: -9999, py: -9999, vx: 0, vy: 0, on: false };
+    const build = () => {
+      cols = Math.ceil(W / gap) + 3; rows = Math.ceil(H / gap) + 3; nodes = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const rx = (i - 1) * gap, ry = (j - 1) * gap;
+        nodes.push({ rx, ry, x: rx, y: ry, vx: 0, vy: 0 });
+      }
+    };
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    const hex = (h) => { const s = String(h || '#F5B700').replace('#', ''); const f = s.length === 3 ? s.split('').map((c) => c + c).join('') : s; return [parseInt(f.slice(0, 2), 16) || 245, parseInt(f.slice(2, 4), 16) || 183, parseInt(f.slice(4, 6), 16) || 0]; };
+    const impulse = (cx, cy, rad, power) => {
+      for (const n of nodes) {
+        const dx = n.x - cx, dy = n.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < rad) { const f = 1 - d / rad; n.vx += (dx / d) * f * power; n.vy += (dy / d) * f * power; }
+      }
+    };
+    this.onMoveMesh = (e) => { m.x = e.clientX; m.y = e.clientY; m.on = true; };
+    this.onLeaveMesh = () => { m.on = false; };
+    this.onDownMesh = (e) => impulse(e.clientX, e.clientY, 300, 14);
+    let lastY = window.scrollY || 0;
+    this.onScrollMesh = () => {
+      const y = window.scrollY || 0, d = Math.max(-60, Math.min(60, y - lastY)); lastY = y;
+      for (let k = 0; k < nodes.length; k++) nodes[k].vy -= d * 0.06 * (0.6 + 0.4 * Math.sin(nodes[k].rx * 0.01));
+    };
+    this.onResizeMesh = resize;
+    window.addEventListener('mousemove', this.onMoveMesh, { passive: true });
+    window.addEventListener('mousedown', this.onDownMesh);
+    window.addEventListener('scroll', this.onScrollMesh, { passive: true });
+    document.addEventListener('mouseleave', this.onLeaveMesh);
+    window.addEventListener('resize', resize);
+    resize();
+    const frame = (t) => {
+      const motion = (this.props.bgMotion ?? true) && !reduce;
+      const time = motion ? t : 0;
+      const [ar, ag, ab] = hex(this.props.accent);
+      if (m.px > -9000 && m.on) { m.vx = m.x - m.px; m.vy = m.y - m.py; } else { m.vx = 0; m.vy = 0; }
+      m.px = m.x; m.py = m.y;
+      for (const n of nodes) {
+        const tx = n.rx + (motion ? Math.sin(n.ry * 0.012 + time * 0.0011) * 3 : 0);
+        const ty = n.ry + (motion ? Math.sin(n.rx * 0.01 + time * 0.0013) * 4 + Math.cos(n.ry * 0.014 - time * 0.0009) * 2 : 0);
+        n.vx += (tx - n.x) * 0.05; n.vy += (ty - n.y) * 0.05;
+        if (m.on) {
+          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < R) {
+            const f = Math.pow(1 - d / R, 2);
+            n.vx += (dx / d) * f * 2.4 + m.vx * f * 0.22;
+            n.vy += (dy / d) * f * 2.4 + m.vy * f * 0.22;
+          }
+        }
+        n.vx *= 0.88; n.vy *= 0.88;
+        n.x += n.vx; n.y += n.vy;
+      }
+      ctx.fillStyle = '#EEF0F2'; ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(62,70,80,0.16)';
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) { const n = nodes[j * cols + i]; if (i === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) { const n = nodes[j * cols + i]; if (j === 0) ctx.moveTo(n.x, n.y); else ctx.lineTo(n.x, n.y); }
+      }
+      ctx.stroke();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = nodes[j * cols + i];
+          const dx = n.x - n.rx, dy = n.y - n.ry, disp = Math.sqrt(dx * dx + dy * dy);
+          if (disp > 5.5) {
+            const k = Math.min(1, (disp - 5.5) / 22);
+            if (i < cols - 1) { const b = nodes[j * cols + i + 1]; ctx.strokeStyle = 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (0.25 + k * 0.6).toFixed(2) + ')'; ctx.lineWidth = 1 + k * 1.6; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            if (j < rows - 1) { const b = nodes[(j + 1) * cols + i]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+            ctx.fillStyle = 'rgba(17,20,24,' + (0.25 + k * 0.5).toFixed(2) + ')';
+            ctx.beginPath(); ctx.arc(n.x, n.y, 1.2 + k * 2.2, 0, 6.2832); ctx.fill();
+          } else {
+            ctx.fillStyle = 'rgba(62,70,80,0.35)';
+            ctx.fillRect(n.x - 1, n.y - 1, 2, 2);
+          }
+        }
+      }
+      this.meshRaf = requestAnimationFrame(frame);
+    };
+    this.meshRaf = requestAnimationFrame(frame);
+  }
+  componentDidMount() {
+    this.startMesh();
+    this.raf = 0;
+    this.onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = 0;
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        this.setState({ scr: y, prog: Math.min(100, (y / max) * 100) });
+      });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.meshRaf) cancelAnimationFrame(this.meshRaf);
+    if (this.onMoveMesh) window.removeEventListener('mousemove', this.onMoveMesh);
+    if (this.onDownMesh) window.removeEventListener('mousedown', this.onDownMesh);
+    if (this.onScrollMesh) window.removeEventListener('scroll', this.onScrollMesh);
+    if (this.onLeaveMesh) document.removeEventListener('mouseleave', this.onLeaveMesh);
+    if (this.onResizeMesh) window.removeEventListener('resize', this.onResizeMesh);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F5B700';
+    const st = this.state;
+    const { D, L } = st;
+    const Tmax = Math.max(6, Math.min(40, Math.floor(D / 2 - 12)));
+    const T = Math.min(st.T, Tmax);
+    const coatCol = st.mat === 'pu' ? accent : (st.mat === 'nbr' ? '#2A3038' : '#4A535E');
+    const op = st.mat === 'pu' ? (0.45 + (st.shore - 60) / 38 * 0.55) : 0.9;
+    const k = Math.min(460 / L, 190 / D);
+    const w = L * k, h = D * k, cx = 320, cyy = 170;
+    const x = cx - w / 2, y = cyy - h / 2;
+    const coreH = Math.max(4, (D - 2 * T) * k);
+    const shH = Math.max(6, coreH * 0.42);
+    const dw = {
+      cy: cyy, x: +x.toFixed(1), y: +y.toFixed(1), w: +w.toFixed(1), h: +h.toFixed(1), x2: +(x + w).toFixed(1), y2: +(y + h).toFixed(1),
+      coat: coatCol, op: op.toFixed(2),
+      cyTop: +(cyy - coreH / 2).toFixed(1), coreH: +coreH.toFixed(1),
+      shx1: +(x - 40).toFixed(1), shw: +(w + 80).toFixed(1), shy: +(cyy - shH / 2).toFixed(1), shh: +shH.toFixed(1),
+      ldy: +(y + h + 34).toFixed(1), ldy1: +(y + h + 24).toFixed(1), ldy2: +(y + h + 44).toFixed(1),
+      ltx: cx, lty: +(y + h + 60).toFixed(1),
+      ddx: +(x + w + 64).toFixed(1), ddx1: +(x + w + 54).toFixed(1), ddx2: +(x + w + 74).toFixed(1),
+      dtx: +(x + w + 80).toFixed(1), dty: +(cyy + 5).toFixed(1),
+      tty: +(y - 16).toFixed(1)
+    };
+    const matNames = { pu: ['PU', 'Poliuretan'], nbr: ['NBR', 'Rezina NBR (yog\'ga chidamli)'], epdm: ['EPDM', 'Rezina EPDM (issiqlik va ob-havoga chidamli)'] };
+    const segBase = 'min-height:44px;border:0;border-right:1px solid #111418;font:600 13px JetBrains Mono,monospace;cursor:pointer;transition:background .2s,color .2s;';
+    const on = (a) => a ? 'background:#111418;color:#fff' : 'background:#fff;color:#111418';
+    const shoreHint = st.shore < 80 ? 'ushlash, bosim, poligrafiya' : (st.shore < 92 ? 'konveyer, universal' : 'press, katta yuklama');
+    const px = Math.max(60, Math.min(520, w * 1.05)), pr = Math.max(26, Math.min(130, h * 0.62));
+    const n = 32, fh = Math.ceil(2 * Math.PI * pr / n) + 1;
+    const faces = [];
+    for (let i = 0; i < n; i++) {
+      const o = i % 8 === 0 ? 0.3 : (i % 2 ? 0.07 : 0);
+      faces.push({ style: 'position:absolute;left:0;top:' + (-fh / 2) + 'px;width:' + px + 'px;height:' + fh + 'px;transform:rotateX(' + (i * 360 / n) + 'deg) translateZ(' + pr + 'px);backface-visibility:hidden;background:linear-gradient(rgba(17,20,24,' + o + '),rgba(17,20,24,' + o + ')),' + coatCol });
+    }
+    const sr = Math.max(6, pr * (coreH / h) * 0.42), sn = 12, sh = Math.ceil(2 * Math.PI * sr / sn) + 1;
+    const shaft = [];
+    for (let i = 0; i < sn; i++) shaft.push({ style: 'position:absolute;left:-60px;top:' + (-sh / 2) + 'px;width:' + (px + 120) + 'px;height:' + sh + 'px;transform:rotateX(' + (i * 360 / sn) + 'deg) translateZ(' + sr + 'px);backface-visibility:hidden;background:' + (i % 2 ? '#2A3038' : '#4A535E') });
+    const coreR = (coreH / h) * 50;
+    const cap = (dx) => ({ style: 'position:absolute;left:' + (px / 2 - pr) + 'px;top:' + (-pr) + 'px;width:' + (2 * pr) + 'px;height:' + (2 * pr) + 'px;border-radius:50%;background:radial-gradient(circle,#4A535E 0 ' + (coreR * 0.42).toFixed(1) + '%,#8A939D ' + (coreR * 0.42 + 1).toFixed(1) + '% ' + coreR.toFixed(1) + '%,' + coatCol + ' ' + (coreR + 1).toFixed(1) + '% 100%);box-shadow:inset 0 0 0 2px rgba(17,20,24,0.4);transform:translateX(' + dx + 'px) rotateY(90deg)' });
+    const summary = 'IR-V01 Poliuretan valik · ' + matNames[st.mat][1] + ' · ' + st.shore + ' Shore A · Ø' + D + ' × L' + L + ' mm · qoplama ' + T + ' mm · ' + st.qty + ' dona';
+    return {
+      accent,
+      progress: st.prog.toFixed(1),
+      logoSpin: 'transform:rotate(' + Math.round(st.scr * 0.4) + 'deg);transition:transform .2s linear',
+      views: [['draw', 'Chizma'], ['3d', '3D'], ['foto', 'Foto']].map(([k2, l]) => ({ label: l, pick: () => this.setState({ view: k2 }), style: 'min-height:48px;padding:0 20px;border:0;border-right:1px solid #111418;font:700 14px Archivo,sans-serif;cursor:pointer;' + (st.view === k2 ? 'background:' + accent + ';color:#111418' : 'background:#fff;color:#111418') })),
+      isDraw: st.view === 'draw', is3d: st.view === '3d', isFoto: st.view === 'foto',
+      scaleTxt: (1 / k).toFixed(1),
+      drawLabel: 'Valik chizmasi: diametr ' + D + ' mm, uzunlik ' + L + ' mm, qoplama ' + T + ' mm',
+      dw, D, L, T, Tmax, shore: st.shore, qty: st.qty,
+      matShort: matNames[st.mat][0], matLong: matNames[st.mat][1],
+      mats: [['pu', 'Poliuretan'], ['nbr', 'Rezina NBR'], ['epdm', 'Rezina EPDM']].map(([k2, l]) => ({ label: l, pick: () => this.setState({ mat: k2 }), style: segBase + on(st.mat === k2) })),
+      shores: [70, 80, 85, 90, 95].map((v) => ({ label: v + 'A', pick: () => this.setState({ shore: v }), style: segBase + on(st.shore === v) })),
+      shorePos: (((st.shore - 60) / 38) * 100).toFixed(1), shoreHint,
+      setD: (e) => this.setState({ D: +e.target.value }),
+      setL: (e) => this.setState({ L: +e.target.value }),
+      setT: (e) => this.setState({ T: +e.target.value }),
+      minus: () => this.setState({ qty: Math.max(1, st.qty - 1) }),
+      plus: () => this.setState({ qty: st.qty + 1 }),
+      faces, shaft, caps: [cap(-px / 2), cap(px / 2)],
+      tilt: 'position:absolute;left:' + (-px / 2) + 'px;top:0;width:' + px + 'px;height:0;transform-style:preserve-3d;transform-origin:' + (px / 2) + 'px 0;transition:transform .25s ease-out;transform:rotateY(' + (-24 + st.vx * 70) + 'deg) rotateX(' + (14 - st.vy * 40) + 'deg)',
+      spinBox: 'position:absolute;left:0;top:0;width:' + px + 'px;height:0;transform-style:preserve-3d;transform-origin:' + (px / 2) + 'px 0',
+      move3d: (e) => { const b = e.currentTarget.getBoundingClientRect(); this.setState({ vx: (e.clientX - b.left) / b.width - 0.5, vy: (e.clientY - b.top) / b.height - 0.5 }); },
+      leave3d: () => this.setState({ vx: 0, vy: 0 }),
+      tabs: [['spec', 'Xususiyatlar'], ['use', "Qo'llanilishi"], ['docs', 'Hujjatlar']].map(([k2, l]) => ({ label: l, pick: () => this.setState({ tab: k2 }), style: 'min-height:52px;padding:0 22px;border:0;border-right:1px solid #111418;font:700 15px Archivo,sans-serif;cursor:pointer;' + on(st.tab === k2) })),
+      tabSpec: st.tab === 'spec', tabUse: st.tab === 'use', tabDocs: st.tab === 'docs',
+      uses: [
+        { n: '/01', t: 'Konveyer liniyalari', d: "Lenta tortuvchi va yo'naltiruvchi valiklar.", s: '85–90 A' },
+        { n: '/02', t: 'Press va prokat', d: "Katta bosim va ishqalanish ostida ishlovchi valiklar.", s: '92–95 A' },
+        { n: '/03', t: 'Poligrafiya', d: "Bo'yoq, laminatsiya va qog'oz tortish valiklari.", s: '60–75 A' },
+        { n: '/04', t: "Yog'och va mebel", d: "Shlifovka va presslash liniyalari.", s: '80–90 A' }
+      ],
+      related: [
+        { code: 'IR-K01', name: 'Valikni qayta qoplash', icon: 'M16 22h32v20H16z M16 32h32 M8 14l8 8 M56 50l-8-8 M8 14h6 M8 14v6 M56 50h-6 M56 50v-6' },
+        { code: 'IR-V02', name: 'Konveyer roligi', icon: 'M10 22h44v20H10z M10 32h44 M4 30h6v4H4z M54 30h6v4h-6z' },
+        { code: 'IR-P01', name: "Qirg'ich plastina", icon: 'M6 42l40-22 12 8-40 22z M14 40l34-18 M6 42v6l12 8v-6' }
+      ],
+      summary
+    };
+  }
+}
+</script>
+</body>
+</html>
