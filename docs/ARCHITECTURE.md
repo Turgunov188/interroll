@@ -1,42 +1,69 @@
 # Inter Roll — kod tuzilishi
 
 Qoida: **controller faqat HTTP bilan ishlaydi** (so'rovni qabul qiladi, javob qaytaradi).
-Biznes mantiq Action'larda, tekshiruv FormRequest'da, avtomatik ishlar Observer'da.
+Biznes mantiq Action'larda, tekshiruv FormRequest'da, avtomatik ishlar Observer'da,
+sahifa ma'lumoti PageData'da, ko'rinish Blade'da.
+
+## Backend
 
 | Qatlam | Papka | Vazifasi |
 |---|---|---|
-| Enum | `app/Enums` | `Locale` (ru asosiy), `LeadType`, `LeadStatus`, `OrderStatus`, `Material`, `UserRole` — qiymat va yorliqlar bir joyda |
+| Enum | `app/Enums` | `Locale` (ru asosiy), `LeadType`, `LeadStatus`, `OrderStatus`, `Material`, `UserRole`, `SettingKey`, `Configurator` — qiymat va yorliqlar bir joyda |
 | DTO | `app/Data` | `LeadData` — HTTP'dan mustaqil, tekshirilgan ma'lumot |
-| FormRequest | `app/Http/Requests` | `StoreLeadRequest` — qoidalar va `toData()` |
+| FormRequest | `app/Http/Requests` | `StoreLeadRequest` — qoidalar va `toData()`; `details[...]` (forma javoblari) menejer uchun rus tilidagi qatorlarga aylanadi (`lang/ru/leads.php`) |
 | Middleware | `app/Http/Middleware` | `HoneypotTrap` (bot himoyasi), `SetAdminLocale` (admin — rus tilida) |
 | Action | `app/Actions` | `CreateLead`, `CreateOrderFromLead`, `FindOrderForTracking` — bitta ish, bitta `handle()` |
-| Observer | `app/Observers` | Lead raqami, buyurtma kodi/PIN, bosqichlar tarixi, kim o'zgartirgani |
-| Service | `app/Services/Site` | `SitePageRenderer` — tayyor sahifani o'qib, token va manzilni qo'yadi |
-| Config | `config/site.php` | Sayt sahifalari ro'yxati, qaysi sahifa bazadan ma'lumot olishi (`data`), mahsulot sahifasi sozlamalari |
-| Page data | `app/Services/Site/PageData` | `CatalogPageData` (keshlanadi), `ProductPageData` — sahifaga `window.__IR` bo'lib boradi |
-| Presenter | `app/Services/Site/Presenters` | `ProductPresenter` — Product modelini front kutgan shaklga o'giradi |
-| Media | `product_media` jadvali, `ProductMedia`, `MediaType` | Mahsulot fayllari turi bilan: `photo` → «Фото», `drawing` → «Чертёж», `model3d` (.glb) → «3D», `document` → «Документы». Fayl o'chirilsa yoki almashtirilsa diskdan ham o'chadi (`ProductMediaObserver`) |
-| Configurator | `products.configurator`, `Configurator` enum, `build-tools/shapes.js` | `roller`, `wheel`, `bushing`, `plate`, `spider`: tashrif buyuruvchi o'lchamlarni suradi, jonli chizma (SVG) va 3D (CSS) shunga qarab chiziladi. Parametrlar va 4 tildagi nomlari `Configurator::parameters()` da; shakllarni chizish `shapes.js` da (har shakl = ko'pburchak prizma). Konfiguratorsiz mahsulotda yuklangan fayllar ko'rinadi |
-| Cache | `app/Services/Catalog/CatalogCache` | Katalog har til uchun keshlanadi; `CatalogObserver` admin o'zgarishida tozalaydi |
-| Controller | `app/Http/Controllers` | `SiteController`, `LeadController` — 5–10 qatordan oshmaydi |
+| Observer | `app/Observers` | Lead raqami, buyurtma kodi/PIN, bosqichlar tarixi, keshni tozalash |
+| Controller | `app/Http/Controllers` | `SiteController`, `ProductPageController`, `BlogPostController`, `LeadController` — 10–20 qator |
+| Config | `config/site.php` | Sahifalar, menyular, qaysi sahifa bazadan ma'lumot oladi (`data`), materiallar xossalari, eski URL → yangi |
+| Page data | `app/Services/Site/PageData` | Har sahifa uchun bitta klass: bazadan o'qiydi, keshlaydi, **view model**lar qaytaradi |
+| View model | `app/Services/Site/ViewModels` | `ProductCard`, `ProductPage`, `ProjectCase`, `PostCard`, `Video`… — `final readonly`, Blade faqat shularni ko'radi |
+| Presenter | `app/Services/Site/Presenters` | `ProductPresenter`, `PostPresenter` — modelni view modelga o'giradi |
+| Sayt konteksti | `app/Services/Site/SiteContext` | Har sahifada `$site`: til, havolalar, hreflang, menyu, sozlamalar, tarjima |
+| Cache | `CatalogCache`, `ContentCache` | Har til uchun; admin o'zgartirsa Observer tozalaydi |
 | Filament | `app/Filament` | Admin panel; mantiq uchun o'sha Action'larni chaqiradi |
 
-| Sayt sozlamalari | `site_settings`, `SettingKey` enum, `SiteSettings`, admin «Настройки → Настройки сайта» | Telefon, manzil, ish vaqti, raqamlar (Shore A, Ø, muddatlar), rekvizitlar, fotolar. Sahifada `__S_key__` (HTML), `__SJ_key__` (JS ichida), `__SH_key__` (rasm) joylari bor — `SiteResponse` ularni qiymat bilan almashtiradi. To'ldirilmagan qiymat saytda `[__]` bo'lib ko'rinadi. Yangi sozlama = `SettingKey` ga bitta case + `build-tools/site_tokens.py` da joyi |
-| Kontent | `projects`, `posts` + `post_categories`, `videos`, `clients`, `testimonials`, `certificates` | Admin «Контент» guruhi. Sahifaga `PageData` orqali (`ProjectsPageData`, `BlogPageData`, `VideosPageData`, `FactoryPageData`, `HomePageData`), `ContentCache` da keshlanadi, `ContentObserver` o'zgarishda yangilaydi |
-| Blog maqola | `/blog/{slug}` → `BlogPostController` | Matn admin rich-editoridan, `SafeHtml` tozalaydi (script, onclick, javascript: o'chadi), H2 lardan mundarija yasaladi. `config/site.php` → `blog.custom`: o'z interaktiv sahifasi bor maqolalar (Shore A) |
-| Video | `videos` | YouTube havola (pleyerda embed) yoki .mp4 fayl; boblar ustiga bosilsa o'sha joydan qo'yiladi |
-| Boshlang'ich kontent | `ContentSeeder` | Dizayndagi ishlar, maqolalar, videolar 4 tilda — **yashirin qoralama** bo'lib qo'shiladi. `[__]` larni to'ldirib, «Показывать на сайте» ni yoqish kerak |
+## Frontend (sayt)
 
-Oqim (sayt formasi):
-`POST /leads` → `HoneypotTrap` → `throttle` → `StoreLeadRequest` (validatsiya) → `toData()` → `CreateLead::handle()` → `Lead` → `LeadObserver` (L-000123) → JSON 201.
+Sahifalar serverda **Blade** bilan chiziladi (SEO uchun matn HTML'ning o'zida), interaktiv qismlar **Alpine.js**,
+uslub — oddiy CSS (dizayn tokenlari). Yig'ish **Vite** (`npm run build` → `public/build`, gitga kiradi: hostingda Node yo'q).
 
-Katalog: `GET /catalog` → `SiteController` → `CatalogPageData` (kesh) → `SiteResponse` sahifaga JSON qo'yadi → front `window.__IR` dan chizadi.
-Mahsulot: `GET /product/{slug}` → `ProductPageController` → `ProductPageData` → o'sha `product` sahifa dizayni.
-Mahsulot sahifasidagi ko'rinishlar fayllarga qarab chiqadi: «Чертёж» — konfigurator bo'lsa jonli chizma, bo'lmasa yuklangan chizmalar; «3D» — .glb bo'lsa `<model-viewer>`, bo'lmasa konfiguratorli valik uchun CSS-3D; «Фото» — yuklangan fotolar. Fayli yo'q ko'rinish tugmasi umuman chiqmaydi.
+| Nima | Qayerda |
+|---|---|
+| Layout, header, footer | `resources/views/components/site/layout.blade.php`, `header`, `footer`, `language-switch` |
+| Umumiy komponentlar | `resources/views/components/site/*` — `<x-site.title>`, `<x-site.media>` (rasm yoki `[...]` joy), `<x-site.lead-form>`, `<x-site.field>`, `<x-site.dropzone>`, `<x-site.compare>`, `<x-site.faq>`, `<x-site.breadcrumbs>` |
+| Sahifalar | `resources/views/site/pages/{page}.blade.php`; o'z interaktiv matni bor maqola — `resources/views/site/posts/` |
+| Matnlar (4 til) | `lang/{ru,uz,en,tr}/*.php` — har sahifaga bitta fayl (`home`, `catalog`, `product`…), umumiylari `common`, `nav`, `meta`, `js` |
+| Sozlamalar matnda | Matnda `:lead_days`, `:phone` kabi joylar — `$site->t()` ularni «Настройки сайта» qiymati bilan to'ldiradi; to'ldirilmagani `[__]` |
+| CSS | `resources/css/site.css` → `site/base` (tokenlar, shriftlar, reset, layout, tipografiya), `site/components`, `site/pages` |
+| JS | `resources/js/site.js` (Alpine komponentlarini ro'yxatdan o'tkazadi) → `site/core` (i18n, so'rov yuborish, toast), `site/components`, `site/pages`, `site/effects` (fon to'ri, zarrachalar, 3D valik), `site/shapes` (konfigurator: chizma + 3D) |
+| JS testlari | `npm test` — masalan `site/pages/part-finder/recommend.test.js` (tanlash ustasi qoidalari) |
+
+Formalar oddiy HTML forma (`name="phone"`, `name="items"`…): JavaScript bo'lsa fonda yuboriladi va natija joyida
+ko'rinadi, bo'lmasa brauzer o'zi yuboradi va sahifaga qaytadi (`LeadController`).
+
+## Oqimlar
+
+Sayt formasi: `POST /leads` → `HoneypotTrap` → `throttle` → `StoreLeadRequest` → `toData()` → `CreateLead::handle()` → `Lead` → `LeadObserver` (L-000123) → JSON 201 (yoki JSsiz — redirect back).
+
+Sahifa: `GET /catalog` → `SiteController` → `config('site.data.catalog')` = `CatalogPageData` (kesh) → `SiteResponse` → `site/pages/catalog.blade.php` (`$products`, `$categories`, `$industries` + `$site`).
+Mahsulot: `GET /product/{slug}` → `ProductPageController` → `ProductPageData` → `site/pages/product.blade.php`.
+Mahsulot ko'rinishlari fayllarga qarab chiqadi: «Чертёж» — konfigurator bo'lsa jonli chizma, bo'lmasa yuklangan chizmalar; «3D» — .glb bo'lsa `<model-viewer>` (kerak bo'lgandagina yuklanadi), bo'lmasa CSS-3D; «Фото» — yuklangan fotolar.
+
+Konfigurator: `roller`, `wheel`, `bushing`, `plate`, `spider`. Slayderlar (kalit, chegaralar, 4 tildagi nomi) — `Configurator::parameters()`; chizish va 3D — `resources/js/site/shapes/{shape}.js`. Mijoz tanlagani `items` bo'lib leadga boradi, admin uni `Configurator::describeSelection()` orqali o'qiydigan qilib ko'radi.
 
 Admin «Создать заказ»: `EditLead` → `CreateOrderFromLead::handle()` (tranzaksiya, ikki marta yaratib bo'lmaydi) → `OrderObserver` (IR-1001, PIN, tarix).
 
-Boshlang'ich katalog: `php artisan db:seed --class=CatalogSeeder` (qayta ishga tushirsa ham dublikat qilmaydi).
-Boshlang'ich kontent: `php artisan db:seed --class=ContentSeeder` (mavjud yozuvlarga tegmaydi).
+## Ishga tushirish
 
-Testlar: `php artisan test` (`tests/Feature`, `tests/Unit`). Kod uslubi: `./vendor/bin/pint`.
+```
+composer install
+npm install
+npm run build          # yoki ishlab chiqishda: npm run dev
+php artisan migrate --seed
+php artisan db:seed --class=CatalogSeeder    # boshlang'ich katalog (dublikat qilmaydi)
+php artisan db:seed --class=ContentSeeder    # ishlar, maqolalar, videolar — yashirin qoralama
+```
+
+Testlar: `php artisan test` (PHP), `npm test` (JS). Kod uslubi: `./vendor/bin/pint`.
+Frontendni o'zgartirgandan keyin `npm run build` qilib, `public/build` ni ham commit qiling.

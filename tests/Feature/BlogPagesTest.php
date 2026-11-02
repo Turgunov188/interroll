@@ -46,7 +46,8 @@ class BlogPagesTest extends TestCase
             ->assertOk()
             ->assertSee('<title>Полиуретан или резина — Inter Roll</title>', false)
             ->assertSee('служит дольше', false)
-            ->assertSee('"toc":[{"href":"#iznos"', false)
+            ->assertSee('<h2 id="iznos">Износ</h2>', false)
+            ->assertSee('<a href="#iznos" class="post-toc__link"', false)
             ->assertDontSee('alert(1)', false);
 
         $this->get('/uz/blog/pu-vs-rubber')->assertOk()->assertSee('Poliuretan yoki rezina', false);
@@ -61,7 +62,7 @@ class BlogPagesTest extends TestCase
 
     public function test_the_designed_shore_a_article_works_with_and_without_a_post(): void
     {
-        $this->get('/blog/shore-a-hardness')->assertOk();
+        $this->get('/blog/shore-a-hardness')->assertOk()->assertSee('Как выбрать твёрдость по Шору A?')->assertSee('x-data="shoreScale(', false);
         $this->get('/blog/shore-a')->assertStatus(301)->assertRedirect('/blog/shore-a-hardness');
 
         $this->seed(ContentSeeder::class);

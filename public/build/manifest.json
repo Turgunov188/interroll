@@ -1,0 +1,74 @@
+{
+  "node_modules/@google/model-viewer/lib/model-viewer.js": {
+    "file": "assets/model-viewer-et5gzmRz.js",
+    "name": "model-viewer",
+    "src": "node_modules/@google/model-viewer/lib/model-viewer.js",
+    "isDynamicEntry": true
+  },
+  "resources/css/site.css": {
+    "file": "assets/site-C_6KABzH.css",
+    "src": "resources/css/site.css",
+    "isEntry": true,
+    "name": "site",
+    "names": [
+      "site.css"
+    ]
+  },
+  "resources/fonts/archivo-latin-500-normal.woff2": {
+    "file": "assets/archivo-latin-500-normal-CGugC8dq.woff2",
+    "src": "resources/fonts/archivo-latin-500-normal.woff2"
+  },
+  "resources/fonts/archivo-latin-700-normal.woff2": {
+    "file": "assets/archivo-latin-700-normal-D9cHMWGj.woff2",
+    "src": "resources/fonts/archivo-latin-700-normal.woff2"
+  },
+  "resources/fonts/archivo-latin-800-normal.woff2": {
+    "file": "assets/archivo-latin-800-normal-cB6v3kRN.woff2",
+    "src": "resources/fonts/archivo-latin-800-normal.woff2"
+  },
+  "resources/fonts/archivo-latin-ext-500-normal.woff2": {
+    "file": "assets/archivo-latin-ext-500-normal-RFhg4CpD.woff2",
+    "src": "resources/fonts/archivo-latin-ext-500-normal.woff2"
+  },
+  "resources/fonts/archivo-latin-ext-700-normal.woff2": {
+    "file": "assets/archivo-latin-ext-700-normal-DD_nkw6b.woff2",
+    "src": "resources/fonts/archivo-latin-ext-700-normal.woff2"
+  },
+  "resources/fonts/archivo-latin-ext-800-normal.woff2": {
+    "file": "assets/archivo-latin-ext-800-normal-BC6piDwP.woff2",
+    "src": "resources/fonts/archivo-latin-ext-800-normal.woff2"
+  },
+  "resources/fonts/jetbrains-mono-cyrillic-400-normal.woff2": {
+    "file": "assets/jetbrains-mono-cyrillic-400-normal-BEIGL1Tu.woff2",
+    "src": "resources/fonts/jetbrains-mono-cyrillic-400-normal.woff2"
+  },
+  "resources/fonts/jetbrains-mono-cyrillic-600-normal.woff2": {
+    "file": "assets/jetbrains-mono-cyrillic-600-normal-EVf6-Yzo.woff2",
+    "src": "resources/fonts/jetbrains-mono-cyrillic-600-normal.woff2"
+  },
+  "resources/fonts/jetbrains-mono-latin-400-normal.woff2": {
+    "file": "assets/jetbrains-mono-latin-400-normal-V6pRDFza.woff2",
+    "src": "resources/fonts/jetbrains-mono-latin-400-normal.woff2"
+  },
+  "resources/fonts/jetbrains-mono-latin-600-normal.woff2": {
+    "file": "assets/jetbrains-mono-latin-600-normal-C8RAYTDA.woff2",
+    "src": "resources/fonts/jetbrains-mono-latin-600-normal.woff2"
+  },
+  "resources/fonts/jetbrains-mono-latin-ext-400-normal.woff2": {
+    "file": "assets/jetbrains-mono-latin-ext-400-normal-Bc8Ftmh3.woff2",
+    "src": "resources/fonts/jetbrains-mono-latin-ext-400-normal.woff2"
+  },
+  "resources/fonts/jetbrains-mono-latin-ext-600-normal.woff2": {
+    "file": "assets/jetbrains-mono-latin-ext-600-normal-BfB_LPfz.woff2",
+    "src": "resources/fonts/jetbrains-mono-latin-ext-600-normal.woff2"
+  },
+  "resources/js/site.js": {
+    "file": "assets/site-BQiS1C0Y.js",
+    "name": "site",
+    "src": "resources/js/site.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/@google/model-viewer/lib/model-viewer.js"
+    ]
+  }
+}

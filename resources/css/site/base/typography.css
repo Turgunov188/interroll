@@ -1,0 +1,120 @@
+/* Text styles. Headings are bold Archivo with tight tracking; labels and numbers are mono. */
+.display,
+.h1,
+.h2,
+.h3 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.display {
+    font-size: var(--fs-display);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+}
+
+.h1 {
+    font-size: var(--fs-h1);
+    line-height: 0.96;
+}
+
+.h2 {
+    font-size: var(--fs-h2);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+}
+
+.h3 {
+    font-size: var(--fs-h3);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+}
+
+.lead {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: var(--c-text-soft);
+    max-width: 580px;
+}
+
+.text-soft { color: var(--c-text-soft); }
+.text-muted { color: var(--c-text-muted); }
+.text-faint { color: var(--c-text-faint); }
+.text-accent { color: var(--c-accent); }
+
+.section--dark .text-muted,
+.section--dark .text-soft {
+    color: var(--c-on-dark-muted);
+}
+
+.body-text {
+    line-height: 1.6;
+    color: var(--c-text-soft);
+}
+
+.mono {
+    font-family: var(--font-mono);
+}
+
+/* "[01] — Подбор по отрасли": the mono label above section titles */
+.eyebrow {
+    font: 400 var(--fs-mono) / 1.4 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.label {
+    font: 400 var(--fs-mono-s) / 1.4 var(--font-mono);
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+}
+
+.section--dark .label {
+    color: var(--c-text-faint);
+}
+
+/* The yellow marker behind the accented part of a heading */
+.hl {
+    background: var(--c-accent);
+    color: var(--c-ink);
+    padding: 0 0.12em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+.number {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.link-underline {
+    border-bottom: 2px solid var(--c-accent);
+    padding-bottom: 2px;
+}
+
+.link-underline:hover {
+    border-bottom-color: var(--c-ink);
+}
+
+/* Small mono line: product code, date, duration */
+.meta {
+    font: 400 var(--fs-mono-s) / 1.4 var(--font-mono);
+    color: var(--c-text-muted);
+}
+
+.text-small {
+    font-size: var(--fs-small);
+}
+
+/* Labels with case-sensitive symbols (D and d) */
+.label--case {
+    text-transform: none;
+}
+
+.text-ink {
+    color: var(--c-ink);
+}

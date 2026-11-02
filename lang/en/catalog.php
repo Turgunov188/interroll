@@ -1,0 +1,71 @@
+<?php
+
+// Translation of lang/ru/catalog.php (same keys).
+return [
+    'breadcrumb' => 'Catalog',
+    'title' => 'Products',
+    'accent' => 'catalog',
+    'stats' => [
+        'items' => 'items',
+        'sections' => 'categories',
+        'days' => 'days to ready',
+    ],
+    'search' => [
+        'label' => 'Search by SKU or name',
+        'placeholder' => 'E.g. IR-V01, roller, wheel...',
+    ],
+    'tabs_label' => 'Catalog sections',
+    'filters' => [
+        'label' => 'Filters',
+        'title' => 'Filter',
+        'reset' => 'Reset',
+        'material' => 'Material',
+        'polyurethane' => 'Polyurethane',
+        'rubber' => 'Rubber (NBR, EPDM)',
+        'hardness' => 'Hardness, Shore A',
+        'hardness_options' => [
+            'all' => 'All',
+            'soft' => '<80',
+            'mid' => '80–90',
+            'hard' => '>90',
+        ],
+        'industry' => 'Industry',
+        'no_size' => 'Need a different size?',
+        'send_drawing' => 'Send a drawing →',
+        'finder' => 'Selection wizard →',
+    ],
+    'found' => 'Found:',
+    'sort' => [
+        'label' => 'Sort',
+        'options' => [
+            'popular' => 'Popular',
+            'code' => 'By SKU',
+            'name' => 'By name',
+        ],
+    ],
+    'empty' => [
+        'title' => 'This part isn\'t in the catalog',
+        'text' => 'But we can make it — send a drawing or a photo of a sample.',
+        'action' => 'Send a drawing →',
+    ],
+    'add' => '+ Add to request',
+    'added' => '✓ In request',
+    'special' => [
+        'eyebrow' => '[ Custom order ]',
+        'title' => 'Not in the catalog? We\'ll cast it to your drawing.',
+        'action' => 'Send a drawing →',
+    ],
+    'cart' => [
+        'open' => 'Request cart →',
+        'title' => 'Request cart',
+        'summary' => ':parts parts · :pieces pcs',
+        'close' => 'Close cart',
+        'less' => 'Decrease',
+        'more' => 'Increase',
+        'send' => 'Send one request →',
+        'note' => 'Price on request. Get one quote for all parts.',
+        'sent_title' => 'Request sent',
+        'sent_text' => 'A manager will prepare one quote for all parts and get back to you within :reply_hours hours.',
+        'back' => 'BACK TO CATALOG',
+    ],
+];

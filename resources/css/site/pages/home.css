@@ -1,0 +1,415 @@
+/* Home page */
+
+/* ---- Hero with the CSS 3D roller (faces are built by resources/js/site/pages/home.js) */
+.home-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: var(--border);
+    background: radial-gradient(ellipse at 60% 35%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 70%);
+    --mx: 0;
+    --my: 0;
+    --scroll: 0;
+}
+
+.home-hero__glow {
+    position: absolute;
+    left: calc((var(--mx) + 0.5) * 100%);
+    top: calc((var(--my) + 0.5) * 100%);
+    width: 560px;
+    height: 560px;
+    margin: -280px 0 0 -280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 183, 0, 0.3), rgba(245, 183, 0, 0) 65%);
+    pointer-events: none;
+    transition: left 0.12s ease-out, top 0.12s ease-out;
+}
+
+.home-hero__model {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -40px;
+    width: 62%;
+    perspective: 1400px;
+    pointer-events: none;
+}
+
+.home-hero__roller {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    transform: translateY(calc(var(--scroll) * 0.35px)) scale(calc(var(--model-scale, 1) - var(--scroll) * 0.0004));
+}
+
+.home-hero__tilt {
+    position: absolute;
+    left: -280px;
+    top: 0;
+    width: 560px;
+    height: 0;
+    transform-style: preserve-3d;
+    transform-origin: 280px 0;
+    transition: transform 0.25s ease-out;
+    transform:
+        rotateY(calc(-28deg + var(--mx) * 50deg + var(--scroll) * 0.05deg))
+        rotateX(calc(12deg - var(--my) * 30deg + var(--scroll) * 0.04deg));
+}
+
+.home-hero__spin {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 560px;
+    height: 0;
+    transform-origin: 280px 0;
+    animation-duration: 9s;
+}
+
+.home-hero__shadow {
+    position: absolute;
+    left: -260px;
+    top: 190px;
+    width: 520px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(17, 20, 24, 0.28), rgba(17, 20, 24, 0) 70%);
+}
+
+.home-hero__caption {
+    position: absolute;
+    left: -200px;
+    top: 250px;
+    width: 400px;
+    text-align: center;
+    font-size: var(--fs-mono-s);
+    color: var(--c-text-soft);
+    text-transform: uppercase;
+}
+
+.home-hero__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    min-height: 560px;
+    padding-block: clamp(56px, 6vw, 96px);
+}
+
+.home-hero__text {
+    flex: 0 1 620px;
+    min-width: 0;
+    --stack-gap: 28px;
+    transform: translateY(calc(var(--scroll) * 0.25px));
+    opacity: max(0, 1 - var(--scroll) / 700);
+}
+
+.home-hero__title {
+    font-size: clamp(2.6rem, 1.2rem + 4.6vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+@media (max-width: 900px) {
+    .home-hero__inner {
+        min-height: 0;
+        padding-bottom: 300px;
+    }
+
+    .home-hero__model {
+        top: auto;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 320px;
+        --model-scale: 0.55;
+    }
+
+    .home-hero__roller {
+        top: 40%;
+    }
+}
+
+/* ---- «What we make»: particle picture + steps */
+.home-story {
+    position: relative;
+    height: 760px;
+    overflow: hidden;
+    border-bottom: var(--border);
+    background: radial-gradient(ellipse at 66% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 62%);
+}
+
+.home-story__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.home-story__inner {
+    position: relative;
+    height: 100%;
+    pointer-events: none;
+}
+
+.home-story__chip {
+    position: absolute;
+    right: var(--gutter);
+    top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    background: var(--c-white);
+    border: var(--border);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+}
+
+.home-story__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c-accent);
+}
+
+.home-story__panel {
+    position: absolute;
+    left: var(--gutter);
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(460px, calc(100% - 2 * var(--gutter)));
+    --stack-gap: 18px;
+}
+
+.home-story__counter {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.home-story__number {
+    min-width: 120px;
+    font-weight: 800;
+    font-size: clamp(4rem, 3rem + 3vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+@keyframes story-bar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+.home-story__bar {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    background: #d2d7dc;
+}
+
+.home-story__bar > span {
+    position: absolute;
+    inset: 0;
+    background: var(--c-ink);
+    transform-origin: 0 50%;
+    animation: story-bar 4.5s linear forwards;
+}
+
+.home-story__steps {
+    position: relative;
+    height: 230px;
+}
+
+.home-story__step {
+    position: absolute;
+    inset: 0 0 auto;
+    --stack-gap: 14px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.home-story__step.is-past {
+    transform: translateY(-30px);
+}
+
+.home-story__step.is-current {
+    opacity: 1;
+    transform: none;
+}
+
+.home-story__title {
+    font-weight: 800;
+    font-size: clamp(1.9rem, 1.5rem + 1.4vw, 2.375rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+.home-story__spec {
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+}
+
+.home-story__controls {
+    pointer-events: auto;
+}
+
+.home-story__dot-btn {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    border: var(--border);
+    background: var(--c-white);
+    font-size: var(--fs-mono);
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.home-story__dot-btn[aria-pressed='true'] {
+    background: var(--c-accent);
+}
+
+@media (max-width: 900px) {
+    .home-story {
+        height: auto;
+    }
+
+    .home-story__inner {
+        display: flex;
+        flex-direction: column;
+        padding-block: 28px 300px;
+    }
+
+    .home-story__chip {
+        position: static;
+        align-self: flex-end;
+        margin-bottom: 32px;
+    }
+
+    .home-story__panel {
+        position: static;
+        transform: none;
+        width: 100%;
+    }
+
+    .home-story__steps {
+        height: 250px;
+    }
+}
+
+/* ---- Industry tabs */
+.segmented--industries .segmented__item {
+    flex: 1 1 180px;
+    min-height: 56px;
+    padding: 16px 20px;
+    font-size: 1rem;
+    text-align: left;
+}
+
+@media (max-width: 640px) {
+    .segmented--industries {
+        flex-direction: column;
+    }
+
+    .segmented--industries .segmented__item {
+        flex-basis: auto;
+        border-right: 0;
+        border-bottom: var(--border);
+    }
+
+    .segmented--industries .segmented__item:last-child {
+        border-bottom: 0;
+    }
+}
+
+.product-card__photo {
+    --media-h: 200px;
+    border-bottom: var(--border);
+}
+
+/* ---- Catalog sections as big rows */
+.row-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.row-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 12px 32px;
+    padding: 22px 0;
+    border-top: var(--border);
+    transition: padding 0.35s ease, background-color 0.35s ease;
+}
+
+.row-link:hover {
+    padding-inline: 20px;
+    background-color: var(--c-accent);
+}
+
+.row-link__number {
+    width: 64px;
+    font-size: var(--fs-small);
+}
+
+.row-link__title {
+    flex: 1 1 300px;
+    font-weight: 800;
+    font-size: clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
+    letter-spacing: -0.01em;
+}
+
+.row-link__text {
+    flex: 1 1 320px;
+    color: var(--c-text-soft);
+}
+
+.row-link__arrow {
+    font-size: 24px;
+    transition: transform 0.35s ease;
+}
+
+.row-link:hover .row-link__arrow {
+    transform: translateX(10px);
+}
+
+/* ---- Before / after photos of the recoating teaser */
+.home-before-after {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: var(--border);
+    overflow: hidden;
+    --split-basis: 560px;
+}
+
+.home-before-after > .media {
+    --media-h: clamp(240px, 26vw, 360px);
+}
+
+.home-before-after > .media:first-child {
+    border-right: var(--border);
+}
+
+@media (max-width: 640px) {
+    .row-link {
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    .row-link__number {
+        width: 44px;
+        flex-shrink: 0;
+    }
+
+    .row-link__title {
+        flex: 1 1 auto;
+    }
+
+    .row-link__text {
+        display: none;
+    }
+}

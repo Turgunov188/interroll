@@ -8,8 +8,12 @@ use App\Models\Industry;
 use App\Models\Product;
 use App\Services\Catalog\CatalogCache;
 use App\Services\Site\Presenters\ProductPresenter;
+use App\Services\Site\ViewModels\Option;
 
-/** Catalog page: category tabs, industry filter and all published products. */
+/**
+ * Catalog: every published product with the category tabs and the industry filter.
+ * Filtering happens in the browser over the rendered cards (resources/js/site/pages/catalog.js).
+ */
 final class CatalogPageData implements PageData
 {
     public function __construct(
@@ -28,13 +32,15 @@ final class CatalogPageData implements PageData
                 ->ordered()
                 ->get();
 
-            $industryIds = $products->flatMap(fn (Product $p) => $p->industries->modelKeys())->unique();
-            $industries = Industry::query()->whereIn('id', $industryIds)->ordered()->get();
+            $industries = Industry::query()
+                ->whereIn('id', $products->flatMap(fn (Product $p) => $p->industries->map->getKey())->unique())
+                ->ordered()
+                ->get();
 
             return [
-                'industries' => $industries->map(fn (Industry $i): array => [$i->slug, $i->tr('name', $locale)])->all(),
-                'cats' => $categories->map(fn (Category $c): array => [$c->slug, $c->tr('name', $locale)])->all(),
-                'products' => $products->map(fn (Product $p): array => $this->presenter->card($p, $locale))->all(),
+                'products' => $products->map(fn (Product $p) => $this->presenter->card($p, $locale))->all(),
+                'categories' => $categories->map(fn (Category $c) => new Option($c->slug, (string) $c->tr('name', $locale)))->all(),
+                'industries' => $industries->map(fn (Industry $i) => new Option($i->slug, (string) $i->tr('name', $locale)))->all(),
             ];
         });
     }

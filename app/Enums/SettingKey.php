@@ -4,8 +4,8 @@ namespace App\Enums;
 
 /**
  * Everything on the public site that the factory fills in itself: contacts, hours, numbers, photos.
- * Edited on the «Настройки сайта» admin page, stored in site_settings, printed into the built pages
- * through placeholders (see App\Services\Site\SiteSettings and build-tools/site_tokens.py).
+ * Edited on the «Настройки сайта» admin page, stored in site_settings. Templates read them with
+ * $site->setting('key'); translations use them as :key (App\Services\Site\SiteContext::t()).
  */
 enum SettingKey: string
 {

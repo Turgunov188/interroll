@@ -31,7 +31,7 @@ final class SafeHtml
     private const DROP = ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'svg', 'math', 'template'];
 
     /**
-     * @return array{html: string, toc: list<array{href: string, t: string}>}
+     * @return array{html: string, toc: list<array{id: string, title: string}>}
      */
     public static function clean(?string $html): array
     {
@@ -63,8 +63,7 @@ final class SafeHtml
             $id = isset($used[$id]) ? $id.'-'.(++$used[$id]) : $id;
             $used[$id] ??= 1;
             $h2->setAttribute('id', $id);
-            $h2->setAttribute('data-sec', (string) count($toc));
-            $toc[] = ['href' => '#'.$id, 't' => $text];
+            $toc[] = ['id' => $id, 'title' => $text];
         }
 
         $out = '';

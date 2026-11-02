@@ -16,8 +16,24 @@ class SitePagesTest extends TestCase
             ->assertOk()
             ->assertHeader('Content-Language', 'ru')
             ->assertSee('<html lang="ru">', false)
-            ->assertDontSee('__CSRF_TOKEN__', false)
-            ->assertDontSee('__BASE__', false);
+            ->assertSee('<link rel="alternate" hreflang="uz" href="'.url('/uz').'">', false)
+            ->assertSee('<link rel="alternate" hreflang="x-default" href="'.url('/').'">', false)
+            ->assertSee('name="_token"', false) // the price request form posts to /leads
+            ->assertSee('action="'.route('leads.store').'"', false);
+    }
+
+    public function test_the_menu_marks_the_current_section(): void
+    {
+        $this->get('/uz/catalog')
+            ->assertOk()
+            ->assertSee('<a href="/uz/catalog" class="nav__link" aria-current="page">Mahsulotlar</a>', false)
+            ->assertSee('<a href="'.url('/en/catalog').'" hreflang="en" lang="en"', false);
+    }
+
+    public function test_page_texts_follow_the_language(): void
+    {
+        $this->get('/en/recoating')->assertOk()->assertSee('Recoating')->assertDontSee('Восстановление покрытия');
+        $this->get('/tr/contact')->assertOk()->assertSee('<html lang="tr">', false);
     }
 
     public function test_every_page_exists_in_every_language(): void

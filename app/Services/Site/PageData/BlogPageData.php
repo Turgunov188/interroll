@@ -7,8 +7,9 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use App\Services\Site\ContentCache;
 use App\Services\Site\Presenters\PostPresenter;
+use App\Services\Site\ViewModels\Option;
 
-/** Blog list: the featured article on top, then the rest with the category filter. */
+/** Blog list: the featured article on top, then the rest with the rubric filter. */
 final class BlogPageData implements PageData
 {
     public function __construct(
@@ -30,8 +31,8 @@ final class BlogPageData implements PageData
 
             return [
                 'featured' => $featured ? $this->presenter->card($featured, $locale) : null,
-                'cats' => $categories->map(fn (PostCategory $c): array => [$c->slug, $c->tr('name', $locale)])->all(),
-                'posts' => $rest->map(fn (Post $post): array => $this->presenter->card($post, $locale))->all(),
+                'categories' => $categories->map(fn (PostCategory $c) => new Option($c->slug, (string) $c->tr('name', $locale)))->all(),
+                'posts' => $rest->map(fn (Post $post) => $this->presenter->card($post, $locale))->all(),
             ];
         });
     }

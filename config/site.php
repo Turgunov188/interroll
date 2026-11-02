@@ -4,17 +4,15 @@ use App\Services\Site\PageData\BlogPageData;
 use App\Services\Site\PageData\CatalogPageData;
 use App\Services\Site\PageData\FactoryPageData;
 use App\Services\Site\PageData\HomePageData;
+use App\Services\Site\PageData\PartFinderPageData;
 use App\Services\Site\PageData\ProjectsPageData;
 use App\Services\Site\PageData\VideosPageData;
 
 /*
-| Public site pages built from the approved design (see resources/site/{locale}/*.html).
-| URI (main language, no prefix) => page file name. Other languages get a prefix,
-| see App\Enums\Locale::path().
+| Public site. Templates: resources/views/site/pages/{page}.blade.php, texts: lang/{locale}/*.php.
+| URI (main language, no prefix) => page. Other languages get a prefix, see App\Enums\Locale::path().
 */
 return [
-
-    'directory' => 'site',
 
     'pages' => [
         '/' => 'index',
@@ -23,35 +21,67 @@ return [
         '/factory' => 'factory',
         '/contact' => 'contact',
         '/part-finder' => 'part-finder',
-        // '/order-tracking' => 'order-tracking',   // switched off for now (also DISABLED in build_i18n.py)
         '/projects' => 'projects',
         '/video' => 'video',
         '/blog' => 'blog',
     ],
 
-    // Pages that receive data from the database (page name => App\Services\Site\PageData\PageData).
+    // Pages that receive data from the database (page => App\Services\Site\PageData\PageData).
     'data' => [
         'index' => HomePageData::class,
         'factory' => FactoryPageData::class,
         'catalog' => CatalogPageData::class,
+        'part-finder' => PartFinderPageData::class,
         'projects' => ProjectsPageData::class,
         'blog' => BlogPageData::class,
         'video' => VideosPageData::class,
     ],
 
-    // Blog articles: /blog/{slug} with the article design ("page"). Articles with their own
-    // interactive page are listed in "custom" (slug => page) and keep it.
+    // Menus: page names, labels come from lang/{locale}/nav.php.
+    'navigation' => [
+        'main' => ['index', 'catalog', 'recoating', 'projects', 'blog', 'factory', 'contact'],
+        'more' => ['video', 'part-finder'],
+        'footer' => ['projects', 'video', 'blog', 'part-finder'],
+    ],
+
+    // Sub-pages highlight their section in the menu: route page => menu page.
+    'sections' => [
+        'product' => 'catalog',
+        'product.default' => 'catalog',
+        'post' => 'blog',
+    ],
+
+    // Blog articles: /blog/{slug}. An article listed in "custom" has its own interactive body
+    // (a Blade view) instead of the text from the admin; the title, author and cover still come from there.
     'blog' => [
         'uri' => '/blog',
-        'page' => 'blog-post',
-        'custom' => ['shore-a-hardness' => 'blog-shore-a-hardness'],
+        'custom' => ['shore-a-hardness' => 'site.posts.shore-a-hardness'],
     ],
 
     // Product pages: /product/{slug}; plain /product opens the default product.
     'product' => [
         'uri' => '/product',
-        'page' => 'product',
         'default' => 'ir-v01',
+    ],
+
+    // Part finder: products suggested for each part type of the first step (by SKU).
+    'part_finder' => [
+        'products' => [
+            'roller' => ['IR-V01', 'IR-K01'],
+            'wheel' => ['IR-G01', 'IR-G02'],
+            'plate' => ['IR-P01', 'IR-P03'],
+            'coupling' => ['IR-M01', 'IR-S01'],
+            'unknown' => ['IR-X01', 'IR-V01'],
+        ],
+    ],
+
+    // Coating materials compared on the recoating page and by the part finder:
+    // abrasion, oil, temperature, elasticity — 1 (low) … 4 (excellent); colour of the coating in the drawings.
+    'materials' => [
+        'pu' => ['levels' => [4, 3, 2, 3], 'color' => '#f5b700'],
+        'nbr' => ['levels' => [2, 4, 2, 3], 'color' => '#2a3038'],
+        'epdm' => ['levels' => [2, 1, 3, 4], 'color' => '#4a535e'],
+        'sil' => ['levels' => [1, 2, 4, 3], 'color' => '#c9542e'],
     ],
 
     // Old (Uzbek) URLs → new ones, 301 in every language, so shared links and search results keep working.
@@ -68,7 +98,7 @@ return [
         '/ru' => '/',
     ],
 
-    // Line icons per category slug (same drawings as the catalog design); others use "maxsus".
+    // Line icons (SVG path, 64×64) per category slug; other categories use "maxsus".
     'category_icons' => [
         'valik' => 'M10 22h44v20H10z M10 32h44 M4 30h6v4H4z M54 30h6v4h-6z M10 22c-3 0-4 4.5-4 10s1 10 4 10',
         'gildirak' => 'M32 6a26 26 0 1 0 0.01 0z M32 18a14 14 0 1 0 0.01 0z M32 28a4 4 0 1 0 0.01 0z M32 18v-12 M32 46v12 M18 32H6 M58 32H46',

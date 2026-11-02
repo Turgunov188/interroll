@@ -1,0 +1,300 @@
+/* Interactive pieces shared by several pages. */
+
+/* Before / after comparison: the "before" layer is clipped by --split (0–100). */
+.compare {
+    position: relative;
+    height: clamp(280px, 30vw, 400px);
+    border: var(--border);
+    overflow: hidden;
+    background: var(--c-white);
+    --split: 50;
+}
+
+.compare__layer {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    justify-content: flex-end;
+    padding: 16px;
+}
+
+.compare__layer--before {
+    justify-content: flex-start;
+    clip-path: inset(0 calc((100 - var(--split)) * 1%) 0 0);
+}
+
+.compare__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--split) * 1%);
+    width: 2px;
+    background: var(--c-ink);
+    pointer-events: none;
+}
+
+.compare__handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin: -24px 0 0 -24px;
+    background: var(--c-accent);
+    border: var(--border);
+    font-weight: 800;
+}
+
+.compare__tag {
+    position: absolute;
+    top: 14px;
+    z-index: 1;
+    padding: 6px 10px;
+    font: 400 var(--fs-mono-s) / 1 var(--font-mono);
+}
+
+.compare__tag--before {
+    left: 14px;
+    background: var(--c-ink);
+    color: var(--c-white);
+}
+
+.compare__tag--after {
+    right: 14px;
+    background: var(--c-accent);
+    border: var(--border);
+}
+
+.compare__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+}
+
+/* Lead form card */
+.lead-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 16px;
+    padding: clamp(20px, 2vw + 8px, 32px);
+    background: var(--c-white);
+    border: var(--border);
+    box-shadow: var(--shadow-l);
+}
+
+.lead-form--column {
+    grid-template-columns: 1fr;
+}
+
+.lead-form__trap {
+    position: absolute !important;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.lead-form__note {
+    font: 400 var(--fs-mono-s) / 1.5 var(--font-mono);
+    color: var(--c-text-muted);
+}
+
+/* Success state that replaces a form */
+.success {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: clamp(28px, 3vw + 12px, 48px) clamp(20px, 2vw + 12px, 36px);
+    background: var(--c-white);
+    border: var(--border);
+    box-shadow: var(--shadow-l);
+}
+
+.success__mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: var(--c-ink);
+    color: var(--c-accent);
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.success__title {
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1.1;
+}
+
+/* Turntable stage for the CSS 3D models */
+.stage3d {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+    perspective: 1200px;
+    background: radial-gradient(ellipse at 50% 45%, #fff 0%, var(--c-paper) 75%);
+    touch-action: pan-y;
+}
+
+.stage3d__origin {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+}
+
+.stage3d__tilt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease-out;
+}
+
+.stage3d__hint {
+    position: absolute;
+    left: 16px;
+    bottom: 14px;
+    font: 400 var(--fs-mono-s) / 1 var(--font-mono);
+    color: var(--c-text-muted);
+    text-transform: uppercase;
+}
+
+.stage3d__face {
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+@keyframes spin-x {
+    from { transform: rotateX(0deg); }
+    to { transform: rotateX(-360deg); }
+}
+
+@keyframes spin-y {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.spin-x {
+    animation: spin-x 7s linear infinite;
+    transform-style: preserve-3d;
+}
+
+.spin-y {
+    animation: spin-y 14s linear infinite;
+    transform-style: preserve-3d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spin-x,
+    .spin-y {
+        animation: none;
+    }
+}
+
+/* Blueprint grid background for drawings */
+.blueprint {
+    background-color: var(--c-white);
+    background-image: linear-gradient(var(--c-paper) 1px, transparent 1px), linear-gradient(90deg, var(--c-paper) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Rich text of blog articles */
+.prose {
+    max-width: 720px;
+    min-width: 0;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+    margin: 0 0 18px;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #22262b;
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 22px;
+    list-style: disc;
+}
+
+.prose ol {
+    list-style: decimal;
+}
+
+.prose li + li {
+    margin-top: 4px;
+}
+
+.prose h2 {
+    margin: 44px 0 16px;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.prose h3 {
+    margin: 28px 0 12px;
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.prose h2:first-child {
+    margin-top: 0;
+}
+
+.prose a {
+    text-decoration: underline;
+    text-decoration-color: var(--c-accent);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 3px;
+}
+
+.prose img {
+    height: auto;
+    border: var(--border);
+    margin: 8px 0 24px;
+}
+
+.prose blockquote {
+    margin: 0 0 18px;
+    padding-left: 16px;
+    border-left: 4px solid var(--c-accent);
+    font-weight: 700;
+}
+
+.prose table {
+    width: 100%;
+    margin: 0 0 18px;
+    background: var(--c-white);
+    border: var(--border);
+}
+
+.prose th,
+.prose td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--c-line);
+    text-align: left;
+}
+
+/* Faces of the prism models (both sides visible) */
+.stage3d__panel {
+    position: absolute;
+}

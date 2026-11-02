@@ -7,7 +7,10 @@ use App\Models\Category;
 use App\Models\Industry;
 use App\Models\Product;
 use App\Services\Site\ContentCache;
+use App\Services\Site\Presenters\ProductPresenter;
 use App\Services\Site\SiteUrl;
+use App\Services\Site\ViewModels\CategoryLink;
+use App\Services\Site\ViewModels\IndustryProducts;
 use Illuminate\Support\Str;
 
 /**
@@ -24,6 +27,7 @@ final class HomePageData implements PageData
 
     public function __construct(
         private readonly ContentCache $cache,
+        private readonly ProductPresenter $presenter,
         private readonly SiteUrl $urls,
     ) {}
 
@@ -32,7 +36,7 @@ final class HomePageData implements PageData
         return $this->cache->remember('home', $locale, function () use ($locale): array {
             $industries = Industry::query()
                 ->whereHas('products', fn ($q) => $q->published())
-                ->with(['products' => fn ($q) => $q->published()->ordered()->with('mainPhoto')])
+                ->with(['products' => fn ($q) => $q->published()->ordered()->with(['category', 'mainPhoto'])])
                 ->ordered()
                 ->limit(self::INDUSTRIES)
                 ->get();
@@ -47,23 +51,21 @@ final class HomePageData implements PageData
             $catalog = $this->urls->page($locale, 'catalog');
 
             return [
-                'inds' => $industries->map(fn (Industry $industry): array => [
-                    'k' => $industry->slug,
-                    'label' => $industry->tr('name', $locale),
-                    'products' => $industry->products->take(self::PRODUCTS_PER_INDUSTRY)->map(fn (Product $p): array => [
-                        'code' => $p->sku,
-                        'name' => (string) $p->tr('name', $locale),
-                        'desc' => (string) $p->tr('short', $locale),
-                        'url' => $this->urls->product($locale, $p),
-                        'img' => $p->mainPhoto?->url(),
-                    ])->values()->all(),
-                ])->all(),
-                'cats' => $categories->values()->map(fn (Category $c, int $i): array => [
-                    'n' => '/'.str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT),
-                    'name' => (string) $c->tr('name', $locale),
-                    'desc' => Str::limit(strip_tags((string) $c->tr('description', $locale)), 110),
-                    'url' => $catalog.'?cat='.$c->slug,
-                ])->all(),
+                'industries' => $industries->map(fn (Industry $industry) => new IndustryProducts(
+                    slug: $industry->slug,
+                    name: (string) $industry->tr('name', $locale),
+                    products: $industry->products
+                        ->take(self::PRODUCTS_PER_INDUSTRY)
+                        ->map(fn (Product $p) => $this->presenter->card($p, $locale))
+                        ->values()
+                        ->all(),
+                ))->all(),
+                'categories' => $categories->values()->map(fn (Category $c, int $i) => new CategoryLink(
+                    number: sprintf('/%02d', $i + 1),
+                    name: (string) $c->tr('name', $locale),
+                    description: Str::limit(strip_tags((string) $c->tr('description', $locale)), 110),
+                    url: $catalog.'?'.http_build_query(['cat' => $c->slug]),
+                ))->all(),
             ];
         });
     }

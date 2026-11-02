@@ -1,0 +1,207 @@
+/* Part finder */
+.finder {
+    padding-top: clamp(32px, 2vw + 20px, 48px);
+}
+
+.finder-progress {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border: var(--border);
+    background: var(--c-white);
+}
+
+.finder-progress__step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    width: 100%;
+    height: 100%;
+    min-height: 60px;
+    padding: 0 16px;
+    border: 0;
+    border-right: var(--border);
+    background: var(--c-white);
+    color: var(--c-text-faint);
+    font-weight: 700;
+    font-size: var(--fs-small);
+    text-align: left;
+}
+
+.finder-progress li:last-child .finder-progress__step {
+    border-right: 0;
+}
+
+.finder-progress__step .mono {
+    font-weight: 400;
+    font-size: var(--fs-mono-xs);
+}
+
+.finder-progress__step.is-done {
+    background: var(--c-ink);
+    color: var(--c-white);
+}
+
+.finder-progress__step.is-current {
+    background: var(--c-accent);
+    color: var(--c-ink);
+}
+
+.finder-progress__step:disabled {
+    cursor: default;
+}
+
+@media (max-width: 720px) {
+    .finder-progress__step > span:last-child {
+        display: none;
+    }
+
+    .finder-progress__step {
+        align-items: center;
+        padding: 0;
+    }
+}
+
+.finder-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.finder-panel {
+    flex: 2 1 620px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.finder-step {
+    animation: card-in 0.45s var(--ease-out) both;
+}
+
+.finder-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 120px;
+    padding: 18px;
+    border: var(--border);
+    background: var(--c-white);
+    font: inherit;
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.finder-option:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-s);
+}
+
+.finder-option[aria-pressed='true'] {
+    background: var(--c-accent);
+    box-shadow: 4px 4px 0 var(--c-ink);
+}
+
+.finder-option__title {
+    font-weight: 800;
+    font-size: 1.125rem;
+}
+
+.finder-option__text {
+    color: var(--c-text-soft);
+    font-size: var(--fs-small);
+}
+
+.finder-option__head {
+    width: 100%;
+}
+
+.finder-scale .segmented__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 64px;
+    font-weight: 600;
+}
+
+.finder-scale .segmented__item span {
+    font-size: var(--fs-mono-s);
+    font-weight: 400;
+}
+
+.finder-temp {
+    font-size: 1.25rem;
+}
+
+.finder-result__main {
+    flex: 1 1 260px;
+    padding: 24px;
+    border: var(--border);
+    background: var(--c-accent);
+    box-shadow: var(--shadow-m);
+}
+
+.finder-result__side {
+    flex: 1 1 200px;
+}
+
+.finder-result__value {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.finder-disclaimer {
+    padding-top: 14px;
+    border-top: 1px dashed var(--c-ink);
+}
+
+.finder-form {
+    padding: 0;
+}
+
+.finder-form__title {
+    font-weight: 700;
+}
+
+.finder-restart {
+    align-self: flex-start;
+}
+
+.finder-nav {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    margin-top: 8px;
+    border-top: 1px solid var(--c-line-soft);
+}
+
+.finder-aside {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+    flex: 1 1 300px;
+    max-width: 380px;
+}
+
+.finder-answer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--c-line-soft);
+    font-size: var(--fs-small);
+}
+
+.finder-answer b {
+    text-align: right;
+}
+
+@media (max-width: 960px) {
+    .finder-aside {
+        position: static;
+        max-width: none;
+    }
+}

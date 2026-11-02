@@ -1,0 +1,143 @@
+/* Projects page */
+.section--flush-bottom {
+    padding-bottom: 0;
+}
+
+.projects-head__lead {
+    max-width: 420px;
+}
+
+.projects-filter {
+    align-self: flex-start;
+}
+
+.projects-filter .segmented__item {
+    flex: 0 1 auto;
+    min-height: 52px;
+    padding: 0 20px;
+}
+
+.project-card {
+    padding: 0;
+    font: inherit;
+    text-align: left;
+    color: var(--c-ink);
+}
+
+.project-card__photo {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-bottom: var(--border);
+}
+
+.project-card__media {
+    --media-h: 240px;
+    transition: transform 0.5s var(--ease-out);
+}
+
+.project-card:hover .project-card__media {
+    transform: scale(1.04);
+}
+
+.project-card__title {
+    font-size: 1.375rem;
+}
+
+.project-card__kpis {
+    display: flex;
+    gap: 24px;
+    padding-top: 14px;
+    margin-top: 4px;
+    border-top: 1px dashed var(--c-ink);
+}
+
+.project-card__kpi {
+    font-size: 1.625rem;
+}
+
+.project-case__photos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-bottom: var(--border);
+}
+
+.project-case__photos > .media {
+    --media-h: 240px;
+}
+
+.project-case__photos > .media:first-child {
+    border-right: var(--border);
+}
+
+.project-case__blocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.project-case__block {
+    padding: 24px 28px;
+    border-right: 1px solid var(--c-line-soft);
+}
+
+.project-case__step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.project-case__step > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: var(--border);
+    font-size: var(--fs-mono-xs);
+}
+
+.project-case__step--problem > span { background: var(--c-danger-soft); }
+.project-case__step--solution > span { background: var(--c-accent); }
+.project-case__step--result > span { background: var(--c-ink); color: var(--c-accent); }
+
+.project-case__kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    border-top: var(--border);
+    background: var(--c-ink);
+    color: var(--c-on-dark);
+}
+
+.project-case__kpis > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 22px 28px;
+    border-right: 1px solid var(--c-ink-3);
+}
+
+.project-case__kpis b {
+    color: var(--c-accent);
+    font-size: 2.25rem;
+}
+
+.project-case__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+}
+
+.project-case__quote {
+    max-width: 560px;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.project-case__quote .meta {
+    display: block;
+    margin-top: 8px;
+    font-weight: 400;
+}

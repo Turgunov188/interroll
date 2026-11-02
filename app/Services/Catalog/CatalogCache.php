@@ -13,7 +13,10 @@ use Illuminate\Contracts\Cache\Repository;
  */
 final class CatalogCache
 {
-    private const PREFIX = 'site.catalog.';
+    private const PREFIX = 'site.v2.catalog.';
+
+    /** Everything built from the catalog; each is cached per language. */
+    private const NAMES = ['catalog', 'part-finder'];
 
     public function __construct(
         private readonly Repository $cache,
@@ -24,18 +27,25 @@ final class CatalogCache
      * @param  Closure(): array<string, mixed>  $build
      * @return array<string, mixed>
      */
-    public function remember(Locale $locale, Closure $build): array
+    public function remember(Locale $locale, Closure $build, string $name = 'catalog'): array
     {
-        return $this->cache->rememberForever(self::PREFIX.$locale->value, $build);
+        return $this->cache->rememberForever($this->key($name, $locale), $build);
     }
 
     public function flush(): void
     {
-        foreach (Locale::cases() as $locale) {
-            $this->cache->forget(self::PREFIX.$locale->value);
+        foreach (self::NAMES as $name) {
+            foreach (Locale::cases() as $locale) {
+                $this->cache->forget($this->key($name, $locale));
+            }
         }
 
         // the home page shows products and sections too
         $this->content->flush();
+    }
+
+    private function key(string $name, Locale $locale): string
+    {
+        return self::PREFIX.$name.'.'.$locale->value;
     }
 }

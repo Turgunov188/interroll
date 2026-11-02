@@ -9,7 +9,7 @@ use App\Enums\Locale;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/** Every form on the public site posts here (see public runtime: collect()). */
+/** Every form on the public site posts here (resources/views/components/site/lead-form.blade.php). */
 class StoreLeadRequest extends FormRequest
 {
     public const MAX_FILES = 5;
@@ -19,6 +19,8 @@ class StoreLeadRequest extends FormRequest
     public const MAX_ITEMS = 50;
 
     public const MAX_QUANTITY = 100000;
+
+    public const MAX_DETAILS = 10;
 
     public const FILE_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'heic', 'dwg', 'dxf', 'step', 'stp', 'zip', 'rar'];
 
@@ -41,6 +43,8 @@ class StoreLeadRequest extends FormRequest
             'source' => ['nullable', 'string', 'max:255'],
             'payload' => ['nullable', 'json', 'max:20000'],
             'items' => ['nullable', 'json', 'max:20000'],
+            'details' => ['nullable', 'array', 'max:'.self::MAX_DETAILS],
+            'details.*' => ['nullable', 'string', 'max:300'],
             'attachments' => ['nullable', 'array', 'max:'.self::MAX_FILES],
             'attachments.*' => ['file', 'max:'.self::MAX_FILE_KB, 'extensions:'.implode(',', self::FILE_EXTENSIONS)],
         ];
@@ -85,6 +89,31 @@ class StoreLeadRequest extends FormRequest
         return $items;
     }
 
+    /**
+     * Answers of the form beyond the contact fields (contact topic, part finder answers) as
+     * labelled lines for the manager, followed by what the customer wrote. Only keys listed in
+     * lang/ru/leads.php are kept; known values get their Russian name.
+     */
+    private function message(): ?string
+    {
+        $lines = [];
+
+        foreach ((array) $this->validated('details', []) as $key => $value) {
+            $label = trans("leads.details.{$key}.label", [], 'ru');
+
+            if (! is_string($key) || $label === "leads.details.{$key}.label" || blank($value)) {
+                continue;
+            }
+
+            $name = trans("leads.details.{$key}.values.{$value}", [], 'ru');
+            $lines[] = $label.': '.(str_starts_with($name, 'leads.details.') ? trim($value) : $name);
+        }
+
+        $text = trim((string) $this->validated('message'));
+
+        return implode("\n", array_filter([implode("\n", $lines), $text])) ?: null;
+    }
+
     public function toData(): LeadData
     {
         return new LeadData(
@@ -94,7 +123,7 @@ class StoreLeadRequest extends FormRequest
             name: $this->filled('name') ? $this->string('name')->trim()->value() : null,
             company: $this->validated('company'),
             email: $this->validated('email'),
-            message: $this->validated('message'),
+            message: $this->message(),
             source: $this->validated('source'),
             payload: $this->filled('payload') ? json_decode($this->validated('payload'), true) : null,
             attachments: array_values($this->file('attachments', [])),

@@ -9,24 +9,22 @@ use App\Services\Site\SiteResponse;
 use Illuminate\Http\Response;
 
 /**
- * /blog/{slug} — an article from the admin, rendered with the article design.
- * Some articles have their own interactive page (config site.blog.custom); they still
- * take the title, author and cover from the admin when the post exists.
+ * /blog/{slug} — an article from the admin. Some articles have their own interactive body
+ * (config site.blog.custom); the page still takes the title, author and cover from the admin.
  */
 class BlogPostController extends Controller
 {
     public function show(string $slug, string $lang, SiteResponse $response, PostPresenter $presenter): Response
     {
         $locale = Locale::tryFrom($lang) ?? abort(404);
-        $custom = config("site.blog.custom.{$slug}");
+        $body = config("site.blog.custom.{$slug}");
 
         $post = Post::query()->published()->with('category')->where('slug', $slug)->first();
-        abort_if(! $post && ! $custom, 404);
+        abort_if(! $post && ! $body, 404);
 
-        $data = $post ? ['post' => $presenter->page($post, $locale)] : null;
-
-        return $custom
-            ? $response->page($locale, $custom, $data)
-            : $response->page($locale, config('site.blog.page'), $data, '/'.$post->slug, $post->tr('title', $locale));
+        return $response->page($locale, 'post', [
+            'post' => $post ? $presenter->page($post, $locale) : null,
+            'bodyView' => $body,
+        ]);
     }
 }

@@ -1,0 +1,132 @@
+/* Native <dialog> modals, the side drawer and toasts. */
+.dialog {
+    width: min(1040px, calc(100% - 2 * var(--gutter)));
+    max-height: 90vh;
+    padding: 0;
+    border: 2px solid var(--c-ink);
+    background: var(--c-white);
+    color: var(--c-ink);
+    box-shadow: 12px 12px 0 var(--c-accent);
+    overflow-y: auto;
+}
+
+.dialog::backdrop {
+    background: rgba(17, 20, 24, 0.55);
+}
+
+.dialog[open] {
+    animation: dialog-in 0.4s var(--ease-out) both;
+}
+
+@keyframes dialog-in {
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+}
+
+.dialog__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 28px;
+    border-bottom: var(--border);
+}
+
+.dialog__close {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: var(--border);
+    background: var(--c-white);
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* Drawer from the right (request cart) */
+.drawer {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(480px, 100%);
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0 0 0 auto;
+    padding: 0;
+    border: 0;
+    border-left: 2px solid var(--c-ink);
+    background: var(--c-white);
+    color: var(--c-ink);
+    overflow-y: auto;
+}
+
+.drawer::backdrop {
+    background: rgba(17, 20, 24, 0.35);
+}
+
+.drawer[open] {
+    animation: drawer-in 0.35s var(--ease-out) both;
+}
+
+@keyframes drawer-in {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+}
+
+/* Floating button (request cart) */
+.fab {
+    position: fixed;
+    right: var(--gutter);
+    bottom: var(--gutter);
+    z-index: 45;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 60px;
+    padding: 0 20px 0 0;
+    border: var(--border);
+    background: var(--c-ink);
+    color: var(--c-white);
+    box-shadow: 6px 6px 0 var(--c-accent);
+    font: 700 1rem / 1 var(--font-sans);
+}
+
+.fab__count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: var(--c-accent);
+    color: var(--c-ink);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+/* Toast messages (form results) */
+.toasts {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.toast {
+    max-width: min(560px, calc(100vw - 32px));
+    padding: 14px 20px;
+    border: var(--border);
+    background: var(--c-ink);
+    color: var(--c-white);
+    box-shadow: 5px 5px 0 var(--c-accent);
+    font: 600 var(--fs-small) / 1.4 var(--font-mono);
+    transition: opacity 0.4s, transform 0.4s;
+}
+
+.toast--error {
+    box-shadow: 5px 5px 0 var(--c-danger);
+}

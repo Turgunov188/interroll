@@ -11,16 +11,18 @@ use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Site settings for the public pages, cached (they change only on the admin settings page).
+ * Site settings for the public pages (contacts, hours, production numbers, photos), cached:
+ * they change only on the admin page «Настройки сайта».
  *
- * The built pages carry three placeholder forms per key (build-tools/site_tokens.py):
- *   __S_key__   inside the HTML template → HTML-escaped text
- *   __SJ_key__  inside a JS string        → JS-escaped text
- *   __SH_key__  image slot               → an <img> tag, or nothing when no photo is uploaded
+ * Templates read them through SiteContext; translations reference them as :key
+ * (e.g. "от :lead_days дней"), see SiteContext::t().
  */
 final class SiteSettings
 {
     private const CACHE_KEY = 'site.settings';
+
+    /** Keys with a phone number: each also gets a ready "tel:" value, ":phone_href". */
+    public const PHONES = [SettingKey::Phone, SettingKey::SalesPhone, SettingKey::EngineerPhone, SettingKey::AccountingPhone];
 
     public function __construct(private readonly Repository $cache) {}
 
@@ -30,7 +32,7 @@ final class SiteSettings
         return $this->cache->rememberForever(self::CACHE_KEY, fn (): array => SiteSetting::query()->pluck('value', 'key')->all());
     }
 
-    /** The value as printed on the site, '' when it is not filled. */
+    /** The stored value in the given language (falls back to Russian), '' when it is not filled. */
     public function get(SettingKey $key, ?Locale $locale = null): string
     {
         $value = $this->all()[$key->value] ?? null;
@@ -41,6 +43,59 @@ final class SiteSettings
         }
 
         return trim((string) $value);
+    }
+
+    /** As printed on the site: the value, or a visible gap ("[__]") while the admin has not filled it. */
+    public function text(SettingKey $key, ?Locale $locale = null): string
+    {
+        $value = $this->get($key, $locale);
+
+        return $value === '' ? $key->kind()->fallback() : $value;
+    }
+
+    public function filled(SettingKey $key, ?Locale $locale = null): bool
+    {
+        return $this->get($key, $locale) !== '';
+    }
+
+    /** "+998 71 200-00-00" → "tel:+998712000000"; null while the number is not filled. */
+    public function tel(SettingKey $key): ?string
+    {
+        $digits = preg_replace('/\D+/', '', $this->get($key)) ?? '';
+
+        return $digits === '' ? null : 'tel:+'.$digits;
+    }
+
+    /** Public URL of an uploaded photo setting. */
+    public function imageUrl(SettingKey $key): ?string
+    {
+        if ($key->kind() !== SettingKind::Image || ($path = $this->get($key)) === '') {
+            return null;
+        }
+
+        return Storage::disk(MediaType::DISK)->url($path);
+    }
+
+    /**
+     * Values for translations: every text setting as ":key", plus ":<phone>_href" and the map links.
+     *
+     * @return array<string, string>
+     */
+    public function tokens(Locale $locale): array
+    {
+        $tokens = [];
+
+        foreach (SettingKey::cases() as $key) {
+            if ($key->kind() !== SettingKind::Image) {
+                $tokens[$key->value] = $this->text($key, $locale);
+            }
+        }
+
+        foreach (self::PHONES as $phone) {
+            $tokens[$phone->value.'_href'] = $this->tel($phone) ?? '#';
+        }
+
+        return $tokens + $this->mapLinks();
     }
 
     /** @param  array<string, mixed>  $values  key => value, as the admin form sends them */
@@ -58,43 +113,6 @@ final class SiteSettings
     public function flush(): void
     {
         $this->cache->forget(self::CACHE_KEY);
-    }
-
-    /** @return array<string, string> placeholder => value for SitePageRenderer */
-    public function placeholders(Locale $locale): array
-    {
-        $out = [];
-
-        foreach (SettingKey::cases() as $key) {
-            $value = $this->get($key, $locale);
-            $text = $value === '' ? $key->kind()->fallback() : $value;
-
-            if ($key->kind() === SettingKind::Image) {
-                $url = $value === '' ? '' : Storage::disk(MediaType::DISK)->url($value);
-                $text = $url;
-                $out["__SH_{$key->value}__"] = $url === '' ? '' : sprintf(
-                    '<img src="%s" alt="" loading="lazy" style="position: absolute; inset: 0; width: 100%%; height: 100%%; object-fit: cover">',
-                    e($url),
-                );
-            }
-
-            $out["__S_{$key->value}__"] = $this->html($text);
-            $out["__SJ_{$key->value}__"] = $this->js($text);
-        }
-
-        foreach ([SettingKey::Phone, SettingKey::SalesPhone, SettingKey::EngineerPhone, SettingKey::AccountingPhone] as $phone) {
-            $digits = preg_replace('/\D+/', '', $this->get($phone, $locale)) ?? '';
-            $href = $digits === '' ? '' : '+'.$digits;
-            $out["__S_{$phone->value}_href__"] = $this->html($href);
-            $out["__SJ_{$phone->value}_href__"] = $this->js($href);
-        }
-
-        foreach ($this->mapLinks() as $name => $url) {
-            $out["__S_{$name}__"] = $this->html($url);
-            $out["__SJ_{$name}__"] = $this->js($url);
-        }
-
-        return $out;
     }
 
     /**
@@ -126,19 +144,5 @@ final class SiteSettings
         }
 
         return filled($value) ? trim((string) $value) : null;
-    }
-
-    /** Text node / attribute of the page template. "{{" would start a template expression. */
-    private function html(string $value): string
-    {
-        return str_replace('{{', '{ {', e($value, false));
-    }
-
-    /** Inside a quoted JS string literal (any quote style). */
-    private function js(string $value): string
-    {
-        $json = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR);
-
-        return strtr(substr($json, 1, -1), ['`' => '\\u0060', '$' => '\\u0024']);
     }
 }

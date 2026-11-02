@@ -1,0 +1,133 @@
+/* Page frame, sections and the few layout primitives every page is built from. */
+.container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+.container--narrow {
+    max-width: 1180px;
+}
+
+.section {
+    position: relative;
+    padding-block: var(--section-y);
+}
+
+.section--tight {
+    padding-block: clamp(48px, 3vw + 32px, 80px);
+}
+
+.section--flush-top {
+    padding-top: 0;
+}
+
+.section--tint {
+    background: var(--c-tint);
+}
+
+.section--dark {
+    background: var(--c-ink);
+    color: var(--c-on-dark);
+}
+
+.section--accent {
+    background: var(--c-accent);
+}
+
+.section--line-top {
+    border-top: var(--border);
+}
+
+.section--line-bottom {
+    border-bottom: var(--border);
+}
+
+.section--hero {
+    border-bottom: var(--border);
+    background: radial-gradient(ellipse at 72% 20%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 60%);
+    padding-block: clamp(36px, 3vw + 20px, 56px) clamp(48px, 3vw + 32px, 72px);
+}
+
+/* Vertical rhythm */
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap, 16px);
+}
+
+.stack--xs { --stack-gap: 6px; }
+.stack--s { --stack-gap: 10px; }
+.stack--m { --stack-gap: 22px; }
+.stack--l { --stack-gap: 32px; }
+.stack--xl { --stack-gap: 48px; }
+
+/* Items in a row that wrap */
+.cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--cluster-gap, 12px);
+}
+
+.cluster--between {
+    justify-content: space-between;
+}
+
+.cluster--end {
+    align-items: flex-end;
+}
+
+/* Two columns that stack on narrow screens: <div class="split"><div>…</div><div>…</div></div> */
+.split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--split-gap, 48px);
+    align-items: var(--split-align, stretch);
+}
+
+.split > * {
+    flex: 1 1 var(--split-basis, 420px);
+    min-width: 0;
+}
+
+.split--center { --split-align: center; }
+.split--start { --split-align: flex-start; }
+.split--end { --split-align: flex-end; }
+
+.split > .split__wide {
+    flex-grow: 2;
+}
+
+/* Responsive card grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--grid-min, 270px)), 1fr));
+    gap: var(--grid-gap, 20px);
+}
+
+.grid--fit {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min, 270px)), 1fr));
+}
+
+/* Section heading: eyebrow + title (+ an aside on the right) */
+.section-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px 32px;
+    margin-bottom: clamp(24px, 2vw + 12px, 36px);
+}
+
+.section-head__main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 860px;
+}
+
+.section-head__aside {
+    max-width: 360px;
+}

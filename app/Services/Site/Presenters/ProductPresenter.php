@@ -8,134 +8,132 @@ use App\Models\Industry;
 use App\Models\Product;
 use App\Models\ProductMedia;
 use App\Services\Site\SiteUrl;
+use App\Services\Site\ViewModels\MediaFile;
+use App\Services\Site\ViewModels\ProductCard;
+use App\Services\Site\ViewModels\ProductPage;
+use App\Services\Site\ViewModels\RelatedProduct;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-/**
- * Turns a Product into the plain arrays the site's front-end expects.
- * Keys match the catalog/product page templates (see build-tools/dynamic_patches.py).
- */
+/** Product model → what the catalog, product and home templates show. */
 final class ProductPresenter
 {
     public const FALLBACK_CATEGORY = 'maxsus';
 
     public function __construct(private readonly SiteUrl $urls) {}
 
-    /** @return array<string, mixed> one card on the catalog page */
-    public function card(Product $product, Locale $locale): array
+    public function card(Product $product, Locale $locale): ProductCard
     {
-        return [
-            'cat' => $product->category?->slug ?? self::FALLBACK_CATEGORY,
-            'code' => $product->sku,
-            'name' => $product->tr('name', $locale),
-            'mat' => $product->material->filterCode(),
-            'matL' => $product->material->label($locale),
-            'shore' => $product->hardnessRange() ?? '',
-            'spec' => $product->tr('short', $locale) ?? '',
-            'url' => $this->urls->product($locale, $product),
-            'img' => $product->mainPhoto?->url(),
-            'inds' => $product->industries->pluck('slug')->all(),
-        ];
+        $category = $product->category?->slug ?? self::FALLBACK_CATEGORY;
+
+        return new ProductCard(
+            code: $product->sku,
+            name: (string) $product->tr('name', $locale),
+            url: $this->urls->product($locale, $product),
+            summary: (string) $product->tr('short', $locale),
+            category: $category,
+            icon: $this->icon($category),
+            material: $product->material->filterCode(),
+            materialLabel: $product->material->label($locale),
+            hardness: $product->hardnessRange() ?? '',
+            hardnessMin: (int) $product->hardness,
+            hardnessMax: (int) ($product->hardness_max ?: $product->hardness),
+            image: $product->mainPhoto?->url(),
+            industries: $product->relationLoaded('industries') ? $product->industries->pluck('slug')->all() : [],
+        );
     }
 
-    /** @return array<string, mixed> the product page header, specs and media */
-    public function page(Product $product, Locale $locale): array
+    public function page(Product $product, Locale $locale): ProductPage
     {
+        $product->loadMissing(['category', 'industries', 'media']);
+
         $name = (string) $product->tr('name', $locale);
-        [$first, $last] = $this->splitName($name);
+        [$lead, $accent] = $this->splitName($name);
+        $media = $product->media->groupBy(fn (ProductMedia $m): string => $m->type->value);
+        $of = fn (MediaType $type): Collection => $media->get($type->value, collect());
+        $model = $of(MediaType::Model3d)->first();
 
-        return [
-            'code' => $product->sku,
-            'name' => $name,
-            'name1' => $first,
-            'name2' => $last,
-            'cat' => (string) $product->category?->tr('name', $locale),
-            'desc' => $this->description($product, $locale),
-            'specs' => collect($product->specs ?? [])
-                ->map(fn (array $spec): array => [
-                    'name' => $this->translated($spec['name'] ?? null, $locale),
-                    'value' => trim(($spec['value'] ?? '').' '.($spec['unit'] ?? '')),
-                ])
-                ->filter(fn (array $spec): bool => $spec['name'] !== '' && $spec['value'] !== '')
-                ->values()
-                ->all(),
-            'matL' => $product->material->label($locale),
-            'shore' => $product->hardnessLabel() ?? '',
-            'mat' => $product->material->filterCode(),
-            'hardness' => $product->hardness,
-            'configurator' => $product->configurator?->value,
-            'configurable' => $product->configurator !== null,
-            'params' => $product->configurator?->parameters($locale) ?? [],
-            'media' => $this->media($product, $locale),
-            'docs' => $this->documents($product, $locale),
-            'uses' => $product->industries
-                ->values()
-                ->map(fn (Industry $industry, int $i): array => [
-                    'n' => '/'.str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT),
-                    't' => $industry->tr('name', $locale),
-                    'd' => '',
-                    's' => $product->hardnessRange() ?? '',
-                ])
-                ->all(),
-        ];
+        return new ProductPage(
+            code: $product->sku,
+            name: $name,
+            nameLead: $lead,
+            nameAccent: $accent,
+            category: (string) $product->category?->tr('name', $locale),
+            description: $this->description($product, $locale),
+            material: $product->material->filterCode(),
+            materialLabel: $product->material->label($locale),
+            hardnessLabel: $product->hardnessLabel() ?? '',
+            hardness: (int) ($product->hardness ?: 90),
+            configurator: $product->configurator?->value,
+            parameters: $product->configurator?->parameters($locale) ?? [],
+            specs: $this->specs($product, $locale),
+            photos: $of(MediaType::Photo)->map(fn (ProductMedia $m): MediaFile => $this->file($m, $product, $locale))->values()->all(),
+            drawings: $of(MediaType::Drawing)->map(fn (ProductMedia $m): MediaFile => $this->file($m, $product, $locale, $m->tr('alt', $locale) ?: $m->sizeLabel()))->values()->all(),
+            model: $model ? $this->file($model, $product, $locale) : null,
+            documents: $this->documents($product, $locale),
+            applications: $product->industries->map(fn (Industry $industry): array => [
+                'name' => (string) $industry->tr('name', $locale),
+                'hardness' => $product->hardnessRange() ?? '',
+            ])->values()->all(),
+        );
     }
 
-    /** @return array<string, mixed> small "also requested" card */
-    public function related(Product $product, Locale $locale): array
+    public function related(Product $product, Locale $locale): RelatedProduct
+    {
+        return new RelatedProduct(
+            code: $product->sku,
+            name: (string) $product->tr('name', $locale),
+            url: $this->urls->product($locale, $product),
+            icon: $this->icon($product->category?->slug),
+        );
+    }
+
+    /** Line drawing of the category (config/site.php → category_icons). */
+    public function icon(?string $category): string
     {
         $icons = config('site.category_icons', []);
 
-        return [
-            'code' => $product->sku,
-            'name' => $product->tr('name', $locale),
-            'url' => $this->urls->product($locale, $product),
-            'icon' => $icons[$product->category?->slug] ?? $icons[self::FALLBACK_CATEGORY] ?? '',
-        ];
+        return $icons[$category] ?? $icons[self::FALLBACK_CATEGORY] ?? '';
     }
 
-    /**
-     * Files grouped for the three views of the product page (Чертёж / 3D / Фото).
-     *
-     * @return array{photos: list<array>, drawings: list<array>, model: array|null}
-     */
-    private function media(Product $product, Locale $locale): array
+    private function file(ProductMedia $media, Product $product, Locale $locale, ?string $title = null): MediaFile
     {
-        $byType = $product->media->groupBy(fn (ProductMedia $m): string => $m->type->value);
-        $of = fn (MediaType $type): Collection => $byType->get($type->value, collect());
-        $alt = fn (ProductMedia $m): string => (string) ($m->tr('alt', $locale) ?: $product->tr('name', $locale));
-        $model = $of(MediaType::Model3d)->first();
-
-        return [
-            'photos' => $of(MediaType::Photo)
-                ->map(fn (ProductMedia $m): array => ['src' => $m->url(), 'alt' => $alt($m)])
-                ->values()->all(),
-            'drawings' => $of(MediaType::Drawing)
-                ->map(fn (ProductMedia $m): array => [
-                    'src' => $m->url(),
-                    'alt' => $alt($m),
-                    'isImage' => $m->isImage(),
-                    'label' => $m->tr('alt', $locale) ?: $m->sizeLabel(),
-                ])
-                ->values()->all(),
-            'model' => $model ? ['src' => $model->url(), 'alt' => $alt($model)] : null,
-        ];
+        return new MediaFile(
+            url: $media->url(),
+            title: (string) ($title ?? ($media->tr('alt', $locale) ?: $product->tr('name', $locale))),
+            isImage: $media->isImage(),
+        );
     }
 
     /**
      * «Документы» tab: documents first, then drawings as downloads.
      *
-     * @return list<array{title: string, url: string, meta: string}>
+     * @return list<MediaFile>
      */
     private function documents(Product $product, Locale $locale): array
     {
         return $product->media
             ->filter(fn (ProductMedia $m): bool => in_array($m->type, [MediaType::Document, MediaType::Drawing], true))
             ->sortBy(fn (ProductMedia $m): array => [$m->type === MediaType::Document ? 0 : 1, $m->sort, $m->id])
-            ->map(fn (ProductMedia $m): array => [
-                'title' => (string) ($m->tr('alt', $locale) ?: pathinfo((string) $m->original_name, PATHINFO_FILENAME) ?: $m->type->getLabel()),
-                'url' => $m->url(),
-                'meta' => $m->sizeLabel().' ↓',
+            ->map(fn (ProductMedia $m): MediaFile => new MediaFile(
+                url: $m->url(),
+                title: (string) ($m->tr('alt', $locale) ?: pathinfo((string) $m->original_name, PATHINFO_FILENAME) ?: $m->type->getLabel()),
+                isImage: $m->isImage(),
+                meta: $m->sizeLabel(),
+            ))
+            ->values()
+            ->all();
+    }
+
+    /** @return list<array{name: string, value: string}> */
+    private function specs(Product $product, Locale $locale): array
+    {
+        return collect($product->specs ?? [])
+            ->map(fn (array $spec): array => [
+                'name' => $this->translated($spec['name'] ?? null, $locale),
+                'value' => trim(($spec['value'] ?? '').' '.($spec['unit'] ?? '')),
             ])
+            ->filter(fn (array $spec): bool => $spec['name'] !== '' && $spec['value'] !== '')
             ->values()
             ->all();
     }
@@ -145,7 +143,7 @@ final class ProductPresenter
     {
         $pos = mb_strrpos($name, ' ');
 
-        return $pos === false ? [$name, ''] : [mb_substr($name, 0, $pos), mb_substr($name, $pos + 1)];
+        return $pos === false ? ['', $name] : [mb_substr($name, 0, $pos), mb_substr($name, $pos + 1)];
     }
 
     private function description(Product $product, Locale $locale): string

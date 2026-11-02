@@ -3,39 +3,38 @@
 namespace App\Services\Site;
 
 use App\Enums\Locale;
+use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 
-/** Builds the HTTP response for a public site page. */
+/**
+ * Renders a public site page: resources/views/site/pages/{page}.blade.php with its data,
+ * the shared $site context (language, links, settings, translations) and the language headers.
+ */
 final class SiteResponse
 {
-    private const JSON_FLAGS = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR;
-
     public function __construct(
-        private readonly SitePageRenderer $pages,
+        private readonly ViewFactory $views,
         private readonly SiteSettings $settings,
+        private readonly SiteUrl $urls,
+        private readonly Request $request,
     ) {}
 
-    /**
-     * @param  array<string, mixed>|null  $data  becomes window.__IR on the page
-     * @param  string  $urlSuffix  appended to canonical / hreflang / language links
-     * @param  string|null  $title  fills __PAGE_TITLE__ in <title> (product or article name)
-     */
-    public function page(Locale $locale, string $page, ?array $data = null, string $urlSuffix = '', ?string $title = null): Response
+    /** @param  array<string, mixed>  $data  view variables of the page (see PageData) */
+    public function page(Locale $locale, string $page, array $data = []): Response
     {
-        abort_unless($this->pages->exists($locale, $page), 404);
+        $view = "site.pages.{$page}";
+        abort_unless($this->views->exists($view), 404);
 
         App::setLocale($locale->value);
 
-        $html = $this->pages->render($locale, $page, $this->settings->placeholders($locale) + [
-            SitePageRenderer::CSRF_TOKEN => csrf_token(),
-            SitePageRenderer::BASE_URL => rtrim(url('/'), '/'),
-            SitePageRenderer::DATA => json_encode($data, self::JSON_FLAGS),
-            SitePageRenderer::URL_SUFFIX => $urlSuffix,
-            SitePageRenderer::PAGE_TITLE => e($title ?? 'Inter Roll'),
-        ]);
+        $site = new SiteContext($locale, $this->settings, $this->urls, $this->request->route());
+        App::instance(SiteContext::class, $site);
+        $this->views->share('site', $site);
 
-        return response($html)
+        // a View (not a string), so tests can read the page data with viewData()
+        return response($this->views->make($view, $data))
             ->header('Content-Type', 'text/html; charset=UTF-8')
             ->header('Content-Language', $locale->value)
             ->header('Cache-Control', 'no-cache, private');

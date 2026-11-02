@@ -4,7 +4,7 @@ namespace App\Services\Site\PageData;
 
 use App\Enums\Locale;
 
-/** Server data for a site page; it reaches the page as window.__IR (see config/site.php "data"). */
+/** Database data of a site page; the array becomes the page's view variables (config/site.php "data"). */
 interface PageData
 {
     /** @return array<string, mixed> */

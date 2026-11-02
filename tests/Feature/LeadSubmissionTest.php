@@ -45,6 +45,28 @@ class LeadSubmissionTest extends TestCase
         $this->assertSame(Locale::main(), $lead->locale);
     }
 
+    public function test_contact_and_wizard_answers_become_labelled_lines_for_the_manager(): void
+    {
+        $this->postJson('/leads', [
+            'phone' => '+998901234567',
+            'type' => 'contact',
+            'message' => 'Нужен вал Ø120',
+            'details' => ['topic' => 'technical', 'reply_via' => 'telegram', 'unknown' => 'dropped', 'part' => 'Vallik'],
+        ])->assertCreated();
+
+        $this->assertSame("Тема: Технический вопрос\nКак ответить: Telegram\nДеталь: Vallik\nНужен вал Ø120", Lead::sole()->message);
+    }
+
+    public function test_without_javascript_the_form_comes_back_to_the_page(): void
+    {
+        $this->from('/contact')
+            ->post('/leads', ['phone' => '+998901234567', 'type' => 'contact'])
+            ->assertRedirect('/contact')
+            ->assertSessionHas('lead_number', 'L-000001');
+
+        $this->from('/contact')->post('/leads', ['name' => 'Без телефона'])->assertRedirect('/contact')->assertSessionHasErrors('phone');
+    }
+
     public function test_phone_is_required(): void
     {
         $this->postJson('/leads', ['name' => 'Без телефона'])

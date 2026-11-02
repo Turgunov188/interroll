@@ -24,13 +24,19 @@ class VideoPageTest extends TestCase
         Video::create(['kind' => VideoKind::Short, 'title' => ['ru' => 'Заливка бандажа'], 'url' => 'https://youtube.com/shorts/dQw4w9WgXcQ', 'is_published' => true]);
         Video::create(['kind' => VideoKind::Main, 'title' => ['ru' => 'Скрытое видео'], 'is_published' => false]);
 
-        $this->get('/video')
-            ->assertOk()
+        $response = $this->get('/video')->assertOk();
+
+        $video = $response->viewData('videos')[0];
+        $this->assertSame('dQw4w9WgXcQ', $video->youtubeId);
+        $this->assertSame([['at' => '1:40', 'label' => 'Литьё', 'position' => 0.5, 'seconds' => 100]], $video->chapters);
+        $this->assertSame('https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg', $video->poster);
+        $this->assertCount(1, $response->viewData('videos'));
+
+        $response
             ->assertSee('Экскурсия по заводу', false)
-            ->assertSee('"yt":"dQw4w9WgXcQ"', false)
-            ->assertSee('["1:40","Литьё",0.5,100]', false)
             ->assertSee('Заливка бандажа', false)
-            ->assertDontSee('Скрытое видео', false);
+            ->assertDontSee('Скрытое видео', false)
+            ->assertDontSee('youtube-nocookie.com/embed/dQw', false); // nothing loads from YouTube before play
     }
 
     public function test_youtube_links_of_every_kind_are_recognised(): void

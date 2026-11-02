@@ -1,0 +1,170 @@
+/* Recoating page */
+.process__scheme {
+    display: block;
+    width: 100%;
+    height: auto;
+    background-size: 20px 20px;
+}
+
+.process__anim {
+    transition: all 0.9s var(--ease-in-out);
+}
+
+.process__stages {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: var(--border);
+}
+
+.process__stage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    min-height: 64px;
+    padding: 8px 12px;
+    border: 0;
+    border-right: var(--border);
+    background: var(--c-white);
+    font-weight: 700;
+    font-size: var(--fs-small);
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.process__stage:last-child {
+    border-right: 0;
+}
+
+.process__stage .mono {
+    font-weight: 400;
+    font-size: var(--fs-mono-xs);
+}
+
+.process__stage[aria-pressed='true'] {
+    background: var(--c-accent);
+}
+
+@media (max-width: 560px) {
+    .process__stages {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process__stage:nth-child(2) {
+        border-right: 0;
+    }
+
+    .process__stage:nth-child(-n + 2) {
+        border-bottom: var(--border);
+    }
+}
+
+/* Savings calculator */
+.savings__price {
+    font-size: 1.375rem;
+    font-weight: 700;
+}
+
+.savings {
+    justify-content: center;
+    padding: clamp(20px, 2vw + 12px, 32px);
+    background: var(--c-ink-2);
+    border: 1px solid var(--c-ink-4);
+}
+
+.savings__track {
+    height: 28px;
+    background: var(--c-ink-3);
+}
+
+.savings__bar {
+    height: 100%;
+    width: 100%;
+    background: var(--c-accent);
+    transition: width 1s var(--ease-out);
+}
+
+.savings__bar--new {
+    background: var(--c-text-muted);
+}
+
+.savings__result {
+    padding-top: 22px;
+    border-top: 1px dashed var(--c-text-muted);
+}
+
+.savings__amount {
+    color: var(--c-accent);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 1.8rem + 3vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+/* Work steps */
+.work-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.work-steps__item {
+    padding: 24px 20px;
+    border-right: 1px solid var(--c-line);
+    border-bottom: 1px solid var(--c-line);
+}
+
+.work-steps__number {
+    font-size: 2.5rem;
+}
+
+.work-steps__title {
+    font-weight: 800;
+    font-size: 1.125rem;
+    line-height: 1.2;
+}
+
+/* Material cards */
+.material-card {
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    text-align: left;
+    font: inherit;
+}
+
+.material-card.is-selected {
+    background: var(--c-accent);
+    box-shadow: var(--shadow-m);
+}
+
+.material-card__title {
+    font-weight: 800;
+    font-size: 1.625rem;
+}
+
+.material-card__meters {
+    width: 100%;
+}
+
+.material-card .meter__fill {
+    width: 0;
+}
+
+.material-card.is-visible .meter__fill,
+.is-visible .material-card .meter__fill {
+    width: calc(var(--level, 0) * 25%);
+}
+
+.material-card__use {
+    width: 100%;
+    padding-top: 12px;
+    border-top: 1px dashed var(--c-ink);
+    font-size: var(--fs-mono-s);
+    text-transform: uppercase;
+}
+
+.recoating-material {
+    background: var(--c-accent);
+    font-weight: 700;
+}

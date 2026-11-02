@@ -18,21 +18,29 @@ class HomeAndFactoryPagesTest extends TestCase
     {
         $this->seed(CatalogSeeder::class);
 
-        $this->get('/')
-            ->assertOk()
-            ->assertSee('"inds":[{"k":"metallurgiya"', false)
-            ->assertSee('/product/ir-v01', false)
-            ->assertSee('/catalog?cat=valik', false);
+        $response = $this->get('/')->assertOk();
+
+        $industries = $response->viewData('industries');
+        $this->assertSame('metallurgiya', $industries[0]->slug);
+        $this->assertLessThanOrEqual(3, count($industries[0]->products));
+        $this->assertSame('/catalog?cat=valik', $response->viewData('categories')[0]->url);
+
+        $response
+            ->assertSee('href="/product/ir-v01"', false)
+            ->assertSee('href="/catalog?cat=valik"', false)
+            ->assertSee('role="tabpanel" id="panel-metallurgiya"', false);
     }
 
     public function test_home_follows_catalog_changes(): void
     {
         $this->seed(CatalogSeeder::class);
-        $this->get('/')->assertSee('IR-V01', false);
+        $codes = fn () => collect($this->get('/')->viewData('industries'))->flatMap->products->pluck('code')->all();
+        $this->assertContains('IR-V01', $codes());
 
         Product::firstWhere('sku', 'IR-V01')->update(['is_active' => false]);
 
-        $this->get('/')->assertDontSee('"code":"IR-V01"', false);
+        $this->assertNotContains('IR-V01', $codes());
+        $this->get('/')->assertDontSee('href="/product/ir-v01"', false);
     }
 
     public function test_factory_page_shows_clients_reviews_and_certificates(): void

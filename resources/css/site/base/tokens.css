@@ -1,0 +1,72 @@
+/*
+ * Design tokens of the public site. Every colour, font, size and motion value used by the
+ * components lives here; components never hard-code them.
+ */
+:root {
+    /* colour */
+    --c-ink: #111418;
+    --c-ink-2: #1d2228;
+    --c-ink-3: #2a3038;
+    --c-ink-4: #3e4650;
+    --c-paper: #eef0f2;
+    --c-white: #fff;
+    --c-text: #111418;
+    --c-text-soft: #3e4650;
+    --c-text-muted: #5b636d;
+    --c-text-faint: #8a939d;
+    --c-on-dark: #eef0f2;
+    --c-on-dark-muted: #a9b0b8;
+    --c-line: #dde1e5;
+    --c-line-soft: #e3e7eb;
+    --c-accent: #f5b700;
+    --c-accent-soft: #fff8dc;
+    --c-accent-tint: rgba(245, 183, 0, 0.1);
+    --c-steel: #4a535e;
+    --c-steel-light: #8a939d;
+    --c-ok: #2e9e5b;
+    --c-danger: #c9542e;
+    --c-danger-soft: #fbe4dd;
+    --c-tint: rgba(255, 255, 255, 0.78);
+
+    /* placeholder stripes until a real photo is uploaded */
+    --ph-a: #e3e7eb;
+    --ph-b: #dce0e4;
+
+    /* type */
+    --font-sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --fs-display: clamp(2.6rem, 1.4rem + 5.2vw, 4.75rem);
+    --fs-h1: clamp(2.4rem, 1.4rem + 4.2vw, 4.25rem);
+    --fs-h2: clamp(1.9rem, 1.3rem + 2.2vw, 2.875rem);
+    --fs-h3: clamp(1.35rem, 1.1rem + 0.9vw, 1.65rem);
+    --fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    --fs-body: 1rem;
+    --fs-small: 0.875rem;
+    --fs-mono: 0.8125rem;
+    --fs-mono-s: 0.75rem;
+    --fs-mono-xs: 0.6875rem;
+
+    /* layout */
+    --container: 1280px;
+    --gutter: 24px;
+    --header-h: 72px;
+    --section-y: clamp(56px, 4vw + 32px, 96px);
+    --border: 1px solid var(--c-ink);
+    --border-soft: 1px solid var(--c-line);
+
+    /* the «offset print» shadow of buttons and cards */
+    --shadow-s: 3px 3px 0 var(--c-ink);
+    --shadow-m: 6px 6px 0 var(--c-ink);
+    --shadow-l: 10px 10px 0 var(--c-ink);
+
+    /* motion */
+    --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (max-width: 640px) {
+    :root {
+        --gutter: 16px;
+        --header-h: 60px;
+    }
+}

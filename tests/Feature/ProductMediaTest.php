@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Actions\Products\AttachProductMedia;
 use App\Enums\MediaType;
 use App\Models\Product;
+use App\Services\Site\ViewModels\ProductPage;
 use Database\Seeders\CatalogSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -32,11 +33,9 @@ class ProductMediaTest extends TestCase
         return UploadedFile::fake()->create($name, $kb)->store($type->directory(), MediaType::DISK);
     }
 
-    private function pageData(string $uri): array
+    private function page(string $uri): ProductPage
     {
-        preg_match('#<script type="application/json" id="ir-data">(.*?)</script>#s', $this->get($uri)->assertOk()->getContent(), $m);
-
-        return json_decode($m[1], true, flags: JSON_THROW_ON_ERROR);
+        return $this->get($uri)->assertOk()->viewData('product');
     }
 
     public function test_files_are_typed_and_ordered(): void
@@ -59,48 +58,51 @@ class ProductMediaTest extends TestCase
         $passport = $attach->handle($this->product, MediaType::Document, [$this->upload(MediaType::Document, 'passport.pdf')])->first();
         $passport->update(['alt' => ['ru' => 'Технический паспорт', 'uz' => 'Texnik pasport']]);
 
-        $product = $this->pageData('/product/ir-x01')['product'];
+        $product = $this->page('/product/ir-x01');
 
-        $this->assertFalse($product['configurable']);
-        $this->assertCount(1, $product['media']['photos']);
-        $this->assertFalse($product['media']['drawings'][0]['isImage']);
-        $this->assertStringEndsWith('.glb', $product['media']['model']['src']);
-        $this->assertSame('Технический паспорт', $product['docs'][0]['title']); // documents before drawings
-        $this->assertCount(2, $product['docs']);
+        $this->assertFalse($product->isConfigurable());
+        $this->assertCount(1, $product->photos);
+        $this->assertFalse($product->drawings[0]->isImage);
+        $this->assertStringEndsWith('.glb', $product->model->url);
+        $this->assertSame('Технический паспорт', $product->documents[0]->title); // documents before drawings
+        $this->assertCount(2, $product->documents);
 
-        $uz = $this->pageData('/uz/product/ir-x01')['product'];
-        $this->assertSame('Texnik pasport', $uz['docs'][0]['title']);
+        $this->assertSame('Texnik pasport', $this->page('/uz/product/ir-x01')->documents[0]->title);
+
+        // the 3D file goes to <model-viewer>, the passport link is on the page
+        $this->get('/product/ir-x01')->assertSee('<model-viewer src="'.$product->model->url.'"', false)->assertSee($passport->url(), false);
     }
 
     public function test_catalog_card_uses_the_first_photo(): void
     {
         app(AttachProductMedia::class)->handle($this->product, MediaType::Photo, [$this->upload(MediaType::Photo, 'card.jpg')]);
 
-        $card = collect($this->pageData('/catalog')['products'])->firstWhere('code', 'IR-X01');
+        $card = collect($this->get('/catalog')->viewData('products'))->firstWhere('code', 'IR-X01');
 
-        $this->assertStringContainsString('/storage/products/photos/', $card['img']);
+        $this->assertStringContainsString('/storage/products/photos/', $card->image);
     }
 
-    public function test_rollers_keep_the_configurator(): void
+    public function test_rollers_get_diameter_length_and_coating_sliders(): void
     {
-        $product = $this->pageData('/product/ir-v01')['product'];
+        $product = $this->page('/product/ir-v01');
 
-        $this->assertSame('roller', $product['configurator']);
-        $this->assertSame([], $product['params']); // the roller has its own controls in the design
+        $this->assertSame('roller', $product->configurator);
+        $this->assertSame(['D', 'L', 'T'], array_column($product->parameters, 'key'));
+        $this->assertSame('Диаметр', $product->parameters[0]['label']);
     }
 
     public function test_shape_configurators_send_their_parameters_in_the_page_language(): void
     {
-        $wheel = $this->pageData('/uz/product/ir-g01')['product'];
+        $wheel = $this->page('/uz/product/ir-g01');
 
-        $this->assertSame('wheel', $wheel['configurator']);
-        $this->assertSame(['D', 'd', 'B', 'T'], array_column($wheel['params'], 'key'));
-        $this->assertSame('Tashqi diametr D', $wheel['params'][0]['label']);
+        $this->assertSame('wheel', $wheel->configurator);
+        $this->assertSame(['D', 'd', 'B', 'T'], array_column($wheel->parameters, 'key'));
+        $this->assertSame('Tashqi diametr D', $wheel->parameters[0]['label']);
 
-        $this->assertSame('spider', $this->pageData('/product/ir-m01')['product']['configurator']);
-        $this->assertSame('plate', $this->pageData('/product/ir-p03')['product']['configurator']);
-        $this->assertSame('bushing', $this->pageData('/product/ir-a01')['product']['configurator']);
-        $this->assertNull($this->pageData('/product/ir-x01')['product']['configurator']);
+        $this->assertSame('spider', $this->page('/product/ir-m01')->configurator);
+        $this->assertSame('plate', $this->page('/product/ir-p03')->configurator);
+        $this->assertSame('bushing', $this->page('/product/ir-a01')->configurator);
+        $this->assertNull($this->page('/product/ir-x01')->configurator);
     }
 
     public function test_deleting_a_file_removes_it_from_disk(): void

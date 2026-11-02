@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasLabel;
 
 /**
  * Interactive configurator on the product page: the visitor sets the sizes and sees a
- * live drawing and 3D model (front-end: build-tools/shapes.js). A product without one
+ * live drawing and 3D model (front-end: resources/js/site/shapes). A product without one
  * shows only its uploaded drawings, 3D model and photos.
  */
 enum Configurator: string implements HasLabel
@@ -38,7 +38,7 @@ enum Configurator: string implements HasLabel
     }
 
     /**
-     * Size sliders for the shape configurators (the roller has its own controls in the design).
+     * Size sliders of the configurator (keys match the drawing code in resources/js/site/shapes).
      *
      * @return list<array{key: string, label: string, min: int, max: int, step: int, default: int, unit: string}>
      */
@@ -48,7 +48,11 @@ enum Configurator: string implements HasLabel
         $t = fn (string $name): string => self::LABELS[$name][$locale->value] ?? self::LABELS[$name][Locale::main()->value];
 
         return match ($this) {
-            self::Roller => [],
+            self::Roller => [
+                $p('D', $t('diameter'), 40, 400, 5, 120),
+                $p('L', $t('working_length'), 100, 2000, 10, 800),
+                $p('T', $t('coating'), 5, 40, 1, 12),
+            ],
             self::Wheel => [
                 $p('D', $t('outer'), 40, 600, 5, 150),
                 $p('d', $t('bore'), 10, 300, 1, 40),
@@ -80,13 +84,6 @@ enum Configurator: string implements HasLabel
     /** Typed sizes (forms) can exceed the sliders, so only nonsense is cut off. */
     private const MAX_SIZE = 100000;
 
-    /** Roller sizes: the design has its own sliders, the limits here mirror them. */
-    private const ROLLER_SIZES = [
-        'D' => ['Диаметр', 40, 400],
-        'L' => ['Рабочая длина', 100, 2000],
-        'T' => ['Толщина покрытия', 5, 40],
-    ];
-
     /**
      * What the customer picked, as readable rows for the manager:
      * ['Материал' => 'Полиуретан', 'Твёрдость' => '90 Shore A', 'Наружный диаметр D' => '150 mm'].
@@ -108,9 +105,7 @@ enum Configurator: string implements HasLabel
             $rows['Твёрдость'] = max(10, min(100, (int) $values['shore'])).' Shore A';
         }
 
-        $sizes = $this === self::Roller
-            ? array_map(fn (array $s): array => ['label' => $s[0], 'min' => $s[1], 'max' => $s[2], 'unit' => 'mm'], self::ROLLER_SIZES)
-            : collect($this->parameters($locale))->keyBy('key')->all();
+        $sizes = collect($this->parameters($locale))->keyBy('key')->all();
 
         foreach ($sizes as $key => $size) {
             $raw = $values[$key] ?? null;
@@ -133,6 +128,9 @@ enum Configurator: string implements HasLabel
     }
 
     private const LABELS = [
+        'diameter' => ['ru' => 'Диаметр', 'uz' => 'Diametr', 'en' => 'Diameter', 'tr' => 'Çap'],
+        'working_length' => ['ru' => 'Рабочая длина', 'uz' => 'Ish uzunligi', 'en' => 'Working length', 'tr' => 'Çalışma uzunluğu'],
+        'coating' => ['ru' => 'Толщина покрытия', 'uz' => 'Qoplama qalinligi', 'en' => 'Coating thickness', 'tr' => 'Kaplama kalınlığı'],
         'outer' => ['ru' => 'Наружный диаметр D', 'uz' => 'Tashqi diametr D', 'en' => 'Outer diameter D', 'tr' => 'Dış çap D'],
         'bore' => ['ru' => 'Внутренний диаметр d', 'uz' => 'Ichki diametr d', 'en' => 'Bore d', 'tr' => 'İç çap d'],
         'width_b' => ['ru' => 'Ширина B', 'uz' => 'Kenglik B', 'en' => 'Width B', 'tr' => 'Genişlik B'],

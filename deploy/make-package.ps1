@@ -10,6 +10,8 @@ $app   = Join-Path $build 'laravel'
 $web   = Join-Path $build 'public_html'
 $zip   = Join-Path $PSScriptRoot 'interroll-hosting.zip'
 
+if (-not (Test-Path "$root\public\build\manifest.json")) { throw "Avval sayt CSS/JS ni yig'ing: npm install; npm run build" }
+
 Write-Host "1/5  Tozalash..."
 if (Test-Path $build) { Remove-Item $build -Recurse -Force }
 if (Test-Path $zip)   { Remove-Item $zip -Force }
@@ -19,6 +21,7 @@ Write-Host "2/5  Loyiha fayllari (vendor, .env, testlar, loglarsiz)..."
 $excludeDirs = @(
     "$root\vendor", "$root\node_modules", "$root\.idea", "$root\.git", "$root\.vscode",
     "$root\deploy", "$root\tests", "$root\public",
+    "$root\resources\css", "$root\resources\js", "$root\resources\fonts",
     "$root\storage\logs", "$root\storage\framework\cache\data",
     "$root\storage\framework\sessions", "$root\storage\framework\views"
 )
@@ -33,14 +36,6 @@ foreach ($d in 'storage\logs', 'storage\framework\cache\data', 'storage\framewor
 
 # caches built on this computer hold Windows paths and dev packages: the hosting builds its own
 Get-ChildItem (Join-Path $app 'bootstrap\cache') -File -Filter *.php | Remove-Item -Force
-
-# old page files (Uzbek URLs, before English ones) are not needed on the hosting
-$site = Join-Path $app 'resources\site'
-Get-ChildItem $site -File -Filter *.html | Remove-Item -Force
-$old = 'aloqa','blog-shore-a','ishlar','katalog','kuzatish','mahsulot','qayta-qoplash','tanlash-ustasi','zavod','order-tracking'
-foreach ($lang in 'ru','uz','en','tr') {
-    foreach ($name in $old) { Remove-Item (Join-Path $site "$lang\$name.html") -Force -ErrorAction SilentlyContinue }
-}
 
 Write-Host "3/5  public_html (css, js, shriftlar + hosting uchun index.php va .htaccess)..."
 robocopy "$root\public" $web /E /NFL /NDL /NJH /NJS /NP /XD "$root\public\storage" /XF index.php .htaccess hot | Out-Null

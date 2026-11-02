@@ -1,0 +1,45 @@
+/* Site footer and the animated mesh behind every page. */
+.site-footer {
+    padding-block: 40px;
+    background: var(--c-ink);
+    color: var(--c-on-dark-muted);
+    font: 400 var(--fs-mono) / 1.5 var(--font-mono);
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.site-footer__brand {
+    color: var(--c-white);
+    font-weight: 600;
+}
+
+.site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+}
+
+.site-footer__links a:hover {
+    color: var(--c-white);
+}
+
+/* Interactive grid drawn on a canvas (resources/js/site/effects/mesh-background.js) */
+.page-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.site {
+    position: relative;
+    z-index: 0;
+}

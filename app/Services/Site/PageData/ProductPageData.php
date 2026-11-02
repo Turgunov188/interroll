@@ -6,7 +6,7 @@ use App\Enums\Locale;
 use App\Models\Product;
 use App\Services\Site\Presenters\ProductPresenter;
 
-/** Product page: the product and a few others from the same category. */
+/** Product page: the product and a few others, from the same category first. */
 final class ProductPageData
 {
     public const RELATED_LIMIT = 3;
@@ -16,8 +16,6 @@ final class ProductPageData
     /** @return array<string, mixed> */
     public function for(Product $product, Locale $locale): array
     {
-        $product->loadMissing(['category', 'industries', 'media']);
-
         $related = Product::query()
             ->published()
             ->whereKeyNot($product->getKey())
@@ -29,7 +27,7 @@ final class ProductPageData
 
         return [
             'product' => $this->presenter->page($product, $locale),
-            'related' => $related->map(fn (Product $p): array => $this->presenter->related($p, $locale))->all(),
+            'related' => $related->map(fn (Product $p) => $this->presenter->related($p, $locale))->all(),
         ];
     }
 }

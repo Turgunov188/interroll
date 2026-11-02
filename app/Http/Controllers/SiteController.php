@@ -14,10 +14,10 @@ class SiteController extends Controller
     {
         $locale = Locale::tryFrom($lang) ?? abort(404);
 
-        return $response->page($locale, $page, $this->dataFor($page)?->for($locale));
+        return $response->page($locale, $page, $this->dataFor($page)?->for($locale) ?? []);
     }
 
-    /** Pages with server data are listed in config/site.php ("data"). */
+    /** Pages with database data are listed in config/site.php ("data"). */
     private function dataFor(string $page): ?PageData
     {
         $class = config("site.data.{$page}");
