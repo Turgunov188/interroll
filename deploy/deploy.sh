@@ -17,7 +17,7 @@ else
     exit 1
 fi
 
-step() { printf '\n\033[1;33m▶ %s\033[0m\n' "$1"; }
+step() { printf '\n▶ %s\n' "$1"; }
 back_online() { "$PHP" artisan up >/dev/null 2>&1 || true; }
 on_error() { echo; echo "XATO — sayt qayta yoqildi, yuqoridagi xabarni o'qing." >&2; back_online; }
 trap on_error ERR

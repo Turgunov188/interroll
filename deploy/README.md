@@ -104,6 +104,47 @@ HeidiSQL yoki DBeaver'da **SSH tunnel** yorlig'ini oching:
 
 ---
 
+## C. SSH yo'q, lekin git bor: Cron orqali avtomatik deploy (hozirgi yo'l)
+
+Server GitHub'dan kodni o'zi tortib oladi. Siz kompyuteringizda `git push` qilasiz, sayt 5 daqiqa ichida yangilanadi. Bu hostingda serverdan GitHub'ga faqat **443-port** ochiq, 22-port yopiq, shuning uchun `ssh.github.com:443` ishlatiladi.
+
+Barcha buyruqlar DirectAdmin → **Cron Jobs** orqali ishga tushiriladi. Bir martalik cron'larni har daqiqa (`* * * * *`) qilib qo'ying, natijani logdan o'qing va **darhol o'chiring**.
+
+### Birinchi marta
+
+1. **GitHub kaliti (serverda):**
+   ```
+   cd /home/interrolluz && (test -f .ssh/github_interroll || ssh-keygen -t ed25519 -C interroll-server -f .ssh/github_interroll -N ''; grep -q 'Host github.com' .ssh/config 2>/dev/null || printf 'Host github.com\n  HostName ssh.github.com\n  Port 443\n  User git\n  IdentityFile ~/.ssh/github_interroll\n  IdentitiesOnly yes\n' >> .ssh/config; chmod 600 .ssh/config; cat .ssh/github_interroll.pub) > domains/interroll.uz/laravel/storage/logs/key.log 2>&1
+   ```
+   `key.log` dagi qatorni oching va GitHub → repozitoriy → **Settings → Deploy keys → Add deploy key** ga qo'shing. **Allow write access** belgilanmasin.
+
+2. **Zip o'rnatmani git'ga o'tkazish:**
+   ```
+   cd /home/interrolluz/domains/interroll.uz && test -f .switched-to-git || flock -n /home/interrolluz/.switch.lock -c 'test -d laravel-git || git clone git@github.com:Turgunov188/interroll.git laravel-git; PHP=/usr/local/php83/bin/php bash laravel-git/deploy/switch-to-git.sh' >> switch.log 2>&1
+   ```
+   Natija `domains/interroll.uz/switch.log` da chiqadi. `deploy/switch-to-git.sh` quyidagilarni bajaradi:
+   - eski `.env` va yuklangan fayllarni (`storage/app`) yangi nusxaga ko'chiradi;
+   - composer'ni o'rnatadi (`~/bin/composer`) va kutubxonalarni yuklaydi;
+   - papkalarni almashtiradi va `public_html` ni `laravel/public` ga havola (symlink) qiladi;
+   - `migrate` ni bajaradi va keshlarni yangilaydi.
+
+   Eski nusxalar `laravel.old-<sana>` va `public_html.old-<sana>` nomi bilan qoladi. Sayt ishlashiga ishonch hosil qilgach, ularni o'chiring.
+
+3. **Doimiy cron** (vaqti `*/5 * * * *`, bu cron **o'chirilmaydi**):
+   ```
+   cd /home/interrolluz/domains/interroll.uz/laravel && PHP=/usr/local/php83/bin/php bash deploy/auto-deploy.sh >> storage/logs/deploy.log 2>&1
+   ```
+   GitHub'da yangi commit bo'lmasa, hech narsa qilmaydi. Yangi commit bo'lsa, `deploy/deploy.sh` ni ishga tushiradi. Natija `storage/logs/deploy.log` da.
+
+### Har yangilanishda
+
+```
+npm run build      # faqat CSS/JS o'zgargan bo'lsa
+git add -A && git commit -m "nima o'zgardi" && git push
+```
+
+5 daqiqadan keyin `storage/logs/deploy.log` da `Tayyor: <commit>` yozuvi paydo bo'ladi.
+
 ## B. SSH bo'lmasa: zip arxiv va Cron
 
 ### 0. Hostingni tekshirish (bir marta)

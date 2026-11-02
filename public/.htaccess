@@ -5,6 +5,15 @@
 
     RewriteEngine On
 
+    # Production only (local hosts are not matched): one canonical address, https://interroll.uz
+    RewriteCond %{HTTP_HOST} ^www\.interroll\.uz$ [NC]
+    RewriteRule ^ https://interroll.uz%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTP_HOST} ^interroll\.uz$ [NC]
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^ https://interroll.uz%{REQUEST_URI} [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
