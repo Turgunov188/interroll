@@ -32,8 +32,9 @@ class CatalogPdfSeeder extends Seeder
     {
         $data = require __DIR__.'/data/catalog-2026.php';
         $created = 0;
+        $skipped = [];
 
-        DB::transaction(function () use ($data, $attach, &$created): void {
+        DB::transaction(function () use ($data, $attach, &$created, &$skipped): void {
             foreach ($data['machines'] as $row) {
                 MachineBrand::query()->firstOrCreate(['slug' => $row['slug']], $row);
             }
@@ -55,6 +56,13 @@ class CatalogPdfSeeder extends Seeder
 
             foreach ($data['products'] as $row) {
                 if (Product::withTrashed()->where('sku', $row['sku'])->exists()) {
+                    continue;
+                }
+
+                // a section that existed in the starting catalog may have been renamed or removed in the admin
+                if (! isset($categories[$row['category']])) {
+                    $skipped[$row['category']][] = $row['sku'];
+
                     continue;
                 }
 
@@ -80,7 +88,16 @@ class CatalogPdfSeeder extends Seeder
             }
         });
 
-        $this->command?->info("  {$created} products added (".(count($data['products']) - $created).' already there)');
+        $missing = array_sum(array_map('count', $skipped));
+        $this->command?->info("  {$created} products added, ".(count($data['products']) - $created - $missing).' already there');
+
+        foreach ($skipped as $slug => $skus) {
+            $this->command?->warn("  Section «{$slug}» not found, skipped: ".implode(', ', $skus));
+        }
+
+        if ($skipped) {
+            $this->command?->line('  Sections on this site: '.Category::query()->orderBy('slug')->pluck('slug')->implode(', '));
+        }
     }
 
     /** A free URL slug: «mnf-n25», or «mnf-n25-2» when an admin already used it. */

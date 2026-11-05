@@ -104,4 +104,15 @@ class CatalogPdfTest extends TestCase
         $this->get('/en/catalog')->assertOk()->assertSee('Monforts clip, standard');
         $this->get('/tr/catalog')->assertOk()->assertSee('Monforts klips standart')->assertSee('Tüm makineler');
     }
+
+    public function test_parts_of_a_missing_section_are_skipped_and_the_rest_is_added(): void
+    {
+        Product::query()->forceDelete();
+        Category::query()->where('slug', 'gildirak')->delete();
+
+        $this->seed(CatalogPdfSeeder::class);
+
+        $this->assertNull(Product::query()->where('sku', 'IR-G03')->first());
+        $this->assertNotNull(Product::query()->where('sku', 'MNF001')->first());
+    }
 }
