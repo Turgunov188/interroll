@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -11,8 +12,14 @@ $app = Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Hosting panels (DirectAdmin, cPanel) often sit behind a proxy: trust it so https:// links stay https://
-        $middleware->trustProxies(at: '*');
+        // Hosting panels (DirectAdmin, cPanel) put nginx in front of Apache on the same machine: trust that
+        // proxy so https:// links stay https://. Only local addresses, never '*': with '*' anyone could
+        // send a fake X-Forwarded-For and get a fresh IP for every request, which voids the rate limits on
+        // the forms and on the admin login. Another proxy (Cloudflare…) → TRUSTED_PROXIES in .env.
+        $proxies = (string) env('TRUSTED_PROXIES', '127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16');
+        $middleware->trustProxies(at: $proxies === '*' ? '*' : array_filter(array_map('trim', explode(',', $proxies))));
+
+        $middleware->append(SecurityHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

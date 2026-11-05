@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Certificate;
 use App\Models\Client;
+use App\Models\Industry;
 use App\Models\Product;
 use App\Models\Testimonial;
 use Database\Seeders\CatalogSeeder;
@@ -78,7 +79,7 @@ class HomeAndFactoryPagesTest extends TestCase
     public function test_industry_tabs_show_random_products_of_that_industry(): void
     {
         $this->seed(CatalogSeeder::class);
-        $industry = \App\Models\Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
+        $industry = Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
         $own = $industry->products()->published()->pluck('sku')->all();
 
         $tab = collect($this->get('/')->viewData('industries'))->firstWhere('slug', $industry->slug);
@@ -92,7 +93,7 @@ class HomeAndFactoryPagesTest extends TestCase
     public function test_a_short_industry_row_is_completed_by_the_catalog_card(): void
     {
         $this->seed(CatalogSeeder::class);
-        $industry = \App\Models\Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
+        $industry = Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
         $industry->products()->published()->ordered()->get()->slice(1)->each->update(['is_active' => false]);
 
         $response = $this->get('/');

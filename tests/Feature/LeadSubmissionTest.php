@@ -105,6 +105,20 @@ class LeadSubmissionTest extends TestCase
         Storage::disk('local')->assertExists($path);
     }
 
+    public function test_a_page_disguised_as_a_drawing_is_never_stored_as_a_web_page(): void
+    {
+        Storage::fake('local');
+
+        // An HTML page renamed to .pdf: stored as .html it would run scripts when a manager opens it.
+        $this->post('/leads', [
+            'phone' => '+998901234567',
+            'attachments' => [$this->realUpload('drawing.pdf', '<!DOCTYPE html><html><body><script>alert(1)</script></body></html>')],
+        ], ['Accept' => 'application/json'])->assertCreated();
+
+        $path = Lead::sole()->attachments[0];
+        $this->assertSame('pdf', pathinfo($path, PATHINFO_EXTENSION));
+    }
+
     public function test_executable_attachments_are_rejected(): void
     {
         Storage::fake('local');
@@ -184,5 +198,14 @@ class LeadSubmissionTest extends TestCase
         $this->assertNull($lead->message); // sizes no longer end up in the comment
         $this->assertSame(6, $item->quantity);
         $this->assertSame(['Материал' => 'Резина NBR', 'Диаметр' => '120 mm', 'Рабочая длина' => '800 mm'], $item->options);
+    }
+
+    /** A real file, typed from its content like a browser upload (fake files are typed from their name). */
+    private function realUpload(string $name, string $content): UploadedFile
+    {
+        $path = tempnam(sys_get_temp_dir(), 'upl');
+        file_put_contents($path, $content);
+
+        return new UploadedFile($path, $name, null, null, true);
     }
 }

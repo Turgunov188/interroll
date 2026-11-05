@@ -51,8 +51,7 @@ foreach (Locale::cases() as $locale) {
         ->name("{$name}.product.default");
 }
 
-
 // Every form on the site posts here → leads table → admin panel «Заявки».
 Route::post('/leads', [LeadController::class, 'store'])
-    ->middleware([HoneypotTrap::class, 'throttle:10,1'])
+    ->middleware([HoneypotTrap::class, 'throttle:leads'])
     ->name('leads.store');

@@ -43,7 +43,9 @@ class UserResource extends Resource
                     ->label('Роль')
                     ->options(UserRole::class)
                     ->default(UserRole::Sales)
-                    ->required(),
+                    ->required()
+                    // nobody demotes themselves: the last owner would lock everyone out of staff management
+                    ->disabled(fn (?User $record): bool => $record?->id === auth()->id()),
                 TextInput::make('password')
                     ->label('Пароль')
                     ->password()
@@ -52,7 +54,8 @@ class UserResource extends Resource
                     ->required(fn (string $operation) => $operation === 'create')
                     ->dehydrated(fn (?string $state) => filled($state))
                     ->helperText(fn (string $operation) => $operation === 'edit' ? 'Оставьте пустым, чтобы не менять' : null),
-                Toggle::make('is_active')->label('Активен (может входить в панель)')->default(true)->inline(false),
+                Toggle::make('is_active')->label('Активен (может входить в панель)')->default(true)->inline(false)
+                    ->disabled(fn (?User $record): bool => $record?->id === auth()->id()),
             ]);
     }
 

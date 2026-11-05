@@ -32,3 +32,12 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Files served straight from disk (uploads in /storage, assets): never guess their type, and an
+# SVG/HTML/XML file opened directly cannot run scripts. Shown inside <img> they look the same.
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    <FilesMatch "\.(?i:svgz?|html?|xhtml|xml)$">
+        Header set Content-Security-Policy "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox"
+    </FilesMatch>
+</IfModule>

@@ -13,6 +13,7 @@ use App\Filament\Resources\Leads\RelationManagers\ItemsRelationManager;
 use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
 use App\Models\User;
+use App\Support\UploadName;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -33,6 +34,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use UnitEnum;
 
 class LeadResource extends Resource
@@ -114,6 +116,8 @@ class LeadResource extends Resource
                         ->visibility('private')
                         ->directory(CreateLeadAction::DIRECTORY)
                         ->maxSize(StoreLeadRequest::MAX_FILE_KB)
+                        // same allow-list as the site form: an .html or .svg would run scripts when opened
+                        ->getUploadedFileNameForStorageUsing(fn (TemporaryUploadedFile $file): string => UploadName::for($file, StoreLeadRequest::FILE_EXTENSIONS))
                         ->columnSpanFull(),
                 ]),
             Section::make('Обработка')
@@ -175,9 +179,11 @@ class LeadResource extends Resource
                     ->icon('heroicon-o-hand-raised')
                     ->color('warning')
                     ->visible(fn (Lead $record) => $record->manager_id === null)
-                    ->action(fn (Lead $record) => $record->update([
+                    // only if still free: two managers pressing «Взять» at once must not both get it
+                    ->action(fn (Lead $record) => Lead::query()->whereKey($record->getKey())->whereNull('manager_id')->update([
                         'manager_id' => auth()->id(),
                         'status' => $record->status === LeadStatus::New ? LeadStatus::InProgress : $record->status,
+                        'updated_at' => now(),
                     ])),
                 EditAction::make(),
             ])

@@ -4,7 +4,9 @@ namespace App\Actions\Leads;
 
 use App\Data\LeadData;
 use App\Enums\LeadStatus;
+use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
+use App\Support\UploadName;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +26,11 @@ final class CreateLead
     public function handle(LeadData $data): Lead
     {
         $paths = array_map(
-            fn (UploadedFile $file): string => $file->store(self::DIRECTORY, self::DISK),
+            fn (UploadedFile $file): string => $file->storeAs(
+                self::DIRECTORY,
+                UploadName::for($file, StoreLeadRequest::FILE_EXTENSIONS),
+                self::DISK,
+            ),
             $data->attachments,
         );
 

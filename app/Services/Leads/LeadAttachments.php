@@ -3,6 +3,7 @@
 namespace App\Services\Leads;
 
 use App\Actions\Leads\CreateLead;
+use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 
@@ -26,8 +27,9 @@ final class LeadAttachments
         return collect($lead->attachments ?? [])
             ->filter(fn ($path): bool => is_string($path) && $path !== '')
             ->map(function (string $path) use ($disk): array {
-                $exists = $disk->exists($path);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+                // a file stored before the allow-list (say, .html) is never opened in the browser
+                $exists = in_array($extension, StoreLeadRequest::FILE_EXTENSIONS, true) && $disk->exists($path);
 
                 return [
                     'name' => basename($path),

@@ -25,7 +25,7 @@ final class ImageTrim
     private const MAX_CUT = 0.15;
 
     /**
-     * @return array{0: int, 1: int, 2: int, 3: int}|null  crop box [x, y, width, height], or null when there is nothing to cut
+     * @return array{0: int, 1: int, 2: int, 3: int}|null crop box [x, y, width, height], or null when there is nothing to cut
      */
     public static function box(GdImage $image): ?array
     {
@@ -36,13 +36,21 @@ final class ImageTrim
         $blankCol = fn (int $x): bool => self::blank($image, $h, fn (int $i) => [$x, $i]);
 
         $top = 0;
-        while ($top < $h - 1 && $blankRow($top)) $top++;
+        while ($top < $h - 1 && $blankRow($top)) {
+            $top++;
+        }
         $bottom = $h - 1;
-        while ($bottom > $top && $blankRow($bottom)) $bottom--;
+        while ($bottom > $top && $blankRow($bottom)) {
+            $bottom--;
+        }
         $left = 0;
-        while ($left < $w - 1 && $blankCol($left)) $left++;
+        while ($left < $w - 1 && $blankCol($left)) {
+            $left++;
+        }
         $right = $w - 1;
-        while ($right > $left && $blankCol($right)) $right--;
+        while ($right > $left && $blankCol($right)) {
+            $right--;
+        }
 
         $cut = [$top, $h - 1 - $bottom, $left, $w - 1 - $right];
         if (max($cut) < self::MIN_PX || $top >= $bottom || $left >= $right) {
