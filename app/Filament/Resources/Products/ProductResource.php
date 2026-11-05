@@ -205,7 +205,10 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('updated_at', 'desc')
+            // active products first, hidden ones at the bottom; a fixed order so a row does not jump when edited
+            ->defaultSort(fn (Builder $query): Builder => $query->orderByDesc('is_active')->orderBy('category_id')->orderBy('sort')->orderBy('sku'))
+            ->paginated([25, 50, 100, 'all'])
+            ->defaultPaginationPageOption(25)
             ->columns([
                 ViewColumn::make('main_image')
                     ->label('')
