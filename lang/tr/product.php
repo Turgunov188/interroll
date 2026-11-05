@@ -41,6 +41,7 @@ return [
     'spec' => [
         'material' => 'Malzeme',
         'hardness' => 'Sertlik',
+        'machine' => 'Uyumlu makine',
         'temperature' => 'Çalışma sıcaklığı',
         'temperature_value' => ':temp_min °C … +:temp_max °C',
         'lead_time' => 'Üretim süresi',

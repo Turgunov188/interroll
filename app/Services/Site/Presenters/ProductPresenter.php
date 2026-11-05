@@ -24,15 +24,19 @@ final class ProductPresenter
 
     public function card(Product $product, Locale $locale): ProductCard
     {
-        $category = $product->category?->slug ?? self::FALLBACK_CATEGORY;
+        $category = $product->category;
+        $section = $category?->parent ?? $category;
 
         return new ProductCard(
             code: $product->sku,
             name: (string) $product->tr('name', $locale),
             url: $this->urls->product($locale, $product),
             summary: (string) $product->tr('short', $locale),
-            category: $category,
-            icon: $this->icon($category),
+            category: $section?->slug ?? self::FALLBACK_CATEGORY,
+            type: $category?->parent ? $category->slug : '',
+            machine: (string) $product->machineBrand?->slug,
+            machineName: (string) $product->machineBrand?->name,
+            icon: $this->icon($category?->slug, $section?->slug),
             material: $product->material->filterCode(),
             materialLabel: $product->material->label($locale),
             hardness: $product->hardnessRange() ?? '',
@@ -45,7 +49,7 @@ final class ProductPresenter
 
     public function page(Product $product, Locale $locale): ProductPage
     {
-        $product->loadMissing(['category', 'industries', 'media']);
+        $product->loadMissing(['category', 'machineBrand', 'industries', 'media']);
 
         $name = (string) $product->tr('name', $locale);
         [$lead, $accent] = $this->splitName($name);
@@ -62,6 +66,8 @@ final class ProductPresenter
             description: $this->description($product, $locale),
             material: $product->material->filterCode(),
             materialLabel: $product->material->label($locale),
+            castElastomer: $product->material->isCastElastomer(),
+            machine: (string) $product->machineBrand?->name,
             hardnessLabel: $product->hardnessLabel() ?? '',
             hardness: (int) ($product->hardness ?: 90),
             configurator: $product->configurator?->value,
@@ -84,16 +90,16 @@ final class ProductPresenter
             code: $product->sku,
             name: (string) $product->tr('name', $locale),
             url: $this->urls->product($locale, $product),
-            icon: $this->icon($product->category?->slug),
+            icon: $this->icon($product->category?->slug, $product->category?->parent?->slug),
         );
     }
 
-    /** Line drawing of the category (config/site.php → category_icons). */
-    public function icon(?string $category): string
+    /** Line drawing of the category, else of its parent section (config/site.php → category_icons). */
+    public function icon(?string $category, ?string $section = null): string
     {
         $icons = config('site.category_icons', []);
 
-        return $icons[$category] ?? $icons[self::FALLBACK_CATEGORY] ?? '';
+        return $icons[$category] ?? $icons[$section] ?? $icons[self::FALLBACK_CATEGORY] ?? '';
     }
 
     private function file(ProductMedia $media, Product $product, Locale $locale, ?string $title = null): MediaFile

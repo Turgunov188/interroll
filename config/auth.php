@@ -41,6 +41,8 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            // «Запомнить меня» keeps the admin signed in for this many minutes (Laravel's default is 400 days).
+            'remember' => (int) env('AUTH_REMEMBER_MINUTES', 1440),
         ],
     ],
 

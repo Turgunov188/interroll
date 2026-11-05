@@ -310,3 +310,83 @@
 .factory-visit__actions {
     flex: 0 1 320px;
 }
+
+/* INTER ROLL × IMPOL GROUP */
+.factory-group__since {
+    display: grid;
+    gap: 6px;
+    padding-left: 20px;
+    border-left: 4px solid var(--c-accent);
+}
+
+.factory-group__year {
+    font: 800 clamp(3rem, 2rem + 4vw, 5.5rem) / 0.9 var(--font-sans);
+    letter-spacing: -0.03em;
+}
+
+.factory-group__photos {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: repeat(2, clamp(150px, 17vw, 230px));
+    gap: 1px;
+    background: var(--c-ink);
+    border: var(--border);
+}
+
+.factory-group__photo {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background: var(--c-white);
+}
+
+.factory-group__photo:first-child {
+    grid-row: 1 / 3;
+}
+
+.factory-group__photo:last-child {
+    grid-column: 2 / 4;
+}
+
+.factory-group__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.factory-group__photo figcaption {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 6px 10px;
+    background: var(--c-white);
+    border-top: var(--border);
+    border-right: var(--border);
+}
+
+.factory-group__countries {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.factory-group__countries .chip {
+    font-size: var(--fs-mono-s);
+    padding: 6px 12px;
+}
+
+@media (max-width: 720px) {
+    .factory-group__photos {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: none;
+        grid-auto-rows: 150px;
+    }
+
+    .factory-group__photo:first-child,
+    .factory-group__photo:last-child {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+}

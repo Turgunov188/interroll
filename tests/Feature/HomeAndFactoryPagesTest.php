@@ -57,4 +57,18 @@ class HomeAndFactoryPagesTest extends TestCase
             ->assertSee('№ UZ-123', false)
             ->assertDontSee('Скрытый клиент', false);
     }
+
+    public function test_factory_page_tells_about_impol_group_in_every_language(): void
+    {
+        $this->get('/factory')
+            ->assertOk()
+            ->assertSee('Тот же опыт, то же качество — новая сила')
+            ->assertSee('Видение')
+            ->assertSee('Румыния')
+            ->assertSee('/images/factory/impol-plant.webp', false);
+
+        $this->get('/uz/factory')->assertOk()->assertSee('O&#039;sha tajriba', false);
+        $this->get('/en/factory')->assertOk()->assertSee('IMPOL GROUP supplies');
+        $this->get('/tr/factory')->assertOk()->assertSee('Aynı tecrübe, aynı kalite');
+    }
 }

@@ -1,9 +1,14 @@
-{{-- Catalog. Data: App\Services\Site\PageData\CatalogPageData ($products, $categories, $industries). --}}
+{{-- Catalog. Data: App\Services\Site\PageData\CatalogPageData ($products, $categories, $types, $machines, $industries, $silicone). --}}
 @php
-    $tabs = array_merge([new \App\Services\Site\ViewModels\Option('all', $site->t('common.all'))], $categories);
+    $all = new \App\Services\Site\ViewModels\Option('all', $site->t('common.all'));
+    $tabs = array_merge([$all], $categories);
+    $script = [
+        'products' => array_map(fn ($p) => $p->forScript(), $products),
+        'types' => array_map(fn ($options) => array_map(fn ($o) => ['value' => $o->value], $options), $types),
+    ];
 @endphp
 <x-site.layout :title="$site->t('meta.catalog.title')" :description="$site->t('meta.catalog.description')" cta="#request">
-<div x-data="catalog({ products: @js(array_map(fn ($p) => $p->forScript(), $products)), category: @js(request()->query('cat', 'all')) })">
+<div x-data="catalog(@js($script))">
 
     <section class="section--hero catalog-hero">
         <div class="container stack stack--l">
@@ -33,6 +38,15 @@
                     </button>
                 @endforeach
             </div>
+            @foreach ($types as $section => $options)
+                <div class="segmented segmented--scroll segmented--mono catalog-tabs__types" x-show="category === @js($section)" x-cloak aria-label="{{ $site->t('catalog.filters.type') }}">
+                    @foreach (array_merge([$all], $options) as $option)
+                        <button type="button" class="segmented__item" :aria-pressed="type === @js($option->value)" @click="type = @js($option->value)">
+                            {{ $option->label }} <span class="segmented__count" x-text="countType(@js($option->value))"></span>
+                        </button>
+                    @endforeach
+                </div>
+            @endforeach
         </div>
     </nav>
 
@@ -47,13 +61,51 @@
                     <button type="button" class="catalog-filters__reset" @click="reset()">{{ $site->t('catalog.filters.reset') }}</button>
                 </div>
 
-                <fieldset class="stack stack--xs">
+                {{-- Sections and their part types as a tree (desktop; phones use the tab rows above) --}}
+                <nav class="catalog-tree" aria-label="{{ $site->t('catalog.tabs_label') }}">
+                    <p class="label catalog-filters__legend">{{ $site->t('catalog.filters.sections') }}</p>
+                    <ul class="catalog-tree__list" role="list">
+                        @foreach ($tabs as $tab)
+                            <li>
+                                <button type="button" class="catalog-tree__item" :aria-pressed="category === @js($tab->value)" :class="{ 'is-empty': !countIn(@js($tab->value)) }" @click="category = @js($tab->value)">
+                                    <span>{{ $tab->label }}</span><span class="catalog-tree__count" x-text="countIn(@js($tab->value))"></span>
+                                </button>
+                                @if (! empty($types[$tab->value]))
+                                    <ul class="catalog-tree__list catalog-tree__types" role="list" x-show="category === @js($tab->value)" x-cloak>
+                                        @foreach (array_merge([$all], $types[$tab->value]) as $option)
+                                            <li>
+                                                <button type="button" class="catalog-tree__item catalog-tree__item--type" :aria-pressed="type === @js($option->value)" :class="{ 'is-empty': !countType(@js($option->value)) }" @click="type = @js($option->value)">
+                                                    <span>{{ $option->label }}</span><span class="catalog-tree__count" x-text="countType(@js($option->value))"></span>
+                                                </button>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </nav>
+
+                @if ($machines)
+                    <fieldset class="stack stack--xs" x-show="machines.length" x-cloak>
+                        <legend class="label catalog-filters__legend">{{ $site->t('catalog.filters.machine') }}</legend>
+                        <select class="input" x-model="machine" aria-label="{{ $site->t('catalog.filters.machine') }}">
+                            <option value="all">{{ $site->t('catalog.filters.machine_all') }}</option>
+                            @foreach ($machines as $machine)
+                                <option value="{{ $machine->value }}" x-show="machines.includes(@js($machine->value))">{{ $machine->label }}</option>
+                            @endforeach
+                        </select>
+                    </fieldset>
+                @endif
+
+                <fieldset class="stack stack--xs" x-show="hasElastomers">
                     <legend class="label catalog-filters__legend">{{ $site->t('catalog.filters.material') }}</legend>
                     <label class="checkbox"><input type="checkbox" x-model="materials.pu"> {{ $site->t('catalog.filters.polyurethane') }}</label>
                     <label class="checkbox"><input type="checkbox" x-model="materials.rz"> {{ $site->t('catalog.filters.rubber') }}</label>
+                    @if ($silicone)<label class="checkbox"><input type="checkbox" x-model="materials.si"> {{ $site->t('catalog.filters.silicone') }}</label>@endif
                 </fieldset>
 
-                <fieldset class="stack stack--s">
+                <fieldset class="stack stack--s" x-show="hasHardness">
                     <legend class="label catalog-filters__legend">{{ $site->t('catalog.filters.hardness') }}</legend>
                     <div class="segmented segmented--grid segmented--mono" style="--cols: 4">
                         @foreach ($site->t('catalog.filters.hardness_options') as $value => $label)
@@ -100,16 +152,20 @@
                 <div class="grid catalog-grid">
                     @foreach ($products as $product)
                         <article class="card card--hover catalog-card" x-show="isShown(@js($product->code))" :style="{ order: position(@js($product->code)) }">
-                            <a href="{{ $product->url }}" class="media media--center catalog-card__photo" tabindex="-1">
+                            <a href="{{ $product->url }}" class="media media--center media--contain catalog-card__photo" tabindex="-1">
                                 <x-site.icon class="catalog-card__icon" :path="$product->icon" :size="96" :box="64" />
-                                <span class="media__badge media__badge--bl">{{ $site->t('common.photo') }}</span>
-                                @if ($product->image)<img src="{{ $product->image }}" alt="{{ $product->name }}" loading="lazy" decoding="async">@endif
+                                @if ($product->image)
+                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" loading="lazy" decoding="async">
+                                @else
+                                    <span class="media__badge media__badge--bl">{{ $site->t('common.photo') }}</span>
+                                @endif
                                 <span class="chip media__badge media__badge--tr">{{ $product->code }}</span>
                             </a>
                             <div class="card__body">
                                 <h2 class="card__title"><a href="{{ $product->url }}">{{ $product->name }}</a></h2>
                                 <div class="chips">
-                                    <span class="chip">{{ $product->materialLabel }}</span>
+                                    @if ($product->machineName)<span class="chip chip--accent">{{ $product->machineName }}</span>@endif
+                                    @if ($product->material !== 'ot')<span class="chip">{{ $product->materialLabel }}</span>@endif
                                     @if ($product->hardness)<span class="chip">{{ $product->hardness }} Shore</span>@endif
                                 </div>
                                 <p class="card__text">{{ $product->summary }}</p>

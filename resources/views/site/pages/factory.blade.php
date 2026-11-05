@@ -10,6 +10,13 @@
         'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
         'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z M14 3v6h6 M8 13h8 M8 17h5',
     ];
+    // photos from the IMPOL GROUP catalogue until the admin uploads others («Настройки сайта» → images)
+    $groupPhotos = [
+        ['factory_group_1', 'images/factory/impol-plant.webp'],
+        ['factory_group_2', 'images/factory/impol-building.webp'],
+        ['factory_group_3', 'images/factory/impol-meeting-room.webp'],
+        ['factory_group_4', 'images/factory/impol-partners.webp'],
+    ];
 @endphp
 <x-site.layout :title="$site->t('meta.factory.title')" :description="$site->t('meta.factory.description')">
 
@@ -40,6 +47,48 @@
             <x-site.media class="factory-tour-photo rise" style="--delay: 420ms" :src="$site->image('factory_tour')" :caption="$site->t('factory.hero.tour_caption')">
                 <span class="chip media__badge factory-tour-photo__badge">{{ $site->t('factory.hero.tour') }}</span>
             </x-site.media>
+        </div>
+    </section>
+
+    {{-- INTER ROLL × IMPOL GROUP: where the experience comes from --}}
+    <section class="section section--line-bottom factory-group" x-reveal>
+        <div class="container stack stack--l">
+            <div class="split split--end" data-reveal>
+                <div class="stack stack--s split__wide" style="--split-basis: 560px">
+                    <p class="eyebrow">{{ $site->t('factory.group.eyebrow') }}</p>
+                    <h2 class="h2">{{ $site->t('factory.group.title') }}</h2>
+                    <p class="lead">{{ $site->t('factory.group.lead') }}</p>
+                </div>
+                <div class="factory-group__since" style="--split-basis: 220px">
+                    <b class="factory-group__year">{{ $site->t('factory.group.since') }}</b>
+                    <span class="label">{{ $site->t('factory.group.since_label') }}</span>
+                </div>
+            </div>
+
+            <div class="grid grid--fit" style="--grid-min: 320px">
+                @foreach (['vision', 'mission'] as $part)
+                    <article class="panel panel--pad stack stack--s" data-reveal style="--delay: {{ 120 + $loop->index * 120 }}ms">
+                        <h3 class="h3">{{ $site->t("factory.group.{$part}_title") }}</h3>
+                        <p class="body-text">{{ $site->t("factory.group.{$part}") }}</p>
+                    </article>
+                @endforeach
+            </div>
+
+            <div class="factory-group__photos" data-reveal style="--delay: 300ms">
+                @foreach ($groupPhotos as [$key, $fallback])
+                    <figure class="factory-group__photo">
+                        <img src="{{ $site->image($key) ?? asset($fallback) }}" alt="{{ $site->t('factory.group.photos')[$loop->index] }}" loading="lazy" decoding="async">
+                        <figcaption class="meta">{{ $site->t('factory.group.photos')[$loop->index] }}</figcaption>
+                    </figure>
+                @endforeach
+            </div>
+
+            <div class="stack stack--s" data-reveal style="--delay: 400ms">
+                <p class="label">{{ $site->t('factory.group.export_title') }}</p>
+                <ul class="chips factory-group__countries" role="list">
+                    @foreach ($site->t('factory.group.countries') as $country)<li class="chip">{{ $country }}</li>@endforeach
+                </ul>
+            </div>
         </div>
     </section>
 

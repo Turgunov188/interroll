@@ -23,7 +23,7 @@ class Product extends Model
     use HasLocalizedFields, SoftDeletes;
 
     protected $fillable = [
-        'category_id', 'sku', 'slug', 'name', 'short', 'description',
+        'category_id', 'machine_brand_id', 'sku', 'slug', 'name', 'short', 'description',
         'material', 'hardness', 'hardness_max', 'hardness_scale', 'specs',
         'price', 'price_on_request', 'made_to_order', 'configurator',
         'is_featured', 'is_active', 'sort', 'seo',
@@ -50,6 +50,12 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /** Machine the part fits, for spare parts (null for parts made to a drawing). */
+    public function machineBrand(): BelongsTo
+    {
+        return $this->belongsTo(MachineBrand::class);
     }
 
     public function industries(): BelongsToMany

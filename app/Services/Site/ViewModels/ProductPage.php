@@ -22,6 +22,8 @@ final readonly class ProductPage
         public string $description,
         public string $material,
         public string $materialLabel,
+        public bool $castElastomer,
+        public string $machine,
         public string $hardnessLabel,
         public int $hardness,
         public ?string $configurator,

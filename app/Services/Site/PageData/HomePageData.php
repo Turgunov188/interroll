@@ -36,7 +36,7 @@ final class HomePageData implements PageData
         return $this->cache->remember('home', $locale, function () use ($locale): array {
             $industries = Industry::query()
                 ->whereHas('products', fn ($q) => $q->published())
-                ->with(['products' => fn ($q) => $q->published()->ordered()->with(['category', 'mainPhoto'])])
+                ->with(['products' => fn ($q) => $q->published()->ordered()->with(['category.parent', 'machineBrand', 'mainPhoto'])])
                 ->ordered()
                 ->limit(self::INDUSTRIES)
                 ->get();

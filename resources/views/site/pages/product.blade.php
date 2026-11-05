@@ -196,22 +196,25 @@
                                 <tr><th x-text="param.label"></th><td x-text="values[param.key] + ' ' + param.unit"></td></tr>
                             </template>
                         @else
-                            <tr><th>{{ $site->t('product.spec.material') }}</th><td>{{ $product->materialLabel }}</td></tr>
+                            @if ($product->machine)<tr><th>{{ $site->t('product.spec.machine') }}</th><td>{{ $product->machine }}</td></tr>@endif
+                            @if ($product->material !== 'ot')<tr><th>{{ $site->t('product.spec.material') }}</th><td>{{ $product->materialLabel }}</td></tr>@endif
                             @if ($product->hardnessLabel)<tr><th>{{ $site->t('product.spec.hardness') }}</th><td>{{ $product->hardnessLabel }}</td></tr>@endif
                         @endif
-                        <tr><th>{{ $site->t('product.spec.temperature') }}</th><td>{{ $site->t('product.spec.temperature_value') }}</td></tr>
+                        @if ($product->castElastomer)<tr><th>{{ $site->t('product.spec.temperature') }}</th><td>{{ $site->t('product.spec.temperature_value') }}</td></tr>@endif
                         <tr><th>{{ $site->t('product.spec.lead_time') }}</th><td>{{ $site->t('product.spec.lead_time_value') }}</td></tr>
                         @foreach ($product->specs as $spec)
                             <tr><th>{{ $spec['name'] }}</th><td>{{ $spec['value'] }}</td></tr>
                         @endforeach
                     </tbody>
                 </table>
-                <div class="stack" style="--split-basis: 340px">
-                    <p class="h3">{{ $site->t('product.why.title') }}</p>
-                    @foreach ($site->t('product.why.items') as $item)
-                        <p class="bar-note">{{ $item }}</p>
-                    @endforeach
-                </div>
+                @if ($product->castElastomer)
+                    <div class="stack" style="--split-basis: 340px">
+                        <p class="h3">{{ $site->t('product.why.title') }}</p>
+                        @foreach ($site->t('product.why.items') as $item)
+                            <p class="bar-note">{{ $item }}</p>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             @if ($product->applications)

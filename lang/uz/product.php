@@ -41,6 +41,7 @@ return [
     'spec' => [
         'material' => 'Material',
         'hardness' => 'Qattiqlik',
+        'machine' => 'Mos stanok',
         'temperature' => 'Ishchi harorat',
         'temperature_value' => ':temp_min °C … +:temp_max °C',
         'lead_time' => 'Tayyorlash muddati',

@@ -41,6 +41,7 @@ return [
     'spec' => [
         'material' => 'Material',
         'hardness' => 'Hardness',
+        'machine' => 'Fits machine',
         'temperature' => 'Operating temperature',
         'temperature_value' => ':temp_min °C … +:temp_max °C',
         'lead_time' => 'Lead time',

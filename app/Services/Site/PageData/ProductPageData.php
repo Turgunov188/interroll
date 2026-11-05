@@ -20,8 +20,9 @@ final class ProductPageData
             ->published()
             ->whereKeyNot($product->getKey())
             ->orderByRaw('category_id = ? desc', [$product->category_id])
+            ->when($product->machine_brand_id, fn ($query, int $machine) => $query->orderByRaw('machine_brand_id = ? desc', [$machine]))
             ->ordered()
-            ->with('category')
+            ->with('category.parent')
             ->limit(self::RELATED_LIMIT)
             ->get();
 

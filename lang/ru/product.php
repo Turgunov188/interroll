@@ -34,6 +34,7 @@ return [
     'spec' => [
         'material' => 'Материал',
         'hardness' => 'Твёрдость',
+        'machine' => 'Подходит для станка',
         'temperature' => 'Рабочая температура',
         'temperature_value' => ':temp_min °C … +:temp_max °C',
         'lead_time' => 'Срок изготовления',

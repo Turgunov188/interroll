@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products;
 
+use App\Filament\Resources\MachineBrands\MachineBrandResource;
 use App\Filament\Resources\Products\Pages\CreateProduct;
 use App\Filament\Resources\Products\Pages\EditProduct;
 use App\Filament\Resources\Products\Pages\ListProducts;
@@ -95,6 +96,14 @@ class ProductResource extends Resource
                                 ->searchable()
                                 ->preload()
                                 ->required(),
+                            Select::make('machine_brand_id')
+                                ->label('Станок (бренд)')
+                                ->helperText('Для запчастей: на сайте покупатель фильтрует по своему станку.')
+                                ->relationship('machineBrand', 'name', fn (Builder $query) => $query->ordered())
+                                ->searchable()
+                                ->preload()
+                                ->createOptionForm(MachineBrandResource::fields())
+                                ->placeholder('Не привязан к станку'),
                             Select::make('industries')
                                 ->label('Отрасли')
                                 ->relationship('industries', 'slug')
@@ -219,6 +228,10 @@ class ProductResource extends Resource
                     ->label('Раздел')
                     ->state(fn (Product $record) => $record->category?->tr('name'))
                     ->toggleable(),
+                TextColumn::make('machineBrand.name')
+                    ->label('Станок')
+                    ->placeholder('—')
+                    ->toggleable(),
                 TextColumn::make('material')
                     ->label('Материал')
                     ->badge(),
@@ -235,6 +248,10 @@ class ProductResource extends Resource
                     ->label('Раздел')
                     ->relationship('category', 'slug')
                     ->getOptionLabelFromRecordUsing(fn (Category $record) => $record->tr('name'))
+                    ->preload(),
+                SelectFilter::make('machine_brand_id')
+                    ->label('Станок')
+                    ->relationship('machineBrand', 'name', fn (Builder $query) => $query->ordered())
                     ->preload(),
                 SelectFilter::make('material')->label('Материал')->options(Material::class),
                 TernaryFilter::make('is_active')->label('Активен'),
@@ -269,7 +286,7 @@ class ProductResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['category', 'mainPhoto']);
+        return parent::getEloquentQuery()->with(['category', 'machineBrand', 'mainPhoto']);
     }
 
     public static function getRelations(): array

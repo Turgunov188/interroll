@@ -103,6 +103,10 @@ enum SettingKey: string
     case FactoryZone4 = 'factory_zone_4';
     case FactoryZone5 = 'factory_zone_5';
     case FactoryZone6 = 'factory_zone_6';
+    case FactoryGroup1 = 'factory_group_1';
+    case FactoryGroup2 = 'factory_group_2';
+    case FactoryGroup3 = 'factory_group_3';
+    case FactoryGroup4 = 'factory_group_4';
 
     public function group(): SettingGroup
     {
@@ -201,6 +205,10 @@ enum SettingKey: string
             self::FactoryZone4 => SettingGroup::Images,
             self::FactoryZone5 => SettingGroup::Images,
             self::FactoryZone6 => SettingGroup::Images,
+            self::FactoryGroup1 => SettingGroup::Images,
+            self::FactoryGroup2 => SettingGroup::Images,
+            self::FactoryGroup3 => SettingGroup::Images,
+            self::FactoryGroup4 => SettingGroup::Images,
         };
     }
 
@@ -301,6 +309,10 @@ enum SettingKey: string
             self::FactoryZone4 => SettingKind::Image,
             self::FactoryZone5 => SettingKind::Image,
             self::FactoryZone6 => SettingKind::Image,
+            self::FactoryGroup1 => SettingKind::Image,
+            self::FactoryGroup2 => SettingKind::Image,
+            self::FactoryGroup3 => SettingKind::Image,
+            self::FactoryGroup4 => SettingKind::Image,
         };
     }
 
@@ -401,6 +413,10 @@ enum SettingKey: string
             self::FactoryZone4 => 'Завод: цех 4 — Вулканизация',
             self::FactoryZone5 => 'Завод: цех 5 — Механообработка',
             self::FactoryZone6 => 'Завод: цех 6 — Контроль качества и отгрузка',
+            self::FactoryGroup1 => 'Завод: IMPOL GROUP — завод в Бурсе (фото с дрона)',
+            self::FactoryGroup2 => 'Завод: IMPOL GROUP — здание',
+            self::FactoryGroup3 => 'Завод: IMPOL GROUP — переговорная',
+            self::FactoryGroup4 => 'Завод: IMPOL GROUP — встреча с партнёрами',
         };
     }
 
@@ -501,6 +517,10 @@ enum SettingKey: string
             self::FactoryZone4 => null,
             self::FactoryZone5 => null,
             self::FactoryZone6 => null,
+            self::FactoryGroup1 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
+            self::FactoryGroup2 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
+            self::FactoryGroup3 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
+            self::FactoryGroup4 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
         };
     }
 

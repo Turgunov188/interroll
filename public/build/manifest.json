@@ -6,7 +6,7 @@
     "isDynamicEntry": true
   },
   "resources/css/site.css": {
-    "file": "assets/site-C_6KABzH.css",
+    "file": "assets/site-CxUcIbgv.css",
     "src": "resources/css/site.css",
     "isEntry": true,
     "name": "site",
@@ -63,7 +63,7 @@
     "src": "resources/fonts/jetbrains-mono-latin-ext-600-normal.woff2"
   },
   "resources/js/site.js": {
-    "file": "assets/site-BQiS1C0Y.js",
+    "file": "assets/site-B-eMyXqD.js",
     "name": "site",
     "src": "resources/js/site.js",
     "isEntry": true,
