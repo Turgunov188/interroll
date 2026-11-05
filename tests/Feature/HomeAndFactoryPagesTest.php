@@ -71,4 +71,23 @@ class HomeAndFactoryPagesTest extends TestCase
         $this->get('/en/factory')->assertOk()->assertSee('IMPOL GROUP supplies');
         $this->get('/tr/factory')->assertOk()->assertSee('Aynı tecrübe, aynı kalite');
     }
+
+    public function test_featured_products_lead_their_industry_tab(): void
+    {
+        $this->seed(CatalogSeeder::class);
+        Product::query()->update(['is_featured' => false]);
+        $industry = \App\Models\Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
+        $last = $industry->products()->published()->ordered()->get()->last();
+        $last->update(['is_featured' => true]);
+        $shown = [];
+
+        for ($i = 0; $i < 5; $i++) {
+            $tab = collect($this->get('/')->viewData('industries'))->firstWhere('slug', $industry->slug);
+            $this->assertSame($last->sku, $tab->products[0]->code);
+            $this->assertCount(min(3, $industry->products()->published()->count()), $tab->products);
+            $shown = [...$shown, ...array_column(array_slice($tab->products, 1), 'code')];
+        }
+
+        $this->assertNotContains($last->sku, $shown, 'a featured product is never repeated in the random slots');
+    }
 }

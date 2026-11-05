@@ -25,7 +25,7 @@ final class ContentCache
     {
         $version = (int) $this->cache->get(self::VERSION, 1);
 
-        return $this->cache->remember("site.v3.content.{$version}.{$name}.{$locale->value}", now()->addDay(), $build);
+        return $this->cache->remember("site.v4.content.{$version}.{$name}.{$locale->value}", now()->addDay(), $build);
     }
 
     public function flush(): void

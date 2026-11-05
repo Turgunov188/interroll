@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products;
 
+use App\Actions\Products\ExportProducts;
 use App\Filament\Resources\MachineBrands\MachineBrandResource;
 use App\Filament\Resources\Products\Pages\CreateProduct;
 use App\Filament\Resources\Products\Pages\EditProduct;
@@ -17,6 +18,7 @@ use App\Models\Industry;
 use App\Models\Product;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -45,6 +47,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use UnitEnum;
@@ -186,7 +189,8 @@ class ProductResource extends Resource
                                 ->numeric()
                                 ->suffix('сум')
                                 ->hidden(fn (Get $get): bool => (bool) $get('price_on_request')),
-                            Toggle::make('is_featured')->label('Показывать на главной'),
+                            Toggle::make('is_featured')->label('Показывать на главной')
+                                ->helperText('Всегда в первых трёх карточках своих отраслей на главной. Остальные места заполняются случайными товарами.'),
                             Toggle::make('is_active')->label('Показывать на сайте')->default(true),
                             TextInput::make('sort')->label('Порядок')->numeric()->default(0),
                         ]),
@@ -287,6 +291,14 @@ class ProductResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('excel')
+                        ->label('Скачать в Excel')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->deselectRecordsAfterCompletion()
+                        ->action(fn (Collection $records, ExportProducts $export) => $export->download(
+                            Product::query()->whereKey($records->modelKeys())->orderBy('category_id')->ordered(),
+                            'products-selected',
+                        )),
                     DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                     ForceDeleteBulkAction::make(),
