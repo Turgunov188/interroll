@@ -1,12 +1,8 @@
-{{-- Brand block for the admin panel (sidebar, top bar, login). Colours come from CSS (currentColor). --}}
-<span class="ir-brand">
-    <svg width="30" height="30" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-        <circle cx="17" cy="17" r="14"/>
-        <circle cx="17" cy="17" r="6" stroke="#F28C00"/>
-        <line x1="17" y1="3" x2="17" y2="11"/>
-    </svg>
-    <span class="ir-brand-text">
-        <span class="ir-brand-name">INTER ROLL</span>
-        <span class="ir-brand-sub">ADMIN · CRM</span>
+{{-- Brand block for the admin panel (sidebar, top bar, login): the badge public/images/brand/inter-roll.svg and the name. --}}
+<span style="display: inline-flex; align-items: center; gap: 10px; line-height: 1">
+    <img src="{{ asset('images/brand/inter-roll.svg') }}" width="36" height="36" alt="" style="flex-shrink: 0">
+    <span style="display: flex; flex-direction: column; gap: 3px">
+        <span style="font-weight: 800; font-size: 16px; letter-spacing: 0.03em">INTER ROLL</span>
+        <span style="font-size: 10px; letter-spacing: 0.08em; opacity: 0.6">ADMIN · CRM</span>
     </span>
 </span>

@@ -15,6 +15,9 @@
 }
 
 .site-footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
     color: var(--c-white);
     font-weight: 600;
 }

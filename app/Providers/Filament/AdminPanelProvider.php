@@ -33,6 +33,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Inter Roll')
+            ->brandLogo(fn () => view('filament.brand'))
+            ->brandLogoHeight('2.5rem')
+            ->favicon(asset('favicon.svg'))
             ->colors([
                 'primary' => Color::hex('#F28C00'),
             ])

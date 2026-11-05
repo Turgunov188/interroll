@@ -2,7 +2,7 @@
 <header class="site-header" x-data="siteHeader" @keydown.escape.window="close()">
     <div class="container site-header__bar">
         <a href="{{ $site->url('index') }}" class="logo" aria-label="Inter Roll — {{ $site->t('nav.index') }}">
-            <svg class="logo__mark" aria-hidden="true" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="17" cy="17" r="14"/><circle cx="17" cy="17" r="6"/><line x1="17" y1="3" x2="17" y2="11"/></svg>
+            <img class="logo__mark" src="{{ asset('images/brand/inter-roll.svg') }}" width="44" height="44" alt="">
             <span class="logo__name">{{ $site->t('common.brand') }}</span>
         </a>
 

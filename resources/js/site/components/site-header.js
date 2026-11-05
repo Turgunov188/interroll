@@ -1,5 +1,5 @@
 /**
- * Header: reading progress bar, logo turning with the scroll, the «Ещё» dropdown and the
+ * Header: reading progress bar, the «Ещё» dropdown and the
  * burger menu on narrow screens (Escape and clicks outside close them).
  */
 export default () => ({
@@ -13,7 +13,6 @@ export default () => ({
             const y = window.scrollY;
             const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
             this.$root.style.setProperty('--progress', Math.min(1, y / max).toFixed(4));
-            this.$root.style.setProperty('--logo-turn', `${Math.round(y * 0.4)}deg`);
         };
 
         this.onScroll = () => {
