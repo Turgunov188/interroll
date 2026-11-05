@@ -27,13 +27,14 @@ say() { printf '\n▶ %s\n' "$1"; }
 [ -f "$OLD/.env" ] || { echo "$OLD/.env not found: nothing to take the settings from." >&2; exit 1; }
 
 say "composer"
-if command -v composer >/dev/null 2>&1; then
-    COMPOSER=(composer)
+# always run composer with $PHP, never the server's default php (see deploy.sh)
+if [ -f "$HOME/bin/composer" ]; then
+    COMPOSER=("$PHP" "$HOME/bin/composer")
+elif command -v composer >/dev/null 2>&1; then
+    COMPOSER=("$PHP" "$(command -v composer)")
 else
-    if [ ! -f "$HOME/bin/composer" ]; then
-        mkdir -p "$HOME/bin"
-        curl -sS https://getcomposer.org/installer | "$PHP" -- --install-dir="$HOME/bin" --filename=composer
-    fi
+    mkdir -p "$HOME/bin"
+    curl -sS https://getcomposer.org/installer | "$PHP" -- --install-dir="$HOME/bin" --filename=composer
     COMPOSER=("$PHP" "$HOME/bin/composer")
 fi
 "${COMPOSER[@]}" --version

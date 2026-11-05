@@ -13,7 +13,8 @@ use Illuminate\Contracts\Cache\Repository;
  */
 final class CatalogCache
 {
-    private const PREFIX = 'site.v2.catalog.';
+    /** Bump the version whenever the cached data changes shape, so a deploy never serves the old one. */
+    private const PREFIX = 'site.v3.catalog.';
 
     /** Everything built from the catalog; each is cached per language. */
     private const NAMES = ['catalog', 'part-finder'];
