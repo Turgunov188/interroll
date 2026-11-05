@@ -67,6 +67,9 @@ return [
     'industries' => [
         'eyebrow' => '[02] — Soha bo\'yicha tanlash',
         'title' => 'Sizning sohangizga nima kerak?',
+        'more_title' => 'Boshqa detal kerakmi?',
+        'more_text' => "Katalogda shu soha uchun barcha mahsulotlarni ko'rsatamiz. Kerakli detal bo'lmasa — chizma, namuna yoki eski detal bo'yicha tayyorlaymiz.",
+        'more_link' => 'Sohaning barcha mahsulotlari',
     ],
     'sections' => [
         'eyebrow' => '[04] — Barcha yo\'nalishlar',

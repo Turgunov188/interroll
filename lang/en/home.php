@@ -67,6 +67,9 @@ return [
     'industries' => [
         'eyebrow' => '[02] — By industry',
         'title' => 'What does your industry need?',
+        'more_title' => 'Need a different part?',
+        'more_text' => 'See everything for this industry in the catalogue. Not there? We make it from a drawing, a sample or the old part.',
+        'more_link' => 'All products for this industry',
     ],
     'sections' => [
         'eyebrow' => '[04] — All categories',

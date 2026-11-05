@@ -88,4 +88,19 @@ class HomeAndFactoryPagesTest extends TestCase
         $this->assertSame($codes, array_unique($codes));
         $this->assertEmpty(array_diff($codes, $own));
     }
+
+    public function test_a_short_industry_row_is_completed_by_the_catalog_card(): void
+    {
+        $this->seed(CatalogSeeder::class);
+        $industry = \App\Models\Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
+        $industry->products()->published()->ordered()->get()->slice(1)->each->update(['is_active' => false]);
+
+        $response = $this->get('/');
+        $tab = collect($response->viewData('industries'))->firstWhere('slug', $industry->slug);
+
+        $this->assertCount(1, $tab->products);
+        $this->assertSame(2, $tab->missing());
+        $response->assertSee('href="/catalog?industry='.$industry->slug.'"', false)
+            ->assertSee('--span: 2', false);
+    }
 }

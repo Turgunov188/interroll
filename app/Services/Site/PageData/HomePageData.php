@@ -59,6 +59,7 @@ final class HomePageData implements PageData
             return [
                 'industries' => $industries->map(fn (Industry $industry): array => [
                     'slug' => $industry->slug,
+                    'url' => $catalog.'?'.http_build_query(['industry' => $industry->slug]),
                     'name' => (string) $industry->tr('name', $locale),
                     'candidates' => $cards($industry->products->take(self::CANDIDATES)),
                 ])->all(),
@@ -75,6 +76,7 @@ final class HomePageData implements PageData
             slug: $tab['slug'],
             name: $tab['name'],
             products: $this->pick($tab['candidates']),
+            url: $tab['url'],
         ), $data['industries']);
 
         return $data;

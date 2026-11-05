@@ -92,11 +92,22 @@
                     @endforeach
                 </div>
                 @foreach ($industries as $industry)
-                    <div class="grid grid--fit" role="tabpanel" id="panel-{{ $industry->slug }}" aria-labelledby="tab-{{ $industry->slug }}"
+                    <div class="grid grid--fit industry-panel" role="tabpanel" id="panel-{{ $industry->slug }}" aria-labelledby="tab-{{ $industry->slug }}"
                          x-show="current === @js($industry->slug)" @if (! $loop->first) x-cloak @endif style="--grid-min: 260px">
                         @foreach ($industry->products as $product)
                             <x-site.product-card :product="$product" class="card-in" style="--delay: {{ $loop->index * 90 }}ms" />
                         @endforeach
+                        @if ($industry->missing() > 0)
+                            <a href="{{ $industry->url }}" class="card industry-more card-in" style="--span: {{ $industry->missing() }}; --delay: {{ count($industry->products) * 90 }}ms">
+                                <span class="industry-more__mark" aria-hidden="true">+</span>
+                                <span class="card__body">
+                                    <span class="meta">{{ $industry->name }}</span>
+                                    <span class="card__title">{{ $site->t('home.industries.more_title') }}</span>
+                                    <span class="card__text">{{ $site->t('home.industries.more_text') }}</span>
+                                    <span class="card__more">{{ $site->t('home.industries.more_link') }} →</span>
+                                </span>
+                            </a>
+                        @endif
                     </div>
                 @endforeach
             </div>

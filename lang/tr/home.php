@@ -67,6 +67,9 @@ return [
     'industries' => [
         'eyebrow' => '[02] — Sektöre göre seçim',
         'title' => 'Sektörünüzün neye ihtiyacı var?',
+        'more_title' => 'Başka bir parça mı lazım?',
+        'more_text' => 'Bu sektöre ait tüm ürünler katalogda. Aradığınız yoksa teknik çizim, numune veya eski parçadan üretiriz.',
+        'more_link' => 'Sektörün tüm ürünleri',
     ],
     'sections' => [
         'eyebrow' => '[04] — Tüm kategoriler',

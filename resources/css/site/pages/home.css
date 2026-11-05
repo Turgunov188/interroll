@@ -413,3 +413,48 @@
         display: none;
     }
 }
+
+/* «By industry» tab: always three slots on desktop; when the industry has fewer products,
+   the «other part» card takes the rest of the row instead of the cards stretching. */
+@media (min-width: 900px) {
+    .industry-panel {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .industry-more {
+        grid-column: span var(--span, 1);
+    }
+}
+
+.industry-more {
+    position: relative;
+    min-height: 260px;
+    background: var(--c-ink);
+    color: var(--c-on-dark);
+    overflow: hidden;
+}
+
+.industry-more .card__text {
+    max-width: 46ch;
+    color: inherit;
+    opacity: 0.72;
+}
+
+.industry-more .card__more {
+    margin-top: auto;
+    padding-right: 90px;
+    color: var(--c-accent);
+}
+
+.industry-more__mark {
+    position: absolute;
+    right: 22px;
+    bottom: 6px;
+    font: 800 6.5rem / 1 var(--font-sans);
+    color: var(--c-accent);
+    transition: transform 0.4s ease;
+}
+
+.industry-more:hover .industry-more__mark {
+    transform: rotate(90deg);
+}

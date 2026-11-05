@@ -4,6 +4,7 @@
  *
  * Section tab (?cat=) → part type inside it (?type=) → machine make (?machine=). Spare parts for
  * stenters are found by machine first: a Monforts clip does not fit a Bruckner.
+ * ?industry= ticks one industry (links from the home page tabs).
  */
 const HARDNESS = { soft: [0, 79], mid: [80, 90], hard: [91, 100] };
 const ELASTOMERS = ['pu', 'rz', 'si'];
@@ -26,7 +27,9 @@ const fromAddress = (search, types) => {
     const parent = Object.keys(types).find((section) => types[section].some((t) => t.value === category));
     if (parent) [category, type] = [parent, category];
 
-    return { category, type, machine: params.get('machine') || ALL };
+    const industry = params.get('industry');
+
+    return { category, type, machine: params.get('machine') || ALL, ...(industry ? { industries: [industry] } : {}) };
 };
 
 export default ({ products, types = {} }) => ({
