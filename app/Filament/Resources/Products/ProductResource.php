@@ -10,11 +10,13 @@ use App\Filament\Resources\Products\RelationManagers\MediaRelationManager;
 use App\Enums\Configurator;
 use App\Enums\Locale;
 use App\Enums\Material;
+use App\Enums\MediaType;
 use App\Filament\Support\Localized;
 use App\Models\Category;
 use App\Models\Industry;
 use App\Models\Product;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -33,10 +35,11 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontFamily;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -204,11 +207,21 @@ class ProductResource extends Resource
         return $table
             ->defaultSort('updated_at', 'desc')
             ->columns([
-                ImageColumn::make('main_image')
+                ViewColumn::make('main_image')
                     ->label('')
-                    ->state(fn (Product $record) => $record->mainImage())
-                    ->disk('public')
-                    ->square(),
+                    ->view('filament.products.photo-column')
+                    ->action(
+                        Action::make('photos')
+                            ->modalHeading(fn (Product $record): string => $record->sku.' · '.$record->tr('name'))
+                            ->modalContent(fn (Product $record) => view('filament.products.photos-modal', [
+                                'name' => (string) $record->tr('name'),
+                                'photos' => $record->media()->ofType(MediaType::Photo)->ordered()->get()->map->url()->all(),
+                            ]))
+                            ->modalWidth(Width::FourExtraLarge)
+                            ->modalSubmitAction(false)
+                            ->modalCancelActionLabel('Закрыть')
+                            ->disabled(fn (Product $record): bool => $record->mainPhoto === null),
+                    ),
                 TextColumn::make('sku')
                     ->label('Артикул')
                     ->searchable()
