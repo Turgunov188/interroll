@@ -427,34 +427,72 @@
 }
 
 .industry-more {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     min-height: 260px;
-    background: var(--c-ink);
-    color: var(--c-on-dark);
-    overflow: hidden;
+    border: 1px dashed var(--c-ink);
+    /* a sheet of drawing paper: the blank for a part that is not in the list yet */
+    background:
+        linear-gradient(var(--c-accent-tint) 1px, transparent 1px) 0 0 / 24px 24px,
+        linear-gradient(90deg, var(--c-accent-tint) 1px, transparent 1px) 0 0 / 24px 24px,
+        var(--c-accent-soft);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.industry-more .card__text {
+.industry-more:hover {
+    transform: translate(-6px, -6px);
+    box-shadow: var(--shadow-m);
+    border-style: solid;
+}
+
+.industry-more__art {
+    display: block;
+    width: 100%;
+    height: 150px;
+    padding: 16px 20px 0;
+    transition: transform 0.5s ease;
+}
+
+.industry-more:hover .industry-more__art {
+    transform: translateX(6px) rotate(-2deg);
+}
+
+.industry-more__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+    padding: 20px;
+}
+
+.industry-more__body .card__text {
     max-width: 46ch;
-    color: inherit;
-    opacity: 0.72;
 }
 
-.industry-more .card__more {
+.industry-more__btn {
+    align-self: flex-start;
     margin-top: auto;
-    padding-right: 90px;
-    color: var(--c-accent);
 }
 
-.industry-more__mark {
-    position: absolute;
-    right: 22px;
-    bottom: 6px;
-    font: 800 6.5rem / 1 var(--font-sans);
-    color: var(--c-accent);
-    transition: transform 0.4s ease;
-}
+/* Two free slots: text on the left, the drawing on the right */
+@media (min-width: 900px) {
+    .industry-more--wide {
+        flex-direction: row-reverse;
+        align-items: stretch;
+    }
 
-.industry-more:hover .industry-more__mark {
-    transform: rotate(90deg);
+    .industry-more--wide .industry-more__art {
+        flex: 0 0 48%;
+        height: auto;
+        padding: 24px;
+    }
+
+    .industry-more--wide .industry-more__body {
+        justify-content: center;
+        padding: 32px;
+    }
+
+    .industry-more--wide .industry-more__btn {
+        margin-top: 10px;
+    }
 }

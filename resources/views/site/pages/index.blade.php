@@ -98,13 +98,14 @@
                             <x-site.product-card :product="$product" class="card-in" style="--delay: {{ $loop->index * 90 }}ms" />
                         @endforeach
                         @if ($industry->missing() > 0)
-                            <a href="{{ $industry->url }}" class="card industry-more card-in" style="--span: {{ $industry->missing() }}; --delay: {{ count($industry->products) * 90 }}ms">
-                                <span class="industry-more__mark" aria-hidden="true">+</span>
-                                <span class="card__body">
+                            <a href="{{ $industry->url }}" @class(['industry-more card-in', 'industry-more--wide' => $industry->missing() > 1])
+                               style="--span: {{ $industry->missing() }}; --delay: {{ count($industry->products) * 90 }}ms">
+                                <x-site.roller-art class="industry-more__art" tone="conveyor" />
+                                <span class="industry-more__body">
                                     <span class="meta">{{ $industry->name }}</span>
                                     <span class="card__title">{{ $site->t('home.industries.more_title') }}</span>
                                     <span class="card__text">{{ $site->t('home.industries.more_text') }}</span>
-                                    <span class="card__more">{{ $site->t('home.industries.more_link') }} →</span>
+                                    <span class="btn btn--dark btn--sm industry-more__btn">{{ $site->t('home.industries.more_link') }} →</span>
                                 </span>
                             </a>
                         @endif
