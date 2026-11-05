@@ -108,7 +108,7 @@ return [
     'result' => [
         'eyebrow' => '[04] — Sonuç',
         'title' => 'Önce ve sonra',
-        'text' => 'Çizgiyi kaydırın. Tamamlanan işlerin fotoğrafları fabrika arşivinden.',
+        'text' => 'Çizgiyi kaydırın: aşınmış merdaneyi yeniden kaplanmış haliyle karşılaştırın.',
         'cases' => [
             'Konveyör merdanesi',
             'Matbaa merdanesi',

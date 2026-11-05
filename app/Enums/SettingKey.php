@@ -107,6 +107,12 @@ enum SettingKey: string
     case FactoryGroup2 = 'factory_group_2';
     case FactoryGroup3 = 'factory_group_3';
     case FactoryGroup4 = 'factory_group_4';
+    case RecoatCase1Before = 'recoat_case_1_before';
+    case RecoatCase1After = 'recoat_case_1_after';
+    case RecoatCase2Before = 'recoat_case_2_before';
+    case RecoatCase2After = 'recoat_case_2_after';
+    case RecoatCase3Before = 'recoat_case_3_before';
+    case RecoatCase3After = 'recoat_case_3_after';
 
     public function group(): SettingGroup
     {
@@ -209,6 +215,12 @@ enum SettingKey: string
             self::FactoryGroup2 => SettingGroup::Images,
             self::FactoryGroup3 => SettingGroup::Images,
             self::FactoryGroup4 => SettingGroup::Images,
+            self::RecoatCase1Before => SettingGroup::Images,
+            self::RecoatCase1After => SettingGroup::Images,
+            self::RecoatCase2Before => SettingGroup::Images,
+            self::RecoatCase2After => SettingGroup::Images,
+            self::RecoatCase3Before => SettingGroup::Images,
+            self::RecoatCase3After => SettingGroup::Images,
         };
     }
 
@@ -313,6 +325,12 @@ enum SettingKey: string
             self::FactoryGroup2 => SettingKind::Image,
             self::FactoryGroup3 => SettingKind::Image,
             self::FactoryGroup4 => SettingKind::Image,
+            self::RecoatCase1Before => SettingKind::Image,
+            self::RecoatCase1After => SettingKind::Image,
+            self::RecoatCase2Before => SettingKind::Image,
+            self::RecoatCase2After => SettingKind::Image,
+            self::RecoatCase3Before => SettingKind::Image,
+            self::RecoatCase3After => SettingKind::Image,
         };
     }
 
@@ -417,6 +435,12 @@ enum SettingKey: string
             self::FactoryGroup2 => 'Завод: IMPOL GROUP — здание',
             self::FactoryGroup3 => 'Завод: IMPOL GROUP — переговорная',
             self::FactoryGroup4 => 'Завод: IMPOL GROUP — встреча с партнёрами',
+            self::RecoatCase1Before => 'Восстановление: конвейерный вал — ДО',
+            self::RecoatCase1After => 'Восстановление: конвейерный вал — ПОСЛЕ',
+            self::RecoatCase2Before => 'Восстановление: полиграфический вал — ДО',
+            self::RecoatCase2After => 'Восстановление: полиграфический вал — ПОСЛЕ',
+            self::RecoatCase3Before => 'Восстановление: прессовый вал — ДО',
+            self::RecoatCase3After => 'Восстановление: прессовый вал — ПОСЛЕ',
         };
     }
 
@@ -506,11 +530,11 @@ enum SettingKey: string
             self::PrepaymentTerms => null,
             self::DeliveryTerms => 'Ответ на вопрос «Доставляете в регионы?»',
             self::PickupTerms => null,
-            self::HomeBefore => null,
-            self::HomeAfter => null,
+            self::HomeBefore => 'Пусто — показывается рисунок вала.',
+            self::HomeAfter => 'Пусто — показывается рисунок вала.',
             self::FactoryTour => null,
-            self::FactoryBefore => null,
-            self::FactoryAfter => null,
+            self::FactoryBefore => 'Пусто — показывается рисунок вала.',
+            self::FactoryAfter => 'Пусто — показывается рисунок вала.',
             self::FactoryZone1 => null,
             self::FactoryZone2 => null,
             self::FactoryZone3 => null,
@@ -521,6 +545,12 @@ enum SettingKey: string
             self::FactoryGroup2 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
             self::FactoryGroup3 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
             self::FactoryGroup4 => 'Пусто — показывается фото из каталога IMPOL GROUP.',
+            self::RecoatCase1Before => 'Пусто — показывается рисунок вала.',
+            self::RecoatCase1After => 'Пусто — показывается рисунок вала.',
+            self::RecoatCase2Before => 'Пусто — показывается рисунок вала.',
+            self::RecoatCase2After => 'Пусто — показывается рисунок вала.',
+            self::RecoatCase3Before => 'Пусто — показывается рисунок вала.',
+            self::RecoatCase3After => 'Пусто — показывается рисунок вала.',
         };
     }
 

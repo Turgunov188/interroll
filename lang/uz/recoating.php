@@ -108,7 +108,7 @@ return [
     'result' => [
         'eyebrow' => '[04] — Natija',
         'title' => 'Oldin va keyin',
-        'text' => 'Chiziqni suring. Bajarilgan ishlar suratlari zavod arxividan joylanadi.',
+        'text' => 'Chiziqni surib, eskirgan valni qayta qoplangandan keyingi holati bilan solishtiring.',
         'cases' => [
             'Konveyer valigi',
             'Poligrafiya valigi',

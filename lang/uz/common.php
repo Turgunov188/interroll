@@ -19,6 +19,7 @@ return [
     'before' => 'OLDIN',
     'after' => 'KEYIN',
     'compare' => 'Oldin va keyin solishtirish',
+    'illustration' => 'Rasm-sxema',
     'photo' => '[FOTO]',
     'yes' => 'HA',
     'no' => 'YO\'Q',

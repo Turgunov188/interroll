@@ -108,7 +108,7 @@ return [
     'result' => [
         'eyebrow' => '[04] — Results',
         'title' => 'Before and after',
-        'text' => 'Drag the line. Photos of completed work come from the factory archive.',
+        'text' => 'Drag the line to compare a worn roller with the same roller after recoating.',
         'cases' => [
             'Conveyor roller',
             'Printing roller',

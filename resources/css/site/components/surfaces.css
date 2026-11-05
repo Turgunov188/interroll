@@ -338,3 +338,26 @@ a.card:hover,
 .panel--dark .text-muted {
     color: var(--c-on-dark-muted);
 }
+
+/* Before / after slot without a photo: a drawn roller (components/site/roller-art.blade.php) */
+.media.media--art {
+    background: #d6d9dc;
+    color: var(--c-text-soft);
+}
+
+.media.media--art-restored {
+    background: #f4efe2;
+}
+
+.media__art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 8% 5% 12%;
+}
+
+.media--art > span {
+    position: relative;
+    z-index: 1;
+}

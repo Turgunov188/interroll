@@ -19,6 +19,7 @@ return [
     'before' => 'BEFORE',
     'after' => 'AFTER',
     'compare' => 'Before and after comparison',
+    'illustration' => 'Illustration',
     'photo' => '[PHOTO]',
     'yes' => 'YES',
     'no' => 'NO',

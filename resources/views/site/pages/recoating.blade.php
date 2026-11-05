@@ -172,7 +172,10 @@
             </div>
             <div class="split__wide" data-reveal style="--delay: 200ms; --split-basis: 620px">
                 @foreach ($cases as $i => $case)
+                    {{-- photos: «Настройки сайта» → recoat_case_N_before / _after; drawn rollers until then --}}
                     <x-site.compare x-show="caseIndex === {{ $i }}" :x-cloak="$i > 0"
+                        :before="$site->image('recoat_case_'.($i + 1).'_before')" :after="$site->image('recoat_case_'.($i + 1).'_after')"
+                        :art-tone="['conveyor', 'printing', 'press'][$i] ?? 'conveyor'"
                         :before-caption="$site->t('recoating.result.before', ['case' => $case])" :after-caption="$site->t('recoating.result.after', ['case' => $case])" />
                 @endforeach
             </div>

@@ -136,8 +136,8 @@
                 </ol>
             </div>
             <div class="home-before-after split__wide">
-                <x-site.media data-reveal="clip" style="--delay: 200ms" :src="$site->image('home_before')" :caption="$site->t('home.recoating.before')" />
-                <x-site.media data-reveal="clip-up" style="--delay: 650ms" :src="$site->image('home_after')" :caption="$site->t('home.recoating.after')" />
+                <x-site.media data-reveal="clip" style="--delay: 200ms" :src="$site->image('home_before')" :caption="$site->t('home.recoating.before')" art="worn" />
+                <x-site.media data-reveal="clip-up" style="--delay: 650ms" :src="$site->image('home_after')" :caption="$site->t('home.recoating.after')" art="restored" />
             </div>
         </div>
     </section>

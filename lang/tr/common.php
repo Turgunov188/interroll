@@ -19,6 +19,7 @@ return [
     'before' => 'ÖNCE',
     'after' => 'SONRA',
     'compare' => 'Önce ve sonra karşılaştırması',
+    'illustration' => 'Çizim',
     'photo' => '[FOTOĞRAF]',
     'yes' => 'EVET',
     'no' => 'HAYIR',
