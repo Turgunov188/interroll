@@ -1,7 +1,7 @@
 {{-- A product on the home page (industry tabs). --}}
 @props(['product'])
 <a href="{{ $product->url }}" {{ $attributes->class('card') }}>
-    <x-site.media :src="$product->image" :caption="$product->name" :alt="$product->name" class="product-card__photo" />
+    <x-site.media :src="$product->image" :caption="$product->name" :alt="$product->name" fit="auto" class="product-card__photo" />
     <span class="card__body">
         <span class="meta">{{ $product->code }}</span>
         <span class="card__title">{{ $product->name }}</span>

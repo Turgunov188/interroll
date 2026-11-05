@@ -6,6 +6,7 @@
 import Alpine from 'alpinejs';
 
 import { startMeshBackground } from './site/effects/mesh-background.js';
+import { startPhotoFit } from './site/effects/photo-fit.js';
 import { t } from './site/core/i18n.js';
 import { toast } from './site/core/toast.js';
 import reveal from './site/directives/reveal.js';
@@ -50,6 +51,8 @@ const components = {
 for (const [name, component] of Object.entries(components)) {
     Alpine.data(name, component);
 }
+
+startPhotoFit();
 
 window.Alpine = Alpine;
 Alpine.start();

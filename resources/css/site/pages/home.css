@@ -496,3 +496,8 @@
         margin-top: 10px;
     }
 }
+
+/* Part photos are cut-outs on white: show the whole part, as in the catalog */
+.product-card__photo.media--contain > img:not([data-fit='cover']) {
+    padding: 12px;
+}

@@ -108,6 +108,12 @@ a.card:hover,
     background: var(--c-white);
 }
 
+/* fit="auto": a regular photo (not a cut-out on white) fills the slot, see effects/photo-fit.js */
+.media > img[data-fit='cover'] {
+    object-fit: cover;
+    padding: 0;
+}
+
 .media--steel {
     --ph-a: #8a939d;
     --ph-b: #7a838d;

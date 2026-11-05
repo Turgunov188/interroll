@@ -155,7 +155,7 @@
                             <a href="{{ $product->url }}" class="media media--center media--contain catalog-card__photo" tabindex="-1">
                                 <x-site.icon class="catalog-card__icon" :path="$product->icon" :size="96" :box="64" />
                                 @if ($product->image)
-                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" loading="lazy" decoding="async">
+                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" data-fit="auto" loading="lazy" decoding="async">
                                 @else
                                     <span class="media__badge media__badge--bl">{{ $site->t('common.photo') }}</span>
                                 @endif
