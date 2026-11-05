@@ -14,7 +14,7 @@ export default (config) => ({
     tab: config.tab,
     material: config.material,
     shore: config.hardness,
-    qty: 4,
+    qty: config.qty ?? 1,
     picked: {},
     pointer: { x: 0, y: 0 },
     parameters: config.parameters,

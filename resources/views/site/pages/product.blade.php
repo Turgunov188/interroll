@@ -18,6 +18,8 @@
         'parameters' => $product->parameters,
         'material' => $materials[0],
         'hardness' => $product->hardness,
+        // starts at the minimum order from «Настройки сайта», 1 piece when it is not set
+        'qty' => max(1, $site->number('min_order')),
         'view' => $views[0],
         'tab' => 'spec',
         'hasModel' => (bool) $product->model,
@@ -154,7 +156,7 @@
                         <div class="product-option cluster cluster--between">
                             <div class="stepper">
                                 <button type="button" class="stepper__btn" aria-label="{{ $site->t('product.quantity_less') }}" @click="qty = Math.max(1, qty - 1)">−</button>
-                                <span class="stepper__value"><span x-text="qty">4</span>&nbsp;{{ $site->t('common.pcs') }}</span>
+                                <span class="stepper__value"><span x-text="qty">{{ max(1, $site->number('min_order')) }}</span>&nbsp;{{ $site->t('common.pcs') }}</span>
                                 <button type="button" class="stepper__btn" aria-label="{{ $site->t('product.quantity_more') }}" @click="qty++">+</button>
                             </div>
                             <span class="card__more">{{ $site->t('common.price_on_request') }}</span>

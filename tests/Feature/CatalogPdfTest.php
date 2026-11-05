@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Enums\Material;
+use App\Enums\SettingKey;
 use App\Models\Category;
 use App\Models\MachineBrand;
 use App\Models\Product;
+use App\Services\Site\SiteSettings;
 use App\Services\Site\ViewModels\Option;
 use App\Services\Site\ViewModels\ProductCard;
 use Database\Seeders\CatalogPdfSeeder;
@@ -114,5 +116,14 @@ class CatalogPdfTest extends TestCase
 
         $this->assertNull(Product::query()->where('sku', 'IR-G03')->first());
         $this->assertNotNull(Product::query()->where('sku', 'MNF001')->first());
+    }
+
+    public function test_quantity_starts_at_one_piece_or_the_minimum_order(): void
+    {
+        $this->get('/product/mnf001')->assertSee('<span x-text="qty">1</span>', false);
+
+        app(SiteSettings::class)->save([SettingKey::MinOrder->value => '5']);
+
+        $this->get('/product/mnf001')->assertSee('<span x-text="qty">5</span>', false);
     }
 }
