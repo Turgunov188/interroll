@@ -25,8 +25,9 @@ class HomeAndFactoryPagesTest extends TestCase
         $this->assertLessThanOrEqual(3, count($industries[0]->products));
         $this->assertSame('/catalog?cat=valik', $response->viewData('categories')[0]->url);
 
+        $first = $industries[0]->products[0]->code;
         $response
-            ->assertSee('href="/product/ir-v01"', false)
+            ->assertSee('href="/product/'.strtolower($first).'"', false)
             ->assertSee('href="/catalog?cat=valik"', false)
             ->assertSee('role="tabpanel" id="panel-metallurgiya"', false);
     }
@@ -35,11 +36,13 @@ class HomeAndFactoryPagesTest extends TestCase
     {
         $this->seed(CatalogSeeder::class);
         $codes = fn () => collect($this->get('/')->viewData('industries'))->flatMap->products->pluck('code')->all();
-        $this->assertContains('IR-V01', $codes());
+        $codes(); // warm the cache
 
         Product::firstWhere('sku', 'IR-V01')->update(['is_active' => false]);
 
-        $this->assertNotContains('IR-V01', $codes());
+        for ($i = 0; $i < 10; $i++) {
+            $this->assertNotContains('IR-V01', $codes());
+        }
         $this->get('/')->assertDontSee('href="/product/ir-v01"', false);
     }
 
@@ -72,22 +75,17 @@ class HomeAndFactoryPagesTest extends TestCase
         $this->get('/tr/factory')->assertOk()->assertSee('Aynı tecrübe, aynı kalite');
     }
 
-    public function test_featured_products_lead_their_industry_tab(): void
+    public function test_industry_tabs_show_random_products_of_that_industry(): void
     {
         $this->seed(CatalogSeeder::class);
-        Product::query()->update(['is_featured' => false]);
         $industry = \App\Models\Industry::query()->whereHas('products', fn ($q) => $q->published())->ordered()->first();
-        $last = $industry->products()->published()->ordered()->get()->last();
-        $last->update(['is_featured' => true]);
-        $shown = [];
+        $own = $industry->products()->published()->pluck('sku')->all();
 
-        for ($i = 0; $i < 5; $i++) {
-            $tab = collect($this->get('/')->viewData('industries'))->firstWhere('slug', $industry->slug);
-            $this->assertSame($last->sku, $tab->products[0]->code);
-            $this->assertCount(min(3, $industry->products()->published()->count()), $tab->products);
-            $shown = [...$shown, ...array_column(array_slice($tab->products, 1), 'code')];
-        }
+        $tab = collect($this->get('/')->viewData('industries'))->firstWhere('slug', $industry->slug);
 
-        $this->assertNotContains($last->sku, $shown, 'a featured product is never repeated in the random slots');
+        $this->assertCount(min(3, count($own)), $tab->products);
+        $codes = array_column($tab->products, 'code');
+        $this->assertSame($codes, array_unique($codes));
+        $this->assertEmpty(array_diff($codes, $own));
     }
 }

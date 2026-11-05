@@ -38,7 +38,6 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontFamily;
 use Filament\Support\Enums\Width;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Columns\ViewColumn;
@@ -189,8 +188,6 @@ class ProductResource extends Resource
                                 ->numeric()
                                 ->suffix('сум')
                                 ->hidden(fn (Get $get): bool => (bool) $get('price_on_request')),
-                            Toggle::make('is_featured')->label('Показывать на главной')
-                                ->helperText('Всегда в первых трёх карточках своих отраслей на главной. Остальные места заполняются случайными товарами.'),
                             Toggle::make('is_active')->label('Показывать на сайте')->default(true),
                             TextInput::make('sort')->label('Порядок')->numeric()->default(0),
                         ]),
@@ -260,7 +257,6 @@ class ProductResource extends Resource
                     ->formatStateUsing(fn (Product $record) => $record->hardnessLabel())
                     ->sortable()
                     ->placeholder('—'),
-                IconColumn::make('is_featured')->label('На главной')->boolean()->toggleable(),
                 ToggleColumn::make('is_active')->label('Активен'),
             ])
             ->filters([

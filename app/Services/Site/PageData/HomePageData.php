@@ -16,8 +16,7 @@ use Illuminate\Support\Str;
 
 /**
  * Home page: the «by industry» tabs with three products each and the list of catalog sections.
- * Each tab shows the products marked «На главной» first, then random ones from that industry,
- * so the page changes on every visit. The candidate lists are cached with the content pages
+ * Each tab shows random products of that industry, so the page changes on every visit. The candidate lists are cached with the content pages
  * (catalog changes flush them, CatalogObserver); the pick happens per request.
  */
 final class HomePageData implements PageData
@@ -28,7 +27,7 @@ final class HomePageData implements PageData
 
     public const CATEGORIES = 6;
 
-    /** How many non-featured products per industry are kept as random candidates. */
+    /** How many products per industry are kept as random candidates. */
     public const CANDIDATES = 30;
 
     public function __construct(
@@ -58,16 +57,11 @@ final class HomePageData implements PageData
             $cards = fn ($products) => $products->map(fn (Product $p) => $this->presenter->card($p, $locale))->values()->all();
 
             return [
-                'industries' => $industries->map(function (Industry $industry) use ($locale, $cards): array {
-                    [$featured, $others] = $industry->products->partition(fn (Product $p) => $p->is_featured);
-
-                    return [
-                        'slug' => $industry->slug,
-                        'name' => (string) $industry->tr('name', $locale),
-                        'featured' => $cards($featured),
-                        'others' => $cards($others->take(self::CANDIDATES)),
-                    ];
-                })->all(),
+                'industries' => $industries->map(fn (Industry $industry): array => [
+                    'slug' => $industry->slug,
+                    'name' => (string) $industry->tr('name', $locale),
+                    'candidates' => $cards($industry->products->take(self::CANDIDATES)),
+                ])->all(),
                 'categories' => $categories->values()->map(fn (Category $c, int $i) => new CategoryLink(
                     number: sprintf('/%02d', $i + 1),
                     name: (string) $c->tr('name', $locale),
@@ -80,24 +74,20 @@ final class HomePageData implements PageData
         $data['industries'] = array_map(fn (array $tab) => new IndustryProducts(
             slug: $tab['slug'],
             name: $tab['name'],
-            products: $this->pick($tab['featured'], $tab['others']),
+            products: $this->pick($tab['candidates']),
         ), $data['industries']);
 
         return $data;
     }
 
     /**
-     * Featured products first (random among them if there are more than fit), then random others.
-     *
-     * @param  list<ProductCard>  $featured
-     * @param  list<ProductCard>  $others
+     * @param  list<ProductCard>  $candidates
      * @return list<ProductCard>
      */
-    private function pick(array $featured, array $others): array
+    private function pick(array $candidates): array
     {
-        shuffle($featured);
-        shuffle($others);
+        shuffle($candidates);
 
-        return array_slice([...$featured, ...$others], 0, self::PRODUCTS_PER_INDUSTRY);
+        return array_slice($candidates, 0, self::PRODUCTS_PER_INDUSTRY);
     }
 }
